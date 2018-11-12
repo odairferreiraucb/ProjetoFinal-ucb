@@ -1,0 +1,97 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <locale.h>
+#include <string.h>
+#define MAX 50
+
+//structs
+struct Aviao {
+	char codigo[7];
+	char modelo[10];
+	int capacidade;
+	char nomeCliente[64];
+	char paisOrigCliente[32];
+};
+
+struct PistaTeste {
+	int codSequencial;
+	char enderecoPista[128];
+	char uf[2];
+	float tamanhoCircuito;
+	int velocidadeMax;
+	char codigoMelhorAviao[7];
+};
+
+struct Testes {
+	char idAviao[7];
+	int idPista;
+	char data[8];
+	int velocidadeMax;
+};
+
+// declarando as structs
+struct Aviao aviao[MAX];
+struct PistaTeste pistaTeste[MAX];
+struct Testes testes[MAX];
+
+//prototipos das funções
+void inclusaoAviao(struct Aviao aviao[]);
+
+int main() {
+	setlocale(LC_ALL, "Portuguese");
+	inclusaoAviao(aviao);
+	return 0;
+}
+
+void inclusaoAviao(struct Aviao aviao[]){
+char codigo[8];	
+int i;	
+	
+	printf("\t\tINCLUSÃO DE AVIÃO");
+	printf("\n\n");
+	printf("digite o código de identificação: ");
+	fflush(stdin);
+	fgets(codigo,8,stdin);
+	for(i=0;i<MAX;i++){
+		if()
+	}
+	printf("codigo do aviao: %s", aviao[0].codigo);//
+	printf("\n");
+	printf("Digite o modelo do avião:");
+	fflush(stdin);
+	fgets(aviao[0].modelo,11,stdin);
+	printf("modelo do aviao: %s", aviao[0].modelo);//
+	printf("\n");
+	printf("Digite a capacidade de passageiros do avião: ");
+	scanf("%d", &aviao[0].capacidade);
+	printf("capacidade do aviao: %d passageiros",aviao[0].capacidade);//
+	printf("\n");
+	printf("digite o nome do cliente: ");
+	fflush(stdin);
+	fgets(aviao[0].nomeCliente,64,stdin);
+	printf("nome do cliente : %s", aviao[0].nomeCliente);//
+	printf("\n");
+	printf("digite o país de origem do cliente: ");
+	fflush(stdin);
+	fgets(aviao[0].paisOrigCliente,32,stdin);
+	printf("país do cliente : %s", aviao[0].paisOrigCliente);	//
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

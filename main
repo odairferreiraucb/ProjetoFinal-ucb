@@ -38,6 +38,7 @@ struct Testes testes[MAX];
 //prototipos das funções
 void inclusaoAviao(struct Aviao aviao[]);
 void alteracaoAviao(struct Aviao aviao[]);
+void inclusaoPista (struct PistaTeste pistaTeste[] ,int codigoSeguemcial);
 int main() {
 		int resp,continuar ;
 
@@ -81,6 +82,9 @@ int main() {
 		printf ("Para incluir uma nova pista aperte [1]\n");\
 		printf ("Para fazer alterações em pista ja existente aperte [2]");
 		scanf ("%d",&resp);	
+		if (resp ==1){
+			inclusaoPista (pistaTeste, codigoSeguemcial);
+		}
 	 }while (resp != 1 & resp != 2  );
 	
 		
@@ -102,6 +106,28 @@ int main() {
 	
 	return 0;
 }
+
+void inclusaoPista (struct PistaTeste pistaTeste[],int codigoSeguemcial ) {
+	int i;
+	system("cls");
+	printf ("informe o endereço da pista :\n");
+	fflush(stdin);
+	fgets (pistaTeste[i].enderecoPista,128,stdin);
+
+	
+	printf ("informe o estado da federação onde localiza-se a pista :\n");
+	fgets (pistaTeste[i].uf,2,stdin);
+	
+	printf ("Informe o tamanho do circuito : (em quilômetros )\n");
+	scanf ("%f",&pistaTeste[i].tamanhoCircuito);
+	printf ("informe a velocidade maxima da psita :  ");
+	scanf ("%i",&pistaTeste[i].velocidadeMax);
+	codigoSeguemcial =  codigoSeguemcial + 1;
+	pistaTeste[i].codSequencial = codigoSeguemcial;
+	printf ("%i\n",pistaTeste[i].codSequencial);
+
+}
+
 
 void inclusaoAviao(struct Aviao aviao[]){
 char codigo[8];	

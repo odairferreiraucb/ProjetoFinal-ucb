@@ -109,11 +109,17 @@ int i, flag;
 	
 	printf("\t\tINCLUSÃO DE AVIÃO");
 	printf("\n\n");
+
 	do{
 		flag = 0;
 		printf("\ndigite o código de identificação: ");
 		fflush(stdin);
 		fgets(codigo,8,stdin);
+		while(codigo[0] == '\n'){
+			printf("codigo invalido, digite novamente:");
+			fflush(stdin);
+			fgets(codigo,8,stdin);
+		}
 		for(i=0;i<MAX;i++){
 			if(stricmp(codigo,aviao[i].codigo) == 0){
 				printf("codigo já registrado, digite outro codigo");
@@ -126,23 +132,46 @@ int i, flag;
 			
 	}while(flag == 1);
 	printf("codigo do aviao: %s", aviao[0].codigo);//
+
+
 	printf("\n");
 	printf("Digite o modelo do avião:");
 	fflush(stdin);
 	fgets(aviao[0].modelo,11,stdin);
+	while(aviao[0].modelo[0] == '\n'){
+			printf("modelo invalido, digite novamente:");
+			fflush(stdin);
+			fgets(aviao[0].modelo,11,stdin);
+	}
 	printf("modelo do aviao: %s", aviao[0].modelo);//
+	
+	
 	printf("\n");
 	printf("Digite a capacidade de passageiros do avião: ");
 	scanf("%d", &aviao[0].capacidade);
+	while(aviao[0].capacidade <= 0){
+		printf("codigo invalido, digite novamente:");
+		scanf("%d", &aviao[0].capacidade);	
+	}
 	printf("capacidade do aviao: %d passageiros",aviao[0].capacidade);//
+
+
 	printf("\n");
 	printf("digite o nome do cliente: ");
 	fflush(stdin);
 	fgets(aviao[0].nomeCliente,64,stdin);
+	while(aviao[0].nomeCliente[0] == '\n'){
+			printf("nome inválido, digite novamente:");
+			fflush(stdin);
+			fgets(aviao[0].nomeCliente,64,stdin);
+	}
 	printf("nome do cliente : %s", aviao[0].nomeCliente);//
+	
+	
 	printf("\n");
 	printf("digite o país de origem do cliente: ");
 	fflush(stdin);
 	fgets(aviao[0].paisOrigCliente,32,stdin);
 	printf("país do cliente : %s", aviao[0].paisOrigCliente);	//
 }
+

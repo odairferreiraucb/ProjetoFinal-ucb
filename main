@@ -37,7 +37,7 @@ struct Testes testes[MAX];
 
 //prototipos das funções
 void inclusaoAviao(struct Aviao aviao[]);
-
+void alteracaoAviao(struct Aviao aviao[]);
 int main() {
 		int resp,continuar ;
 
@@ -175,3 +175,38 @@ int i, flag;
 	printf("país do cliente : %s", aviao[0].paisOrigCliente);	//
 }
 
+void alteracaoAviao(struct Aviao aviao[]){
+int menu, i;
+	do{
+		printf("\t\tALTERAÇÃO DE AVIÃO");
+		printf("\n\n");
+		printf("menu de alteração: ");
+		printf("\n 1 - alterar codigo de identificação");	
+		printf("\n 2 - alterar modelo do avião");
+		printf("\n 3 - alterar capacidade do avião");
+		printf("\n 4 - alterar nome do cliente");
+		printf("\n 5 - alterar país de origem do cliente");	
+		printf("\n");
+		scanf("%d", &menu);
+
+	}while(menu != 1 && menu != 2 && menu != 3 && menu != 4 && menu != 5);
+	switch(menu){
+		
+	case 1:
+		printf("alteração de código de identificação\n");
+		printf("listagem com todos os codigos disponiveis para alterar: ");
+		for(i=0;i<MAX;i++){
+			if(aviao[i].codigo[0] != '\0'){
+				printf("posição %d disponível para alterar", i);
+			}else{
+				printf("posição não disponivel");
+			}
+			printf("\n");
+			
+		}
+		
+		
+	}
+	
+
+}

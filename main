@@ -39,8 +39,67 @@ struct Testes testes[MAX];
 void inclusaoAviao(struct Aviao aviao[]);
 
 int main() {
+		int resp,continuar ;
+
 	setlocale(LC_ALL, "Portuguese");
-	inclusaoAviao(aviao);
+
+	
+	do {
+
+		do {
+			system ("cls");
+			printf ("<< Bem vindo ao menu >> \n");
+			printf ("Para acessar o menu de avião aperte [1]\n");
+			printf ("Para acessar o menu da pista aperte [2]\n");
+			printf ("Para acessar o menu de teste aperte [3] ");
+			scanf ("%d",&resp);
+		}while (resp != 1 & resp != 2 & resp != 3 );
+
+	if (resp == 1 ){
+    	do{
+			system ("cls");
+			printf (" Para incluir um avião aperte [1]\n ");
+			printf ("Para fazer Alteração/complementação ja existen aperte [2]\n ");
+			printf ("Para fazer a exclusão de um avião aperte [3]\n  ");
+			scanf ("%d",&resp);	
+		}while (resp != 1 & resp != 2 & resp != 3 );
+	
+	if (resp == 1){
+	
+		system("cls");
+		inclusaoAviao(aviao);
+	}
+	
+	
+		printf ("para continuar aperte [0]" );
+		scanf ("%d",&continuar);
+		
+}else if (resp == 2){
+	do{
+		
+		system ("cls");
+		printf ("Para incluir uma nova pista aperte [1]\n");\
+		printf ("Para fazer alterações em pista ja existente aperte [2]");
+		scanf ("%d",&resp);	
+	 }while (resp != 1 & resp != 2  );
+	
+		
+		printf ("para continuar aperte [0]" );
+		scanf ("%d",&continuar);
+}else if (resp ==3 ){
+		system ("cls");
+	printf ("Para fazer a inclusão de um avião em uma pista teste aperte [1]\n ");
+	printf ("Para fazer a alteração em dados cadastrais de um teste aperte [2]\n");
+	printf ("Para fazer exclusão de um teste de um avião aperte [3]");
+	scanf ("%d",&resp);		
+		
+			
+	printf ("para continuar aperte [0]" );
+	scanf ("%d",&continuar);
+}
+}while (continuar == 0);
+	
+	
 	return 0;
 }
 
@@ -53,9 +112,7 @@ int i;
 	printf("digite o código de identificação: ");
 	fflush(stdin);
 	fgets(codigo,8,stdin);
-	for(i=0;i<MAX;i++){
-		if()
-	}
+
 	printf("codigo do aviao: %s", aviao[0].codigo);//
 	printf("\n");
 	printf("Digite o modelo do avião:");
@@ -77,21 +134,3 @@ int i;
 	fgets(aviao[0].paisOrigCliente,32,stdin);
 	printf("país do cliente : %s", aviao[0].paisOrigCliente);	//
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

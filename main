@@ -40,7 +40,11 @@ void inclusaoAviao(struct Aviao aviao[]);
 void alteracaoAviao(struct Aviao aviao[]);
 void inclusaoPista (struct PistaTeste pistaTeste[] ,int codigoSeguemcial);
 int main() {
-		int resp,continuar ;
+int resp,continuar ;
+int codigoSeguemcial ;
+char ufs [55]={'ACALAMAPBACEDFESGOMAMGMSMTPAPBPEPIPRRJRNRORRRSSCSESPTO'};
+codigoSeguemcial = 1000 ;
+		
 
 	setlocale(LC_ALL, "Portuguese");
 

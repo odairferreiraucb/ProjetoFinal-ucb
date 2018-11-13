@@ -629,30 +629,30 @@ int flag, i;
 								if(codigo[6] >=48 && codigo[6] <=57){
 									
 								}else{
-									printf("codigo invalido7, verifique e tente novamente: ");
+									printf("codigo invalido, verifique e tente novamente: ");
 									flag++;
 								}
 							}else{
-								printf("codigo invalido6, verifique e tente novamente: ");
+								printf("codigo invalido, verifique e tente novamente: ");
 								flag++;
 							}
 						}else{
-							printf("codigo invalido5, verifique e tente novamente: ");
+							printf("codigo invalido, verifique e tente novamente: ");
 							flag++;
 						}	
 					}else{
-						printf("codigo invalido4, verifique e tente novamente: ");
+						printf("codigo invalido, verifique e tente novamente: ");
 						flag++;
 					}
-				}else{printf("codigo invalido3, verifique e tente novamente: ");
+				}else{printf("codigo invalido, verifique e tente novamente: ");
 					flag++;
 				}
 			}else{
-				printf("codigo invalido2, verifique e tente novamente: ");
+				printf("codigo invalido, verifique e tente novamente: ");
 				flag++;
 			}
 		}else{
-			printf("codigo invalido1, verifique e tente novamente: ");
+			printf("codigo invalido, verifique e tente novamente: ");
 			flag++;
 		}
 		for(i=0;i<MAX;i++){

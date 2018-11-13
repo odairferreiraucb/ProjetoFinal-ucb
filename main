@@ -555,7 +555,7 @@ char tecla;
 }
 void alteracaoAviao(struct Aviao aviao[]){
 int retornoFuncao, i, posicao,resp;
-	
+char codigo[7];	
 do{
 	//criar um for pra fazer a varredura  iqual no case um alteração ::gustavo 
  	system ("cls");

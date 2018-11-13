@@ -66,7 +66,6 @@ int mostraMenuAviao ();
 int mostraMenuPista ();
 int mostrarMenuTeste ();
 int main(void) {
-	setlocale(LC_ALL, "C");
 int resp,continuar ;
 int codigoSeguemcial ;
 
@@ -139,12 +138,9 @@ codigoSeguemcial = 1000 ;
     textbackground(7);
     if (opcao == 1){
     	 textcolor(7);
-       textbackground(0);
-    	gotoxy(5, 3);
-     mostraMenuAviao ();
-			
-			
-	
+      		 textbackground(0);
+    			gotoxy(5, 3);
+    			 mostraMenuAviao ();	
 	if (opcao == 1){
 	
 		system("cls");
@@ -160,18 +156,26 @@ codigoSeguemcial = 1000 ;
     	system ("cls");
     return 0;
 }else if (opcao == 2){
+	
 	 textcolor(7);
        textbackground(0);
+       	gotoxy(5, 3);
 			mostraMenuPista();
-		if (opcao ==1){
-			inclusaoPista (pistaTeste, codigoSeguemcial);
-		}
-			printf ("para continuar aperte [0]" );
-		scanf ("%d",&continuar);
-	
-	
 		
-	
+		if (opcao == 1){
+			
+			system("cls");
+			inclusaoPista (pistaTeste,codigoSeguemcial);
+			
+		}
+		
+		printf ("para continuar aperte [0]" );
+		scanf ("%d",&continuar);
+
+    fflush(stdin);
+    getch();
+    	system ("cls");
+    return 0;
 	
 }else if (opcao == 3){
 	 textcolor(7);
@@ -264,7 +268,7 @@ char tecla;
     _setcursortype(0); // Desliga o cursor
     textcolor(15);     // Define cor de face
     
-    gotoxy(19,6); printf("           <<<  A V I A O   >>>");
+    gotoxy(19,6); printf("           <<<  P I S T A  >>>");
     // DESENHAR UM QUADRADO
     // Desenha as linhas horizontais do quadrado
     textcolor(7);
@@ -387,20 +391,22 @@ return (opcao);
 }
 
 void inclusaoPista (struct PistaTeste pistaTeste[],int codigoSeguemcial ) {
+		
 	int i;
-	system("cls");
+
 	 textcolor(14);
-	textbackground(11);
-	printf ("\t\tINCLUSAO PISTA\n");
-	printf ("|ENDEREÇO :\n");
-	fflush(stdin);
-	fgets (pistaTeste[i].enderecoPista,128,stdin);
-	printf ("|UF da pista:\n");
-	fgets (pistaTeste[i].uf,2,stdin);
-	fflush(stdin);
-	printf ("|Tamanho do circuito (km) :");
-	scanf ("%f",&pistaTeste[i].tamanhoCircuito);
-	
+		textbackground(11);
+		printf ("\t\t<< I N C L U S A O  P I S T A >>>\n");
+		printf ("|ENDEREÇO :\n");
+		fflush(stdin);
+		fgets (pistaTeste[i].enderecoPista,128,stdin);
+		printf ("|UF da pista:\n");
+		fgets (pistaTeste[i].uf,2,stdin);
+		fflush(stdin);
+	do{
+		printf ("|Tamanho do circuito (km) :");
+		scanf ("%f",&pistaTeste[i].tamanhoCircuito);
+}while (pistaTeste[i].tamanhoCircuito < 0);
 	printf ("|Velocidade maxima :\n");
 	scanf ("%i",&pistaTeste[i].velocidadeMax);
 	

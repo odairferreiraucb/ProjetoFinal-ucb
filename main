@@ -572,14 +572,99 @@ char tecla;
 	return opcao;
 }
 void alteracaoAviao(struct Aviao aviao[]){
-int retornoFuncao;	
-	retornoFuncao=mostrarAlteracaoAviao();
-	
-	
-	
+int retornoFuncao, i, posicao;	
+	retornoFuncao = mostrarAlteracaoAviao();
+		switch(retornoFuncao){
+		
+	case 1:
+		printf("alteração de código de identificação\n");
+		printf("listagem com todos os codigos disponiveis para alterar: ");
+		for(i=0;i<MAX;i++){
+			if(aviao[i].codigo[0] != '\0'){
+				printf("posição %d disponível para alterar", i);
+			}else{
+				printf("posição não disponivel");
+			}
+			printf("\n");
+			
+		}
+		printf("Digite a posição que deseja alterar o código: ");
+		scanf("%d", &posicao);
+		while(aviao[posicao].codigo[0] == '\0'){
+			printf("posição não alterável, digite outra posição novamente: ");
+			scanf("%d", &posicao);
+		}
+	case 2:
+		printf("alteração de modelo do avião\n");
+		printf("listagem com todos os modelos disponiveis para alterar: ");
+		for(i=0;i<MAX;i++){
+			if(aviao[i].modelo[0] != '\0'){
+				printf("posição %d disponível para alterar", i);
+			}else{
+				printf("posição não disponivel");
+			}
+			printf("\n");
+			
+		}
+		printf("Digite a posição que deseja alterar o código: ");
+		scanf("%d", &posicao);
+		while(aviao[posicao].modelo[0] == '\0'){
+			printf("posição não alterável, digite outra posição novamente: ");
+			scanf("%d", &posicao);
+		}
+//	case 3:	
+//		printf("alteração de capacidade do avião\n");
+//		printf("listagem com todas as capacidades disponiveis para alterar: ");
+//		for(i=0;i<MAX;i++){
+//			if(aviao[i].capacidade[0] == 0){
+//				printf("posição %d disponível para alterar", i);
+//			}else{
+//				printf("posição não disponivel");
+//			}
+//			printf("\n");
+//			
+//		}
+//		printf("Digite a posição que deseja alterar o código: ");
+//		scanf("%d", &posicao);
+//		while(aviao[posicao].capacidade[0] == 0){
+//			printf("posição não alterável, digite outra posição novamente: ");
+//			scanf("%d", &posicao);
+//		}
+	case 4:
+		printf("alteração de nome do cliente\n");
+		printf("listagem com todas os nomes disponiveis para alterar: ");
+		for(i=0;i<MAX;i++){
+			if(aviao[i].nomeCliente[0] == '\0'){
+				printf("posição %d disponível para alterar", i);
+			}else{
+				printf("posição não disponivel");
+			}
+			printf("\n");
+			
+		}
+		printf("Digite a posição que deseja alterar o código: ");
+		scanf("%d", &posicao);
+		while(aviao[posicao].nomeCliente[0] == '\0'){
+			printf("posição não alterável, digite outra posição novamente: ");
+			scanf("%d", &posicao);
+		}
+	case 5:
+		printf("alteração de país de origem do cliente\n");
+		printf("listagem com todas as capacidades disponiveis para alterar: ");
+		for(i=0;i<MAX;i++){
+			if(aviao[i].paisOrigCliente[0] == '\0'){
+				printf("posição %d disponível para alterar", i);
+			}else{
+				printf("posição não disponivel");
+			}
+			printf("\n");
+			
+		}
+		printf("Digite a posição que deseja alterar o código: ");
+		scanf("%d", &posicao);
+		while(aviao[posicao].paisOrigCliente[0] == '\0'){
+			printf("posição não alterável, digite outra posição novamente: ");
+			scanf("%d", &posicao);
+		}
+	}
 }
-
-
-	
-	
-

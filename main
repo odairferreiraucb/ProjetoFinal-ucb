@@ -64,6 +64,7 @@ struct Testes testes[MAX];
 void inclusaoAviao(struct Aviao aviao[]);
 void alteracaoAviao(struct Aviao aviao[]);
 void inclusaoPista (struct PistaTeste pistaTeste[] ,int codigoSeguemcial);
+void validaCodigo(struct Aviao aviao[]);
 int mostraMenuAviao ();
 int mostraMenuPista ();
 int mostrarMenuTeste ();
@@ -432,34 +433,14 @@ void inclusaoPista (struct PistaTeste pistaTeste[],int codigoSeguemcial ) {
 
 
 void inclusaoAviao(struct Aviao aviao[]){
-char codigo[8];	
-int i, flag;	
-	 textcolor(0);
+char codigo[8];		
+ 
+	textcolor(0);
 	 
 	printf("\t\tINCLUSAO DE AVIAO");
 	printf("\n\n");
 
-	do{
-		flag = 0;
-		printf("|Identificação: ");
-		fflush(stdin);
-		fgets(codigo,8,stdin);
-		while(codigo[0] == '\n'){
-			printf("codigo invalido, digite novamente:");
-			fflush(stdin);
-			fgets(codigo,8,stdin);
-		}
-		for(i=0;i<MAX;i++){
-			if(stricmp(codigo,aviao[i].codigo) == 0){
-				printf("codigo já registrado, digite outro codigo");
-				flag++;
-			}			
-		}
-		if(flag == 0){
-			strcpy(aviao[0].codigo,codigo);
-		}
-			
-	}while(flag == 1);
+	validaCodigo(aviao); 
 	printf("|Codigo do aviao: %s", aviao[0].codigo);//
 
 
@@ -479,7 +460,7 @@ int i, flag;
 	printf("|Digite a capacidade de passageiros do aviao: ");
 	scanf("%d", &aviao[0].capacidade);
 	while(aviao[0].capacidade <= 0){
-		printf("|Codigo invalido, digite novamente:");
+		printf("|capacidade inválida, digite novamente:");
 		scanf("%d", &aviao[0].capacidade);	
 	}
 	printf("|Capacidade do aviao: %d passageiros",aviao[0].capacidade);//
@@ -574,7 +555,7 @@ char tecla;
 }
 void alteracaoAviao(struct Aviao aviao[]){
 int retornoFuncao, i, posicao,resp;
-char codigo[7];	
+	
 do{
 	//criar um for pra fazer a varredura  iqual no case um alteração ::gustavo 
  	system ("cls");
@@ -605,18 +586,10 @@ do{
 	switch(retornoFuncao){
 		
 	case 1:
-		do{
-			printf("alteração de código de identificação\n");
-			printf("Digite o novo código de alteração:");
-			fflush(stdin);
-			fgets(codigo,8,stdin);
-			for(i=0;i<MAX;i++){
-				if(stricmp(aviao[i].codigo,codigo) == 0){
-					printf("o codigo já existe, digite novamente:");
-					break;
-				}
-			}	
-		}while(stricmp(aviao[i].codigo,codigo) == 0)
+		printf("alteração de código de identificação\n");
+		printf("Inserimento de um novo código de id:");
+		validaCodigo(aviao);
+		
 		
 	case 2:
 		printf("alteração de modelo do avião\n");
@@ -632,4 +605,65 @@ do{
 		
 	}
 }
+
+
+void validaCodigo(struct Aviao aviao[]){
+char codigo[8];
+int flag, i;	
+	do{
+		flag = 0;
+		printf("| Código de Identificação: ");
+		fflush(stdin);
+		fgets(codigo,8,stdin);
+		while(codigo[0] == '\n'){
+			printf("codigo invalido, digite novamente:");
+			fflush(stdin);
+			fgets(codigo,8,stdin);
+		}
+		if((codigo[0] >=65 && codigo[0] <=90) || (codigo[0] >=97 && codigo[0] <=122 )){
+			if((codigo[1] >=65 && codigo[1] <=90) || (codigo[1] >=97 && codigo[1] <=122 )){
+				if((codigo[2] >=65 && codigo[2] <=90) || (codigo[2] >=97 && codigo[2] <=122 )){
+					if(codigo[3] >=48 && codigo[3] <=57){
+						if(codigo[4] >=48 && codigo[4] <=57){
+							if(codigo[5] >=48 && codigo[5] <=57){
+								if(codigo[6] >=48 && codigo[6] <=57){
+									
+								}else{
+									printf("codigo invalido7, verifique e tente novamente: ");
+									flag++;
+								}
+							}else{
+								printf("codigo invalido6, verifique e tente novamente: ");
+								flag++;
+							}
+						}else{
+							printf("codigo invalido5, verifique e tente novamente: ");
+							flag++;
+						}	
+					}else{
+						printf("codigo invalido4, verifique e tente novamente: ");
+						flag++;
+					}
+				}else{printf("codigo invalido3, verifique e tente novamente: ");
+					flag++;
+				}
+			}else{
+				printf("codigo invalido2, verifique e tente novamente: ");
+				flag++;
+			}
+		}else{
+			printf("codigo invalido1, verifique e tente novamente: ");
+			flag++;
+		}
+		for(i=0;i<MAX;i++){
+			if(stricmp(codigo,aviao[i].codigo) == 0){
+				printf("codigo já registrado, digite outro codigo");
+				flag++;
+			}			
+		}
+		if(flag == 0){
+			printf("codigo registrado com sucesso");
+			strcpy(aviao[0].codigo,codigo);
+		}
+	}while(flag >= 1);	
 }

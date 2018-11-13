@@ -1,3 +1,4 @@
+
 /*
 CORES - TEXTCOLOR e TEXTBACKGROUND:
 Preto....... BLACK..... 0
@@ -574,9 +575,12 @@ char tecla;
 void alteracaoAviao(struct Aviao aviao[]){
 int retornoFuncao, i, posicao;	
 	retornoFuncao = mostrarAlteracaoAviao();
+
 		switch(retornoFuncao){
 		
 	case 1:
+			system ("cls");
+				gotoxy(5, 3);
 		printf("alteração de código de identificação\n");
 		printf("listagem com todos os codigos disponiveis para alterar: ");
 		for(i=0;i<MAX;i++){
@@ -595,6 +599,8 @@ int retornoFuncao, i, posicao;
 			scanf("%d", &posicao);
 		}
 	case 2:
+			system ("cls");
+				gotoxy(5, 3);
 		printf("alteração de modelo do avião\n");
 		printf("listagem com todos os modelos disponiveis para alterar: ");
 		for(i=0;i<MAX;i++){
@@ -612,25 +618,29 @@ int retornoFuncao, i, posicao;
 			printf("posição não alterável, digite outra posição novamente: ");
 			scanf("%d", &posicao);
 		}
-//	case 3:	
-//		printf("alteração de capacidade do avião\n");
-//		printf("listagem com todas as capacidades disponiveis para alterar: ");
-//		for(i=0;i<MAX;i++){
-//			if(aviao[i].capacidade[0] == 0){
-//				printf("posição %d disponível para alterar", i);
-//			}else{
-//				printf("posição não disponivel");
-//			}
-//			printf("\n");
-//			
-//		}
-//		printf("Digite a posição que deseja alterar o código: ");
-//		scanf("%d", &posicao);
-//		while(aviao[posicao].capacidade[0] == 0){
-//			printf("posição não alterável, digite outra posição novamente: ");
-//			scanf("%d", &posicao);
-//		}
+	case 3:	
+		system ("cls");
+		gotoxy(5, 3);
+			printf("alteração de capacidade do avião\n");
+			printf("listagem com todas as capacidades disponiveis para alterar: ");
+		for(i=0;i<MAX;i++){
+			if(aviao[i].capacidade == 0){
+				printf("posição %d disponível para alterar", i);
+			}else{
+				printf("posição não disponivel");
+			}
+			printf("\n");
+			
+		}
+		printf("Digite a posição que deseja alterar o código: ");
+		scanf("%d", &posicao);
+		while(aviao[posicao].capacidade == 0){
+			printf("posição não alterável, digite outra posição novamente: ");
+			scanf("%d", &posicao);
+		}
 	case 4:
+			system ("cls");
+				gotoxy(5, 3);
 		printf("alteração de nome do cliente\n");
 		printf("listagem com todas os nomes disponiveis para alterar: ");
 		for(i=0;i<MAX;i++){
@@ -649,6 +659,8 @@ int retornoFuncao, i, posicao;
 			scanf("%d", &posicao);
 		}
 	case 5:
+			system ("cls");
+				gotoxy(5, 3);
 		printf("alteração de país de origem do cliente\n");
 		printf("listagem com todas as capacidades disponiveis para alterar: ");
 		for(i=0;i<MAX;i++){

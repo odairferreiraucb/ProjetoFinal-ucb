@@ -600,4 +600,35 @@ do{
 		}
 	
 	}while(resp != 1);
+	
+	switch(retornoFuncao){
+		
+	case 1:
+		do{
+			printf("alteração de código de identificação\n");
+			printf("Digite o novo código de alteração:");
+			fflush(stdin);
+			fgets(codigo,8,stdin);
+			for(i=0;i<MAX;i++){
+				if(stricmp(aviao[i].codigo,codigo) == 0){
+					printf("o codigo já existe, digite novamente:");
+					break;
+				}
+			}	
+		}while(stricmp(aviao[i].codigo,codigo) == 0)
+		
+	case 2:
+		printf("alteração de modelo do avião\n");
+	
+	case 3:	
+		printf("alteração de capacidade do avião\n");
+	
+	case 4:
+		printf("alteração de nome do cliente\n");
+		
+	case 5:
+		printf("alteração de país de origem do cliente\n");
+		
+	}
+}
 }

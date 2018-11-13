@@ -65,6 +65,9 @@ void inclusaoPista (struct PistaTeste pistaTeste[] ,int codigoSeguemcial);
 int mostraMenuAviao ();
 int mostraMenuPista ();
 int mostrarMenuTeste ();
+int mostrarAlteracaoAviao();
+
+
 int main(void) {
 int resp,continuar ;
 int codigoSeguemcial ;
@@ -498,37 +501,83 @@ int i, flag;
 	fgets(aviao[0].paisOrigCliente,32,stdin);
 	printf("|País do cliente : %s", aviao[0].paisOrigCliente);	//
 }
-void alteracaoAviao(struct Aviao aviao[]){
-int menu, i;
-	do{
-		printf("\t\t<<< A L T E R A Ç Ã O  -D E- A V I A O  >>>");
-		printf("\n\n");
-		printf("menu de alteração: ");
-		printf("\n 1 - alterar codigo de identificação");	
-		printf("\n 2 - alterar modelo do avião");
-		printf("\n 3 - alterar capacidade do avião");
-		printf("\n 4 - alterar nome do cliente");
-		printf("\n 5 - alterar país de origem do cliente");	
-		printf("\n");
-		scanf("%d", &menu);
+int mostrarAlteracaoAviao(){
+		setlocale(LC_ALL, "C");
+char tecla;
+    int i, opcao,resp;
+    textbackground(0); // Define cor de fundo
+    clrscr();          // Limpa a tela
+    _setcursortype(0); // Desliga o cursor
+    textcolor(15);     // Define cor de face
+    
+    gotoxy(19,6); printf("           <<<  A V I A O   >>>");
+    // DESENHAR UM QUADRADO
+    // Desenha as linhas horizontais do quadrado
+    textcolor(7);
+    for (i=34;i<=60;i++) {
+        gotoxy(i,9);printf("%c", 196);
+        gotoxy(i,18);printf("%c", 196);
+    }
+    // Desenha as linhas verticais do quadrado
+    for (i=9;i<=17;i++) {
+        gotoxy(33,i);printf("%c", 179);
+        gotoxy(60,i);printf("%c", 179);
+    }
+    // Desenha os quanto cantos do quadrado
+    gotoxy(33,9);printf("%c", 218);
+    gotoxy(60,9);printf("%c", 191);
+    gotoxy(33,18);printf("%c", 192);
+    gotoxy(60,18);printf("%c", 217);
 
-	}while(menu != 1 && menu != 2 && menu != 3 && menu != 4 && menu != 5);
-	switch(menu){
-		
-	case 1:
-		printf("alteração de código de identificação\n");
-		printf("listagem com todos os codigos disponiveis para alterar: ");
-		for(i=0;i<MAX;i++){
-			if(aviao[i].codigo[0] != '\0'){
-				printf("posição %d disponível para alterar", i);
-			}else{
-				printf("posição não disponivel");
-			}
-			printf("\n");
-			
-		}
-		
-	}
+    // OPERACAO DO MENU
+    opcao = 1; // Seleciona a primeira opcao do menu
+    do {
+    	setlocale(LC_ALL, "");
+       textcolor(7);
+       textbackground(0);
+       gotoxy(34,11);printf("  AlTERAR CODIGO");
+       gotoxy(34,12);printf("  ALTERAR MODELO");
+       gotoxy(34,13);printf("  AlTERAR CAPACIDADE");
+	   gotoxy(34,14);printf("  AlTERAR NOME CLIENTE:");
+       gotoxy(34,15);printf("  AlTERAR PAIS DO CLIENTE:");
+      
+       // Escreve o item selecionado em destaque
+      textcolor(15); 
+       //textbackground(1);
+       switch (opcao) {
+              case 1: gotoxy(34,11);printf("->"); break;
+              case 2: gotoxy(34,12);printf("->"); break;
+              case 3: gotoxy(34,13);printf("->"); break;
+              case 4: gotoxy(34,14);printf("->"); break;
+              case 5: gotoxy(34,15);printf("->"); break;
+       }
+       tecla = getch();    // Recebe a tecla pressionada
+       if (tecla == -32) { // -32 = tecla especial (setas, etc...)
+          tecla = getch(); // Recebe o novo valor ecoado no buffer por ser tecla especial
+          if (tecla == 72) // Seta para cima
+             opcao--;
+          if (tecla == 80) // Seta para baixo
+             opcao++;
+          if (opcao == 0)
+             opcao = 5;
+          if (opcao == 6)
+             opcao = 1;
+       }
+    } while ((tecla != 13) && (tecla != 27)); // 13=ENTER 27=ESC
+  
+    textcolor(15);
+    textbackground(7);
+    
+
+	return opcao;
+}
+void alteracaoAviao(struct Aviao aviao[]){
+int retornoFuncao;	
+	retornoFuncao=mostrarAlteracaoAviao();
+	
 }
 
+
 	
+	
+

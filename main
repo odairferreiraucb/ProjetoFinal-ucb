@@ -576,6 +576,7 @@ void alteracaoAviao(struct Aviao aviao[]){
 int retornoFuncao, i, posicao,resp;
 char codigo[7];	
 do{
+	//criar um for pra fazer a varredura  iqual no case um alteração ::gustavo 
  	system ("cls");
 		printf ("informe sua codigo de indentificação : ");
 		fflush(stdin);

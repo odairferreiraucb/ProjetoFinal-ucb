@@ -1,4 +1,5 @@
 
+
 /*
 CORES - TEXTCOLOR e TEXTBACKGROUND:
 Preto....... BLACK..... 0
@@ -569,114 +570,34 @@ char tecla;
     textcolor(15);
     textbackground(7);
     
-
 	return opcao;
 }
 void alteracaoAviao(struct Aviao aviao[]){
-int retornoFuncao, i, posicao;	
-	retornoFuncao = mostrarAlteracaoAviao();
-
-		switch(retornoFuncao){
-		
-	case 1:
-			system ("cls");
-				gotoxy(5, 3);
-		printf("alteração de código de identificação\n");
-		printf("listagem com todos os codigos disponiveis para alterar: ");
-		for(i=0;i<MAX;i++){
-			if(aviao[i].codigo[0] != '\0'){
-				printf("posição %d disponível para alterar", i);
-			}else{
-				printf("posição não disponivel");
-			}
-			printf("\n");
-			
-		}
-		printf("Digite a posição que deseja alterar o código: ");
-		scanf("%d", &posicao);
-		while(aviao[posicao].codigo[0] == '\0'){
-			printf("posição não alterável, digite outra posição novamente: ");
-			scanf("%d", &posicao);
-		}
-	case 2:
-			system ("cls");
-				gotoxy(5, 3);
-		printf("alteração de modelo do avião\n");
-		printf("listagem com todos os modelos disponiveis para alterar: ");
-		for(i=0;i<MAX;i++){
-			if(aviao[i].modelo[0] != '\0'){
-				printf("posição %d disponível para alterar", i);
-			}else{
-				printf("posição não disponivel");
-			}
-			printf("\n");
-			
-		}
-		printf("Digite a posição que deseja alterar o código: ");
-		scanf("%d", &posicao);
-		while(aviao[posicao].modelo[0] == '\0'){
-			printf("posição não alterável, digite outra posição novamente: ");
-			scanf("%d", &posicao);
-		}
-	case 3:	
+int retornoFuncao, i, posicao,resp;
+char codigo[7];	
+do{
+ 	system ("cls");
+		printf ("informe sua codigo de indentificação : ");
+		fflush(stdin);
+		fgets(aviao[0].codigo,8,stdin);
+		printf ("informe sua codigo de indentificação denovo : ");
+		fflush(stdin);
+		fgets(codigo,8,stdin);
 		system ("cls");
-		gotoxy(5, 3);
-			printf("alteração de capacidade do avião\n");
-			printf("listagem com todas as capacidades disponiveis para alterar: ");
-		for(i=0;i<MAX;i++){
-			if(aviao[i].capacidade == 0){
-				printf("posição %d disponível para alterar", i);
-			}else{
-				printf("posição não disponivel");
+		if (strcmp(aviao[0].codigo,codigo) == 0) {
+		 	printf ("CODIGO VALIDO........");
+			retornoFuncao = mostrarAlteracaoAviao();
+			printf ("DESEJA CONTINUAR APERTE\n[1]-SIM [0]-NAO ");
+			scanf ("%i",&resp);
+			if (resp == 0){
+				break;
 			}
-			printf("\n");
-			
+		}else {
+		  textcolor(12);
+		  system ("cls");			 	
+	      printf ("CODIGO INVALIDO\nTENTE NOVAMENTE\n\n");
+	      system ("pause");
 		}
-		printf("Digite a posição que deseja alterar o código: ");
-		scanf("%d", &posicao);
-		while(aviao[posicao].capacidade == 0){
-			printf("posição não alterável, digite outra posição novamente: ");
-			scanf("%d", &posicao);
-		}
-	case 4:
-			system ("cls");
-				gotoxy(5, 3);
-		printf("alteração de nome do cliente\n");
-		printf("listagem com todas os nomes disponiveis para alterar: ");
-		for(i=0;i<MAX;i++){
-			if(aviao[i].nomeCliente[0] == '\0'){
-				printf("posição %d disponível para alterar", i);
-			}else{
-				printf("posição não disponivel");
-			}
-			printf("\n");
-			
-		}
-		printf("Digite a posição que deseja alterar o código: ");
-		scanf("%d", &posicao);
-		while(aviao[posicao].nomeCliente[0] == '\0'){
-			printf("posição não alterável, digite outra posição novamente: ");
-			scanf("%d", &posicao);
-		}
-	case 5:
-			system ("cls");
-				gotoxy(5, 3);
-		printf("alteração de país de origem do cliente\n");
-		printf("listagem com todas as capacidades disponiveis para alterar: ");
-		for(i=0;i<MAX;i++){
-			if(aviao[i].paisOrigCliente[0] == '\0'){
-				printf("posição %d disponível para alterar", i);
-			}else{
-				printf("posição não disponivel");
-			}
-			printf("\n");
-			
-		}
-		printf("Digite a posição que deseja alterar o código: ");
-		scanf("%d", &posicao);
-		while(aviao[posicao].paisOrigCliente[0] == '\0'){
-			printf("posição não alterável, digite outra posição novamente: ");
-			scanf("%d", &posicao);
-		}
-	}
+	
+	}while(resp != 1);
 }

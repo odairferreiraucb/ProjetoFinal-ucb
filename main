@@ -66,6 +66,7 @@ int mostraMenuAviao ();
 int mostraMenuPista ();
 int mostrarMenuTeste ();
 int main(void) {
+	setlocale(LC_ALL, "C");
 int resp,continuar ;
 int codigoSeguemcial ;
 
@@ -515,3 +516,7 @@ int menu, i;
 		
 	}
 }
+
+	
+	
+

@@ -499,31 +499,8 @@ int i, flag;
 	printf("\t\tINCLUSAO DE AVIAO");
 	printf("\n\n");
 
-	do{
-		
-		flag = 0;
-		printf("|Identificação: ");
-		fflush(stdin);
-		fgets(codigo,8,stdin);
-		while(codigo[0] == '\n'){
-			printf("codigo invalido, digite novamente:");
-			fflush(stdin);
-			fgets(codigo,8,stdin);
-		}
-		for(i=0;i<MAX;i++){
-			if(stricmp(codigo,aviao[i].codigo) == 0){
-				printf("codigo já registrado, digite outro codigo");
-				flag++;
-			}			
-		}
-		if(flag == 0){
-			strcpy(aviao[0].codigo,codigo);
-		}
-			
-	}while(flag == 1);
-	printf("|Codigo do aviao: %s", aviao[0].codigo);//
-
-
+	validaCodigo(aviao);
+	
 	printf("\n");
 	printf("|Digite o modelo do aviao:");
 	fflush(stdin);

@@ -554,12 +554,12 @@ char tecla;
 	return opcao;
 }
 void alteracaoAviao(struct Aviao aviao[]){
-int retornoFuncao, i, posicao,resp;
-char codigo[7];	
+int retornoFuncao, i, posicao,resp, flag;
+char codigo[7], modelo[10], nome[64];
 do{
 	//criar um for pra fazer a varredura  iqual no case um alteração ::gustavo 
  	system ("cls");
-		printf ("informe sua codigo de indentificação : ");
+		printf ("informe seu codigo de indentificação : ");
 		fflush(stdin);
 		fgets(aviao[0].codigo,8,stdin);
 		printf ("informe sua codigo de indentificação denovo : ");
@@ -589,16 +589,57 @@ do{
 		printf("alteração de código de identificação\n");
 		printf("Inserimento de um novo código de id:");
 		validaCodigo(aviao);
+		/* aqui gustavo:
+		for(i=0;i<MAX;i++){
+			if(stricmp(codigo,aviao[i].codigo) == 0){
+				printf("codigo já registrado, digite outro codigo");
+			}			
+		}
+		*/
+		
 		
 		
 	case 2:
 		printf("alteração de modelo do avião\n");
+		
+		printf("Inserimento de um novo modelo de avião:");
+		printf("\nInsira aqui: ");
+		fflush(stdin);
+		fgets(modelo,10,stdin);
+		while(modelo[0] == '\n'){
+			printf("codigo invalido, digite novamente:");
+			fflush(stdin);
+			fgets(modelo,10,stdin);
+		}
+		strcpy(aviao[0].modelo,modelo);
+		
 	
 	case 3:	
 		printf("alteração de capacidade do avião\n");
+		
+		printf("Inserimento de uma nova capacidade do avião:");
+		printf("\nInsira aqui: ");
+		scanf("%d", &aviao[0].capacidade);
+		while(aviao[0].capacidade <=0){
+			printf("Capacidade inválida, digite novamente: ");
+			scanf("%d", &aviao[0].capacidade);
+		}
+	
 	
 	case 4:
 		printf("alteração de nome do cliente\n");
+		
+		printf("Inserimento de um novo nome do cliente:");
+		printf("\nInsira aqui: ");
+		fflush(stdin);
+		fgets(nome,64,stdin);
+		while(nome[0] == '\n'){
+			printf("nome inválido, digite novamente:");
+			fflush(stdin);
+			fgets(nome,64,stdin);
+		}
+		strcpy(aviao[0].nomeCliente,nome);
+		
 		
 	case 5:
 		printf("alteração de país de origem do cliente\n");

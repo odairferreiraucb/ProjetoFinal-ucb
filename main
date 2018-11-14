@@ -25,6 +25,7 @@ Branco......... WHITE........ 15
 #include <ctype.h>
 #include <locale.h>
 #include <string.h>
+#include <time.h>
 #define MAX 50
 
 
@@ -36,7 +37,7 @@ struct Aviao {
 	char nomeCliente[64];
 	char paisOrigCliente[32];
 };
- 
+
 struct PistaTeste {
 	int codSequencial;
 	char enderecoPista[128];
@@ -60,8 +61,8 @@ struct Testes testes[MAX];
 
 //prototipos das funções
 void inclusaoAviao(struct Aviao aviao[]);
-void alteracaoAviao(struct Aviao aviao[]);
-void inclusaoPista (struct PistaTeste pistaTeste[] ,int codigoSeguemcial);
+int alteracaoAviao(struct Aviao aviao[]);
+int inclusaoPista (struct PistaTeste pistaTeste[] ,int codigoSeguemcial);
 int mostraMenuAviao ();
 int mostraMenuPista ();
 int mostrarMenuTeste ();
@@ -73,84 +74,112 @@ int resp,continuar ;
 int codigoSeguemcial ;
 char tecla;
     int i, opcao;
+	setlocale(LC_ALL, "");
+int tempo = clock(); //começa a contar o tempo
+while(clock() - tempo < 3000){ //enquanto não se passaram 5segundos
+  textcolor(14);
+    textbackground(0);
+printf ("      ____________________			 \n");	
+printf ("      |           | |	 |	         \n");	
+printf ("      |  _________| |	 |           \n");	
+printf ("      |  |   	    | 	 |           \n");	
+printf ("      |  |     	    |    |     \n");	
+printf ("      |  |    ______|    |     	     \n");	
+printf ("      |  |   |____  |	 |           \n");	
+printf ("      |  |_______|  |	 |__________ \n");	
+printf ("      |             |              | \n");	
+printf ("      |_____________|______________| \n");	
+printf ("             A-V-I-Õ-E-S                                   ");
+  
+tempo = clock();
 
-
+while(clock() - tempo < 3000){ //enquanto não se passaram 5segundos
+}
+}
 codigoSeguemcial = 1000 ;
 
 do{
-	
 opcao = mostrarMenuPrimcipal ();
     if (tecla == 27)
        opcao = 0; // Indicando que saiu do menu sem escolher
     textcolor(15);
     textbackground(0);
     if (opcao == 1){
-    	 textcolor(7);
-      		 textbackground(0);
-    			gotoxy(5, 3);
+   	 textcolor(7);
+      	textbackground(0);
+    	gotoxy(5, 3);
     	   fflush(stdin);
     	   
-    			 opcao=mostraMenuAviao ();	
+    		opcao=mostraMenuAviao ();	
     			
     	
 	if (opcao == 1){
-	
-		system("cls");
-		inclusaoAviao(aviao);
-		printf ("Deseja continuar ?\nComtinuar [0]-Parar [1]");
-		scanf ("%i",&resp);
-		if (resp == 0){
-			opcao = 4;
-		}else if (resp == 1){
-			printf ("\n\n<< O B R I G A D O >>");
-			break;
+		do{
+			system("cls");
+			inclusaoAviao(aviao);
+			printf ("Deseja continuar ?\nComtinuar [0]-Parar [1]");
+			scanf ("%i",&resp);
+		
+			 if (resp == 1){
+				opcao=4;
+			}
+	 
+		}while(resp == 0);
+		}else if (opcao == 2){
+			system("cls");
+				gotoxy(5, 3);
+					opcao = alteracaoAviao(aviao);
+					if (opcao == 0 ){
+					
+					resp = mostrarAlteracaoAviao();
+				}
+					if (resp == 6){
+						opcao=4;
+					}
 		}
 		
-	}else if (opcao == 2){
-		system("cls");
-		
-			gotoxy(5, 3);
-				alteracaoAviao(aviao);
-				opcao = mostrarAlteracaoAviao();
-				if (opcao == 6){
-					opcao=4;
-				}
-	}
-	
-	
-
-   
 }else if (opcao == 2){
-	
+
 	 textcolor(7);
        textbackground(0);
        	gotoxy(5, 3);
+ 	opcao =	mostraMenuPista();
  		
-		if (opcao == 1){
+	 if (opcao == 3){
+	 opcao = 4;
+	 
+		}else if (opcao == 1){
+			do{
 			
 			system("cls");
-			inclusaoPista (pistaTeste,codigoSeguemcial);
+			codigoSeguemcial=inclusaoPista (pistaTeste,codigoSeguemcial);
 			
-		}
+			printf ("Deseja continuar ?\nComtinuar [0]-Parar [1]");
+			scanf ("%i",&resp);
+		
+			 if (resp == 1){
+				opcao = 4;
+			}
+		}while (resp == 0);
+			
+	}
 		
 		
 		
 
-    fflush(stdin);
-    getch();
-    	system ("cls");
-    return 0;
+   
 	
 }else if (opcao == 3){
 	 textcolor(7);
        textbackground(0);
-			mostrarMenuTeste();
-		
+		resp =	mostrarMenuTeste();
+		if (resp == 4){
+			opcao=4;
+		}
 			
-	printf ("para continuar aperte [0]" );
-	scanf ("%d",&continuar);
+
 	
-	}else if (opcao == 5){
+	}else if (opcao == 4){
 			system("cls");
 		
 			gotoxy(5, 3);
@@ -211,7 +240,7 @@ setlocale(LC_ALL, "C");
               case 1: gotoxy(34,11);printf("->"); break;
               case 2: gotoxy(34,12);printf("->"); break;
               case 3: gotoxy(34,13);printf("->"); break;
-              case 5: gotoxy(34,14);printf("->"); break;
+              case 4: gotoxy(34,14);printf("->"); break;
               
        }
        tecla = getch();    // Recebe a tecla pressionada
@@ -242,24 +271,24 @@ char tecla;
     _setcursortype(0); // Desliga o cursor
     textcolor(15);     // Define cor de face
     
-    gotoxy(19,6); printf("           <<<  A V I A O   >>>");
+    gotoxy(19,6); printf("           <<<  P I S T A - T E S T E   >>>");
     // DESENHAR UM QUADRADO
     // Desenha as linhas horizontais do quadrado
     textcolor(7);
-    for (i=34;i<=49;i++) {
+    for (i=34;i<=50;i++) {
         gotoxy(i,9);printf("%c", 196);
         gotoxy(i,18);printf("%c", 196);
     }
     // Desenha as linhas verticais do quadrado
     for (i=9;i<=17;i++) {
         gotoxy(33,i);printf("%c", 179);
-        gotoxy(49,i);printf("%c", 179);
+        gotoxy(50,i);printf("%c", 179);
     }
     // Desenha os quanto cantos do quadrado
     gotoxy(33,9);printf("%c", 218);
-    gotoxy(49,9);printf("%c", 191);
+    gotoxy(50,9);printf("%c", 191);
     gotoxy(33,18);printf("%c", 192);
-    gotoxy(49,18);printf("%c", 217);
+    gotoxy(50,18);printf("%c", 217);
 
     // OPERACAO DO MENU
     opcao = 1; // Seleciona a primeira opcao do menu
@@ -270,7 +299,7 @@ char tecla;
        gotoxy(34,11);printf("  INCLUIR TESTE");
        gotoxy(34,12);printf("  ALTERAR TESTE");
        gotoxy(34,13);printf("  EXCLUIR TESTE");
-      
+       gotoxy(34,14);printf("  VOLTAR AO MENU");
        // Escreve o item selecionado em destaque
       textcolor(15); 
        //textbackground(1);
@@ -278,7 +307,7 @@ char tecla;
               case 1: gotoxy(34,11);printf("->"); break;
               case 2: gotoxy(34,12);printf("->"); break;
               case 3: gotoxy(34,13);printf("->"); break;
-              
+            case 4: gotoxy(34,14);printf("->"); break;
        }
        tecla = getch();    // Recebe a tecla pressionada
        if (tecla == -32) { // -32 = tecla especial (setas, etc...)
@@ -314,20 +343,20 @@ char tecla;
     // DESENHAR UM QUADRADO
     // Desenha as linhas horizontais do quadrado
     textcolor(7);
-    for (i=34;i<=49;i++) {
+    for (i=34;i<=50;i++) {
         gotoxy(i,9);printf("%c", 196);
         gotoxy(i,18);printf("%c", 196);
     }
     // Desenha as linhas verticais do quadrado
     for (i=9;i<=17;i++) {
         gotoxy(33,i);printf("%c", 179);
-        gotoxy(49,i);printf("%c", 179);
+        gotoxy(50,i);printf("%c", 179);
     }
     // Desenha os quanto cantos do quadrado
     gotoxy(33,9);printf("%c", 218);
-    gotoxy(49,9);printf("%c", 191);
+    gotoxy(50,9);printf("%c", 191);
     gotoxy(33,18);printf("%c", 192);
-    gotoxy(49,18);printf("%c", 217);
+    gotoxy(50,18);printf("%c", 217);
 
     // OPERACAO DO MENU
     opcao = 1; // Seleciona a primeira opcao do menu
@@ -337,14 +366,14 @@ char tecla;
        textbackground(0);
        gotoxy(34,11);printf("  INCLUIR PISTA");
        gotoxy(34,12);printf("  ALTERAR PISTA");
-     
+      gotoxy(34,13);printf("  VOLTAR AO MENU");
        // Escreve o item selecionado em destaque
       textcolor(15); 
        //textbackground(1);
        switch (opcao) {
               case 1: gotoxy(34,11);printf("->"); break;
               case 2: gotoxy(34,12);printf("->"); break;
-          
+           	  case 3: gotoxy(34,13);printf("->"); break;
               
        }
        tecla = getch();    // Recebe a tecla pressionada
@@ -362,7 +391,7 @@ char tecla;
     } while ((tecla != 13) && (tecla != 27)); // 13=ENTER 27=ESC
   
     textcolor(15);
-    textbackground(7);
+    textbackground(0);
 return (opcao);
 	
 }
@@ -433,28 +462,30 @@ char tecla;
 return opcao;
 }
 
-void inclusaoPista (struct PistaTeste pistaTeste[],int codigoSeguemcial ) {
-		
+int inclusaoPista (struct PistaTeste pistaTeste[],int codigoSeguemcial ) {
+		  textcolor(7);
+    textbackground(0);
 	int i;
-
+	setlocale(LC_ALL, "C");
 		printf ("\t\t<< I N C L U S A O  P I S T A >>>\n");
 		printf ("|ENDEREÇO :\n");
-		fflush(stdin);
-		fgets (pistaTeste[i].enderecoPista,128,stdin);
+	
+		fgets (pistaTeste[0].enderecoPista,128,stdin);
 		printf ("|UF da pista:\n");
-		fgets (pistaTeste[i].uf,2,stdin);
+		fgets (pistaTeste[0].uf,2,stdin);
 		fflush(stdin);
 	do{
 		printf ("|Tamanho do circuito (km) :");
-		scanf ("%f",&pistaTeste[i].tamanhoCircuito);
-}while (pistaTeste[i].tamanhoCircuito < 0);
+		scanf ("%f",&pistaTeste[0].tamanhoCircuito);
+}while (pistaTeste[0].tamanhoCircuito < 0);
 	printf ("|Velocidade maxima :\n");
-	scanf ("%i",&pistaTeste[i].velocidadeMax);
+	scanf ("%i",&pistaTeste[0].velocidadeMax);
 	
 	codigoSeguemcial =  codigoSeguemcial + 1;
-	pistaTeste[i].codSequencial = codigoSeguemcial;
-	printf ("%i\n",pistaTeste[i].codSequencial);
-
+	pistaTeste[0].codSequencial = codigoSeguemcial;
+	printf ("O seu codico seguemcial e:\n ");
+	printf ("%i",pistaTeste[0].codSequencial);
+return codigoSeguemcial;
 }
 
 
@@ -468,6 +499,7 @@ int i, flag;
 	printf("\n\n");
 
 	do{
+		
 		flag = 0;
 		printf("|Identificação: ");
 		fflush(stdin);
@@ -540,7 +572,7 @@ char tecla;
     _setcursortype(0); // Desliga o cursor
     textcolor(15);     // Define cor de face
     
-    gotoxy(19,6); printf("           <<<  A V I A O   >>>");
+    gotoxy(19,6); printf("           <<<  P I S T A - T E S T E  >>>");
     // DESENHAR UM QUADRADO
     // Desenha as linhas horizontais do quadrado
     textcolor(7);
@@ -604,8 +636,8 @@ char tecla;
     
 	return opcao;
 }
-void alteracaoAviao(struct Aviao aviao[]){
-int retornoFuncao, i, posicao,resp;
+int alteracaoAviao(struct Aviao aviao[]){
+int retornoFuncao, i, posicao,resp,opcao;
 char codigo[7];	
 do{
 	//criar um for pra fazer a varredura  iqual no case um alteração ::gustavo 
@@ -639,15 +671,23 @@ do{
 			retornoFuncao = mostrarAlteracaoAviao();
 			
 		
-		}else {
+		}else 
 			
 		  textcolor(12);
 		  system ("cls");			 	
 	      printf ("CODIGO INVALIDO\nTENTE NOVAMENTE\n\n");
-	      system ("pause");
-		}
+	   
+	      printf ("\n\nDeseja continuar ?\nComtinuar [0]-Parar [1]\n\n");
+			scanf ("%i",&resp);
+			   system ("pause");
+	      if (resp == 1){
+	      
+	      	opcao=4;
+	      	
+		  }
+		
 	
-	}while(resp != 1);
+	}while(resp == 0);
 	
 	switch(retornoFuncao){
 		
@@ -678,4 +718,6 @@ do{
 		printf("alteração de país de origem do cliente\n");
 		
 	}
+	return opcao;
 }
+

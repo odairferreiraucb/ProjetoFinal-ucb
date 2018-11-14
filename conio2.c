@@ -60,7 +60,7 @@ struct PistaTeste pistaTeste[MAX];
 struct Testes testes[MAX];
 
 //prototipos das funções
-void inclusaoAviao(struct Aviao aviao[]);
+int inclusaoAviao(struct Aviao aviao[], int cont);
 void validaCodigo(struct Aviao aviao[]);
 int alteracaoAviao(struct Aviao aviao[]);
 int inclusaoPista (struct PistaTeste pistaTeste[] ,int codigoSeguemcial);
@@ -71,7 +71,7 @@ int mostrarAlteracaoAviao();
 int mostrarMenuPrimcipal();
 
 int main(void) {
-int resp,continuar ;
+int resp,continuar,cont = 0;
 int codigoSeguemcial ;
 char tecla;
     int i, opcao;
@@ -117,7 +117,9 @@ opcao = mostrarMenuPrimcipal ();
 	if (opcao == 1){
 		do{
 			system("cls");
-			inclusaoAviao(aviao);
+			cont = inclusaoAviao(aviao, cont);
+			printf("%d", cont);
+			getch();
 			printf ("Deseja continuar ?\nComtinuar [0]-Parar [1]");
 			scanf ("%i",&resp);
 		
@@ -491,9 +493,8 @@ return codigoSeguemcial;
 
 
 
-void inclusaoAviao(struct Aviao aviao[]){
-char codigo[8];	
-int i, flag;	
+int inclusaoAviao(struct Aviao aviao[],int cont){
+char codigo[8];		
 	 
 	 
 	printf("\t\tINCLUSAO DE AVIAO");
@@ -504,43 +505,47 @@ int i, flag;
 	printf("\n");
 	printf("|Digite o modelo do aviao:");
 	fflush(stdin);
-	fgets(aviao[0].modelo,11,stdin);
-	while(aviao[0].modelo[0] == '\n'){
+	fgets(aviao[cont].modelo,11,stdin);
+	while(aviao[cont].modelo[0] == '\n'){
 			printf("|Modelo invalido, digite novamente:");
 			fflush(stdin);
-			fgets(aviao[0].modelo,11,stdin);
+			fgets(aviao[cont].modelo,11,stdin);
 	}
 	printf("|Modelo do aviao: %s", aviao[0].modelo);//
 	
 	
 	printf("\n");
 	printf("|Digite a capacidade de passageiros do aviao: ");
-	scanf("%d", &aviao[0].capacidade);
-	while(aviao[0].capacidade <= 0){
+	scanf("%d", &aviao[cont].capacidade);
+	while(aviao[cont].capacidade <= 0){
 		printf("|Codigo invalido, digite novamente:");
-		scanf("%d", &aviao[0].capacidade);	
+		scanf("%d", &aviao[cont].capacidade);	
 	}
-	printf("|Capacidade do aviao: %d passageiros",aviao[0].capacidade);//
+	printf("|Capacidade do aviao: %d passageiros",aviao[cont].capacidade);//
 
 
 	printf("\n");
 	printf("|Digite o nome do cliente: ");
 	fflush(stdin);
-	fgets(aviao[0].nomeCliente,64,stdin);
-	while(aviao[0].nomeCliente[0] == '\n'){
+	fgets(aviao[cont].nomeCliente,64,stdin);
+	while(aviao[cont].nomeCliente[0] == '\n'){
 			printf("|Nome inválido, digite novamente:");
 			fflush(stdin);
-			fgets(aviao[0].nomeCliente,64,stdin);
+			fgets(aviao[cont].nomeCliente,64,stdin);
 	}
-	printf("|Nome do cliente : %s", aviao[0].nomeCliente);//
+	printf("|Nome do cliente : %s", aviao[cont].nomeCliente);//
 	
 	
 	printf("\n");
 	printf("|Digite o país de origem do cliente: ");
 	fflush(stdin);
-	fgets(aviao[0].paisOrigCliente,32,stdin);
-	printf("|País do cliente : %s", aviao[0].paisOrigCliente);	//
+	fgets(aviao[cont].paisOrigCliente,32,stdin);
+	printf("|País do cliente : %s", aviao[cont].paisOrigCliente);	//
+	cont ++;
+	return cont;
 }
+
+
 int mostrarAlteracaoAviao(){
 		setlocale(LC_ALL, "C");
 char tecla;

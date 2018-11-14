@@ -71,9 +71,9 @@ int mostrarAlteracaoAviao();
 int mostrarMenuPrimcipal();
 
 
-// "CONT" É PARA A STRUCT DE AVIAO
+// "CONT" É PARA A STRUCT DE AVIAO, CONT2 PARA PISTAS
 int main(void) {
-int resp,continuar,cont = 0;
+int resp,continuar,cont = 0, cont2 =0 ;
 int codigoSeguemcial ;
 char tecla;
     int i, opcao;
@@ -157,7 +157,7 @@ opcao = mostrarMenuPrimcipal ();
 			do{
 			
 			system("cls");
-			codigoSeguemcial=inclusaoPista (pistaTeste,codigoSeguemcial,&cont);
+			codigoSeguemcial=inclusaoPista (pistaTeste,codigoSeguemcial, &cont2);
 			
 			printf ("Deseja continuar ?\nComtinuar [0]-Parar [1]");
 			scanf ("%i",&resp);
@@ -468,7 +468,8 @@ return opcao;
 }
 
 int inclusaoPista (struct PistaTeste pistaTeste[],int codigoSeguemcial, int *pcont) {
-		  
+int cont;
+cont = *pcont;		  
 		  textcolor(7);
     textbackground(0);
 	int i;
@@ -476,21 +477,24 @@ int inclusaoPista (struct PistaTeste pistaTeste[],int codigoSeguemcial, int *pco
 		printf ("\t\t<< I N C L U S A O  P I S T A >>>\n");
 		printf ("|ENDEREÇO :\n");
 	
-		fgets (pistaTeste[0].enderecoPista,128,stdin);
+		fgets (pistaTeste[cont].enderecoPista,128,stdin);
 		printf ("|UF da pista:\n");
-		fgets (pistaTeste[0].uf,2,stdin);
+		fgets (pistaTeste[cont].uf,2,stdin);
 		fflush(stdin);
 	do{
 		printf ("|Tamanho do circuito (km) :");
-		scanf ("%f",&pistaTeste[0].tamanhoCircuito);
-}while (pistaTeste[0].tamanhoCircuito < 0);
+		scanf ("%f",&pistaTeste[cont].tamanhoCircuito);
+}while (pistaTeste[cont].tamanhoCircuito < 0);
 	printf ("|Velocidade maxima :\n");
-	scanf ("%i",&pistaTeste[0].velocidadeMax);
+	scanf ("%i",&pistaTeste[cont].velocidadeMax);
 	
 	codigoSeguemcial =  codigoSeguemcial + 1;
-	pistaTeste[0].codSequencial = codigoSeguemcial;
+	pistaTeste[cont].codSequencial = codigoSeguemcial;
 	printf ("O seu codico seguemcial e:\n ");
-	printf ("%i",pistaTeste[0].codSequencial);
+	printf ("%i",pistaTeste[cont].codSequencial);
+	cont++;
+	*pcont = cont;
+	printf("%d", cont);
 return codigoSeguemcial;
 }
 

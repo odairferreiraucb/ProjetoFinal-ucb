@@ -36,7 +36,7 @@ struct Aviao {
 	char nomeCliente[64];
 	char paisOrigCliente[32];
 };
-
+ 
 struct PistaTeste {
 	int codSequencial;
 	char enderecoPista[128];

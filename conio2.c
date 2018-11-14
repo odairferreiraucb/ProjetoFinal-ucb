@@ -63,13 +63,15 @@ struct Testes testes[MAX];
 int inclusaoAviao(struct Aviao aviao[], int cont);
 void validaCodigo(struct Aviao aviao[]);
 int alteracaoAviao(struct Aviao aviao[]);
-int inclusaoPista (struct PistaTeste pistaTeste[] ,int codigoSeguemcial);
+int inclusaoPista (struct PistaTeste pistaTeste[] ,int codigoSeguemcial, int *pcont);
 int mostraMenuAviao ();
 int mostraMenuPista ();
 int mostrarMenuTeste ();
 int mostrarAlteracaoAviao();
 int mostrarMenuPrimcipal();
 
+
+// "CONT" É PARA A STRUCT DE AVIAO
 int main(void) {
 int resp,continuar,cont = 0;
 int codigoSeguemcial ;
@@ -155,7 +157,7 @@ opcao = mostrarMenuPrimcipal ();
 			do{
 			
 			system("cls");
-			codigoSeguemcial=inclusaoPista (pistaTeste,codigoSeguemcial);
+			codigoSeguemcial=inclusaoPista (pistaTeste,codigoSeguemcial,&cont);
 			
 			printf ("Deseja continuar ?\nComtinuar [0]-Parar [1]");
 			scanf ("%i",&resp);
@@ -465,7 +467,8 @@ char tecla;
 return opcao;
 }
 
-int inclusaoPista (struct PistaTeste pistaTeste[],int codigoSeguemcial ) {
+int inclusaoPista (struct PistaTeste pistaTeste[],int codigoSeguemcial, int *pcont) {
+		  
 		  textcolor(7);
     textbackground(0);
 	int i;

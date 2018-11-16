@@ -74,7 +74,7 @@ int mostraMenuConsulta ();
 
 // "CONT" É PARA A STRUCT DE AVIAO, CONT2 PARA PISTAS
 int main(void) {
-int resp,continuar,cont = 0;
+int resp,continuar,cont = 0, cont2 =0;
 int codigoSeguemcial ;
 char tecla,codigo[7];
 int i, opcao;
@@ -158,7 +158,7 @@ do {
 			do {
 
 				system("cls");
-				codigoSeguemcial=inclusaoPista (pistaTeste,codigoSeguemcial,&cont);
+				codigoSeguemcial=inclusaoPista (pistaTeste,codigoSeguemcial,&cont2);
 
 				printf ("Deseja continuar ?\nComtinuar [0]-Parar [1]");
 				scanf ("%i",&resp);
@@ -794,20 +794,6 @@ int inclusaoAviao(struct Aviao aviao[],int cont) {
 	fgets(aviao[cont].paisOrigCliente,32,stdin);
 	printf("|País do cliente : %s", aviao[cont].paisOrigCliente);	//
 	
-	
-	printf ("|MODELO AVIAO: %s\n",aviao[cont].modelo);
-				printf ("---------------------------|\n");
-				printf ("|NOME DO CLIENTE : %s\n",aviao[cont].nomeCliente);
-				printf ("---------------------------|\n");
-				printf ("|PAIS DO CLIENTE : %s\n",aviao[cont].paisOrigCliente);
-				printf ("---------------------------|\n");
-				printf ("|CAPACIDADE DO AVIAO : %d\n",aviao[cont].capacidade);
-				printf ("---------------------------|\n");
-				printf ("|CODIGO: %s",aviao[cont].codigo);
-				printf ("---------------------------|\n\n\n");
-				system ("pause");
-	
-	
 	cont ++;			
 	
 	return cont;
@@ -969,9 +955,9 @@ int alteracaoAviao(struct Aviao aviao[]) {
 
 
 	} while(resp == 0);
-
+	system("cls");
 	switch(retornoFuncao) {
-
+		
 		case 1:
 			printf("alteração de código de identificação\n");
 			printf("Inserimento de um novo código de id:");
@@ -989,7 +975,7 @@ int alteracaoAviao(struct Aviao aviao[]) {
 				fflush(stdin);
 				fgets(modelo,10,stdin);
 			}
-			strcpy(aviao[0].modelo,modelo);
+			strcpy(aviao[i].modelo,modelo);
 
 
 		case 3:
@@ -997,10 +983,10 @@ int alteracaoAviao(struct Aviao aviao[]) {
 
 			printf("Inserimento de uma nova capacidade do avião:");
 			printf("\nInsira aqui: ");
-			scanf("%d", &aviao[0].capacidade);
-			while(aviao[0].capacidade <=0) {
+			scanf("%d", &aviao[i].capacidade);
+			while(aviao[i].capacidade <=0) {
 				printf("Capacidade inválida, digite novamente: ");
-				scanf("%d", &aviao[0].capacidade);
+				scanf("%d", &aviao[i].capacidade);
 			}
 
 
@@ -1011,12 +997,12 @@ int alteracaoAviao(struct Aviao aviao[]) {
 			printf("\nInsira aqui: ");
 			fflush(stdin);
 			fgets(nome,64,stdin);
-			while(nome[0] == '\n') {
+			while(nome[i] == '\n') {
 				printf("nome inválido, digite novamente:");
 				fflush(stdin);
 				fgets(nome,64,stdin);
 			}
-			strcpy(aviao[0].nomeCliente,nome);
+			strcpy(aviao[i].nomeCliente,nome);
 
 
 		case 5:

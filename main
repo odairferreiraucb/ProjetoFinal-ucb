@@ -31,27 +31,27 @@ Branco......... WHITE........ 15
 
 //structs
 struct Aviao {
-char codigo[7];
-int capacidade;
-char nomeCliente[64];
-char paisOrigCliente[32];
-char modelo[10];
-};
-
+		char codigo[7];
+		int capacidade;
+		char nomeCliente[64];
+		char paisOrigCliente[32];
+		char modelo[10];
+	};
+	
 struct PistaTeste {
-int codSequencial;
-char enderecoPista[128];
-char uf[2];
-float tamanhoCircuito;
-int velocidadeMax;
-char codigoMelhorAviao[7];
+	int codSequencial;
+	char enderecoPista[128];
+	char uf[2];
+	float tamanhoCircuito;
+	int velocidadeMax;
+	char codigoMelhorAviao[7];
 };
 
 struct Testes {
-char idAviao[7];
-int idPista;
-char data[8];
-int velocidadeMax;
+	char idAviao[7];
+	int idPista;
+	char data[8];
+	int velocidadeMax;
 };
 
 // declarando as structs

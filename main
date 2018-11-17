@@ -70,11 +70,12 @@ int mostrarMenuTeste ();
 int mostrarAlteracaoAviao();
 int mostrarMenuPrimcipal();
 int mostraMenuConsulta ();
-
+void mostrarConsultaAviao (struct Aviao aviao[],int i );
+void mostrarConsultaPista (struct PistaTeste pistaTeste[],int i );
 
 // "CONT" É PARA A STRUCT DE AVIAO, CONT2 PARA PISTAS
 int main(void) {
-int resp,continuar,cont = 0, cont2 =0;
+int resp,continuar,cont = 0, cont2 =0,codigoS;
 int codigoSeguemcial ;
 char tecla,codigo[7];
 int i, opcao;
@@ -103,6 +104,7 @@ while(clock() - tempo < 3000) { //enquanto não se passaram 5segundos
 codigoSeguemcial = 1000 ;
 
 do {
+
 	opcao = mostrarMenuPrimcipal ();
 	if (tecla == 27)
 		opcao = 0; // Indicando que saiu do menu sem escolher
@@ -136,8 +138,9 @@ do {
 			gotoxy(5, 3);
 			opcao = alteracaoAviao(aviao);
 			if (opcao == 0 ) {
-
-				resp = mostrarAlteracaoAviao();
+				system("cls");
+					gotoxy(5, 3);
+					resp = mostrarAlteracaoAviao();
 			}
 			if (resp == 6) {
 				opcao=4;
@@ -158,22 +161,20 @@ do {
 			do {
 
 				system("cls");
-				codigoSeguemcial=inclusaoPista (pistaTeste,codigoSeguemcial,&cont2);
-
-				printf ("Deseja continuar ?\nComtinuar [0]-Parar [1]");
-				scanf ("%i",&resp);
-
+				codigoSeguemcial = inclusaoPista (pistaTeste,codigoSeguemcial,&cont2);
+				
+				do{
+								
+					printf ("\n\nDeseja continuar ?\nComtinuar [0]-Parar [1]\n\n");
+					scanf ("%i",&resp);
+				}while (resp != 0 & resp !=1 );
+				
 				if (resp == 1) {
 					opcao = 4;
 				}
 			} while (resp == 0);
 
 		}
-
-
-
-
-
 
 	} else if (opcao == 3) {
 		textcolor(7);
@@ -192,76 +193,143 @@ do {
 		printf ("<< O B R I G A D O >>");
 		break;
 	} else if (opcao == 4 ) {
-		opcao = mostraMenuConsulta ();
-		if (opcao == 1) {
-			system("cls");
-			gotoxy(5, 3);
-			do {
-
-				system ("cls");
-				printf ("informe o Codico de identificação do avião: ");
-				fflush (stdin);
-				fgets(codigo,8,stdin);
-				for (i=0;i<cont;i++){
-					if(stricmp(codigo,aviao[i].codigo) != 0) {
-						textcolor(12);
-						system ("cls");
-						printf ("CODIGO INVALIDO\nTENTE NOVAMENTE\n\n");
-						printf ("\n\nDeseja continuar ?\nComtinuar [0]-Parar [1]\n\n");
-						scanf ("%i",&resp);
+		textcolor(7);
+		textbackground(0);
+			do{
+			
+				system("cls");
+				resp = mostraMenuConsulta ();
+			
+				if (resp == 1) {
+					fflush(stdin);
+					system("cls");
+					gotoxy(5, 3);
+					printf ("Informe o codigo : ");
+					fgets(codigo,8,stdin);
+			
+					 for (i=0;i<MAX;i++){
+					 	if(stricmp(codigo,aviao[i].codigo) == 0){
+					 		 mostrarConsultaAviao (aviao,i);
+					 		 
+					 			do{
+								
+					 					printf ("\n\nDeseja continuar ?\nComtinuar [0]-Parar [1]\n\n");
+										scanf ("%i",&resp);
+									}while (resp != 0 & resp !=1 );
+								system ("pause");
+								if (resp == 1) {
+	
+									opcao=4;
+	
+								}
+						 }
+					 	
+					 } if(stricmp(codigo,aviao[i].codigo) != 0){
+							
+							system ("cls");
+							textcolor(12);
+								printf ("CODIGO INVALIDO\nTENTE NOVAMENTE\n\n");	
+								do{
+								
+					 				printf ("\n\nDeseja continuar ?\nComtinuar [0]-Parar [1]\n\n");
+									scanf ("%i",&resp);
+								}while (resp != 0 & resp !=1 );
+								system ("pause");
+								if (resp == 1) {
+	
+									opcao=4;
+	
+								}
+						}
+					
 						
-						if (resp == 1) {
-
-							opcao=4;
-
+					//	(stricmp (codigo,aviao[i].codigo) != 0 ||resp == 1 )
+	
+				} else if (resp == 2) {
+					fflush(stdin);
+					system("cls");
+					gotoxy(5, 3);
+					printf ("Informe o codigo seguemcial: ");
+					scanf ("%i",&codigoS);
+			
+					 for (i=0;i<MAX;i++){
+					 	if(codigoS == pistaTeste[i].codSequencial){
+					 		  mostrarConsultaPista (pistaTeste,i );
+					 		 	
+					 			do{
+								
+					 					printf ("\n\nDeseja continuar ?\nComtinuar [0]-Parar [1]\n\n");
+										scanf ("%i",&resp);
+									}while (resp != 0 & resp !=1 );
+								system ("pause");
+								if (resp == 1) {
+	
+									opcao=4;
+	
+								}
+						 }
+					 	
+					 } if(codigoS != pistaTeste[i].codSequencial){
+							
+							system ("cls");
+							textcolor(12);
+								printf ("CODIGO INVALIDO\nTENTE NOVAMENTE\n\n");	
+					 				printf ("\n\nDeseja continuar ?\nComtinuar [0]-Parar [1]\n\n");
+								scanf ("%i",&resp);
+								system ("pause");
+								if (resp == 1) {
+	
+									opcao=4;
+	
+								}
 						}
-					} else {
-						printf ("|Codico de indentificação : %s\n ",aviao[i].codigo);
-						printf ("|Modelo do avião : %s \n",aviao[i].modelo);
-						printf ("|Capacidade do avião : %i \n",aviao[i].capacidade);
-						printf ("|Nome do cliente : %s \n",aviao[i].nomeCliente);
-						printf ("|Pais de origem do cliente : %s \n",aviao[i].paisOrigCliente);
-						getch();
-						printf ("\n\nDeseja continuar ?\nComtinuar [0]-Parar [1]\n\n");
-						scanf ("%i",&resp);
-						system ("pause");
-						if (resp == 1) {
-
-							opcao=4;
-
-						}
-
-					}
+							
+			
+				} else if (resp == 3) {
+					opcao=4;
 				}
-				
 
+			}while (resp==0);
+			}
+		}while(opcao == 4);
 
-			} while (resp == 0);
-			//	(stricmp (codigo,aviao[i].codigo) != 0 ||resp == 1 )
-
-		} else if (opcao==2) {
-
-		} else if (opcao == 3) {
-			opcao=4;
-		}
-
-
+		return 0 ;
 	}
-	}while(opcao == 4);
 
-	return 0 ;
+void mostrarConsultaAviao (struct Aviao aviao[],int i ){
+	system("cls");
+		setlocale(LC_ALL, "C");
+		printf ("|Codico de indentificação : %s\n ",aviao[i].codigo);
+							printf ("|Modelo do avião : %s \n",aviao[i].modelo);
+							printf ("|Capacidade do avião : %i \n",aviao[i].capacidade);
+							printf ("|Nome do cliente : %s \n",aviao[i].nomeCliente);
+							printf ("|Pais de origem do cliente : %s \n",aviao[i].paisOrigCliente);
+							system ("pause");
+
 }
+void mostrarConsultaPista (struct PistaTeste pistaTeste[],int i ){
+	system("cls");
+		setlocale(LC_ALL, "C");
+							printf ("|Codico seguencial de indentificação : %i\n ",pistaTeste[i].codSequencial);
+							printf ("|Endereço da pista : %s \n",pistaTeste[i].enderecoPista);
+							printf ("|Tamanho da pista  : %f \n",pistaTeste[i].tamanhoCircuito);
+							printf ("|UF da pista : %s \n",pistaTeste[i].uf);
+							printf ("|Velocidade maxima da pista : %i \n",pistaTeste[i].velocidadeMax);
+							system ("pause");
 
+}
 int mostraMenuConsulta () {
-	setlocale(LC_ALL, "C");
+
 	char tecla;
 	int i, opcao;
 	textbackground(0); // Define cor de fundo
 	clrscr();          // Limpa a tela
 	_setcursortype(0); // Desliga o cursor
-	textcolor(15);     // Define cor de face
+	textcolor(7);     // Define cor de face
 
 	gotoxy(19,6);
+	setlocale(LC_ALL, "C");
+		clrscr();
 	printf("           <<<  C-O-N-S-U-L-T-A   >>>");
 	// DESENHAR UM QUADRADO
 	// Desenha as linhas horizontais do quadrado
@@ -334,9 +402,9 @@ int mostraMenuConsulta () {
 	} while ((tecla != 13) && (tecla != 27)); // 13=ENTER 27=ESC
 
 	textcolor(15);
-	textbackground(7);
-	return (opcao);
-
+	textbackground(0);
+	return opcao;
+	system ("pause");
 }
 
 int mostrarMenuPrimcipal() {
@@ -720,7 +788,7 @@ int inclusaoPista (struct PistaTeste pistaTeste[],int codigoSeguemcial, int *pco
 	setlocale(LC_ALL, "C");
 	printf ("\t\t<< I N C L U S A O  P I S T A >>>\n");
 	printf ("|ENDEREÇO :\n");
-
+	fflush(stdin);
 	fgets (pistaTeste[cont].enderecoPista,128,stdin);
 	printf ("|UF da pista:\n");
 	fgets (pistaTeste[cont].uf,2,stdin);
@@ -738,7 +806,7 @@ int inclusaoPista (struct PistaTeste pistaTeste[],int codigoSeguemcial, int *pco
 	printf ("%i",pistaTeste[cont].codSequencial);
 	cont++;
 	*pcont = cont;
-	printf("%d", cont);
+	
 	return codigoSeguemcial;
 }
 
@@ -940,11 +1008,13 @@ int alteracaoAviao(struct Aviao aviao[]) {
 				retornoFuncao = mostrarAlteracaoAviao();
 				break;		
 			}else{
-				textcolor(12);
+				
 				system ("cls");
 				printf ("CODIGO INVALIDO\nTENTE NOVAMENTE\n\n");	
 			}
 		}
+		system("cls");
+			gotoxy(5, 3);
 		printf ("\n\nDeseja continuar ?\nComtinuar [0]-Parar [1]\n\n");
 		scanf ("%i",&resp);
 		system ("pause");

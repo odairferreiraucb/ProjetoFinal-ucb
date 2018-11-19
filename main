@@ -50,7 +50,7 @@ struct PistaTeste {
 struct Testes {
 	char idAviao[7];
 	int idPista;
-	char data[8];
+	char data[1000];
 	int velocidadeMax;
 };
 
@@ -79,6 +79,9 @@ int resp,continuar,cont = 0, cont2 =0,codigoS;
 int codigoSeguemcial ;
 char tecla,codigo[7];
 int i, opcao;
+char agora[1000],data[100];
+
+
 setlocale(LC_ALL, "");
 int tempo = clock(); //começa a contar o tempo
 while(clock() - tempo < 3000) { //enquanto não se passaram 5segundos
@@ -104,7 +107,7 @@ while(clock() - tempo < 3000) { //enquanto não se passaram 5segundos
 codigoSeguemcial = 1000 ;
 
 do {
-
+textbackground(0);
 	opcao = mostrarMenuPrimcipal ();
 	if (tecla == 27)
 		opcao = 0; // Indicando que saiu do menu sem escolher
@@ -177,10 +180,100 @@ do {
 		}
 
 	} else if (opcao == 3) {
-		textcolor(7);
-		textbackground(0);
+	
 		resp =	mostrarMenuTeste();
-		if (resp == 4) {
+		if (resp == 1){
+			do{
+					
+				textcolor(7);
+		textbackground(0);
+			fflush(stdin);
+			system("cls");
+			gotoxy(5, 3);
+			printf ("Informe o codigo : ");
+					fgets(codigo,8,stdin);
+			
+					 for (i=0;i<MAX;i++){
+					 	if(stricmp(codigo,aviao[i].codigo) == 0){
+					 			textcolor(10);
+					 				printf ("CODIGO[%s] VALIDO .....\n\n",aviao[i].codigo);
+								textcolor(7);
+								system ("pause");
+					  do{
+							textcolor(7);
+							textbackground(0);
+					fflush(stdin);
+					system("cls");
+					gotoxy(5, 3);
+				
+					printf ("Informe o codigo seguemcial: ");
+					scanf ("%i",&codigoS);
+			
+					 for (i=0;i<MAX;i++){
+					 	if(codigoS == pistaTeste[i].codSequencial){
+					 			textcolor(10);
+					 		  	printf ("CODIGO[%i] VALIDO .....\n\n",pistaTeste[i].codSequencial);
+					 		 	textcolor(7);
+					 		 		time_t agora;
+					 		 	_strdate(agora);
+					 		 
+					 		 
+					 	//	testes[i].data = agora;
+					 		 	printf ("%s",agora);
+					 			do{
+								
+					 					printf ("\n\nDeseja continuar ?\nComtinuar [0]-Parar [1]\n\n");
+										scanf ("%i",&resp);
+									}while (resp != 0 & resp !=1 );
+								system ("pause");
+								if (resp == 1) {
+	
+									opcao=4;
+	
+								}
+						 }
+				//	
+					 } if(codigoS != pistaTeste[i].codSequencial){
+							
+							system ("cls");
+							textcolor(12);
+								printf ("CODIGO INVALIDO\nTENTE NOVAMENTE\n\n");	
+					 				printf ("\n\nDeseja continuar ?\nComtinuar [0]-Parar [1]\n\n");
+								scanf ("%i",&resp);
+								system ("pause");
+								if (resp == 1) {
+	
+									opcao=4;
+	
+								}
+						}
+						}while(resp==0);
+							
+					 		 
+					 		
+						 }
+					 	
+					 } if(stricmp(codigo,aviao[i].codigo) != 0){
+							
+							system ("cls");
+							textcolor(12);
+								printf ("CODIGO INVALIDO\nTENTE NOVAMENTE\n\n");	
+								do{
+								
+					 				printf ("\n\nDeseja continuar ?\nComtinuar [0]-Parar [1]\n\n");
+									scanf ("%i",&resp);
+								}while (resp != 0 & resp !=1 );
+								system ("pause");
+								if (resp == 1) {
+	
+									opcao=4;
+	
+								}
+						}
+					
+		}while(resp==0);
+			
+		}else if  (resp == 4) {
 			opcao=4;
 		}
 

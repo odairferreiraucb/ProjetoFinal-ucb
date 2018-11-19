@@ -61,7 +61,6 @@ struct Testes testes[MAX];
 
 //prototipos das funções
 int inclusaoAviao(struct Aviao aviao[], int cont);
-void validaCodigo(struct Aviao aviao[], int cont);
 int alteracaoAviao(struct Aviao aviao[]);
 int inclusaoPista (struct PistaTeste pistaTeste[] ,int codigoSeguemcial, int *pcont);
 int mostraMenuAviao ();
@@ -72,11 +71,14 @@ int mostrarMenuPrimcipal();
 int mostraMenuConsulta ();
 void mostrarConsultaAviao (struct Aviao aviao[],int i );
 void mostrarConsultaPista (struct PistaTeste pistaTeste[],int i );
+void exclusaoAviao(struct Aviao aviao[], struct Testes teste);
+void validaCodigo(struct Aviao aviao[], int cont);
+void exclusaoTeste(struct Testes testes[]);
 
 // "CONT" É PARA A STRUCT DE AVIAO, CONT2 PARA PISTAS
 int main(void) {
 int resp,continuar,cont = 0, cont2 =0,codigoS;
-int codigoSeguemcial ;
+int codigoSeguemcial;
 char tecla,codigo[7];
 int i, opcao;
 char agora[1000],data[100];
@@ -167,7 +169,7 @@ textbackground(0);
 				codigoSeguemcial = inclusaoPista (pistaTeste,codigoSeguemcial,&cont2);
 				
 				do{
-					 			
+								
 					printf ("\n\nDeseja continuar ?\nComtinuar [0]-Parar [1]\n\n");
 					scanf ("%i",&resp);
 				}while (resp != 0 & resp !=1 );
@@ -1317,4 +1319,8 @@ void exclusaoAviao(struct Aviao aviao[], struct Testes teste){
 
 
 	} while(resp == 0);
+}
+
+void exclusaoTeste(struct Testes testes[]){
+	system("pause");
 }

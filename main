@@ -1073,7 +1073,7 @@ int alteracaoAviao(struct Aviao aviao[]) {
 	do {
 		// arrumar problema de invalido
 		system ("cls");
-		printf ("informe sua codigo de indentificação : ");
+		printf ("informe seu codigo de indentificação : ");
 		fflush(stdin);
 		fgets(codigo,8,stdin);
 
@@ -1176,12 +1176,13 @@ int alteracaoAviao(struct Aviao aviao[]) {
 	return opcao;
 }
 
+
 void validaCodigo(struct Aviao aviao[], int cont) {
 	char codigo[8];
 	int flag, i;
 	do {
 		flag = 0;
-		printf("| Código de Identificação: ");
+		printf("\n| Código de Identificação: ");
 		fflush(stdin);
 		fgets(codigo,8,stdin);
 		
@@ -1238,4 +1239,73 @@ void validaCodigo(struct Aviao aviao[], int cont) {
 			printf("\ncodigo do aviao : %s", aviao[cont].codigo);
 		}
 	} while(flag >= 1);
+}
+
+
+void exclusaoAviao(struct Aviao aviao[], struct PistaTeste teste){
+	int retornoFuncao, i, posicao,resp,opcao;
+	char codigo[7], excluir;
+
+	do{
+	
+		system ("cls");
+		printf ("informe seu codigo de indentificação : ");
+		fflush(stdin);
+		fgets(codigo,8,stdin);
+
+		system ("cls");
+		for(i= 0;i<MAX;i++){
+			if (stricmp(aviao[i].codigo,codigo) == 0) {
+
+				textcolor(10);
+				printf ("\t\tCODIGO VALIDO...\n\n");
+				system ("pause");
+				system ("cls");
+
+				printf ("|MODELDO AVIAO: %s\n",aviao[i].modelo);
+				printf ("---------------------------|\n");
+				printf ("|NOME DO CLIENTE : %s\n",aviao[i].nomeCliente);
+				printf ("---------------------------|\n");
+				printf ("|PAIS DO CLIENTE : %s\n",aviao[i].paisOrigCliente);
+				printf ("---------------------------|\n");
+				printf ("|CAPACIDADE DO AVIAO : %d\n",aviao[i].capacidade);
+				printf ("---------------------------|\n");
+				printf ("|CODIGO: %s",aviao[i].codigo);
+				printf ("---------------------------|\n\n\n");
+				system ("pause");
+				printf("Deseja realmente EXCLUIR? [S/N]");
+				scanf(" %c", &excluir);
+				
+				while(excluir !='S' && excluir !='N'){
+					printf("Caracter inválido, digite novamente [S/N]");
+					scanf(" %c", &excluir);
+				}
+				if(excluir == 'S'){
+					aviao[i].codigo[0] = '\0';
+					aviao[i].modelo[0] = '\0';
+					aviao[i].nomeCliente[0] = '\0';
+					aviao[i].paisOrigCliente[0] = '\0';
+					aviao[i].capacidade = 0;
+					printf("exclusão bem sucedida!");
+					system("pause");
+				}	
+				break;		
+			}else{
+				
+				system ("cls");
+				printf ("CODIGO INVALIDO\nTENTE NOVAMENTE\n\n");	
+			}
+		}
+		system("cls");
+			gotoxy(5, 3);
+		printf ("\n\nDeseja continuar ?\nComtinuar [0]-Parar [1]\n\n");
+		scanf ("%i",&resp);
+		system ("pause");
+		if (resp == 1){
+
+			opcao = 4;
+		}
+
+
+	} while(resp == 0);
 }

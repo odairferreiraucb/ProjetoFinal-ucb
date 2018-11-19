@@ -1242,8 +1242,8 @@ void validaCodigo(struct Aviao aviao[], int cont) {
 }
 
 
-void exclusaoAviao(struct Aviao aviao[], struct PistaTeste teste){
-	int retornoFuncao, i, posicao,resp,opcao;
+void exclusaoAviao(struct Aviao aviao[], struct Testes teste){
+	int retornoFuncao, i, j, posicao,resp,opcao, flag=0;
 	char codigo[7], excluir;
 
 	do{
@@ -1256,25 +1256,33 @@ void exclusaoAviao(struct Aviao aviao[], struct PistaTeste teste){
 		system ("cls");
 		for(i= 0;i<MAX;i++){
 			if (stricmp(aviao[i].codigo,codigo) == 0) {
-
-				textcolor(10);
-				printf ("\t\tCODIGO VALIDO...\n\n");
-				system ("pause");
-				system ("cls");
-
-				printf ("|MODELDO AVIAO: %s\n",aviao[i].modelo);
-				printf ("---------------------------|\n");
-				printf ("|NOME DO CLIENTE : %s\n",aviao[i].nomeCliente);
-				printf ("---------------------------|\n");
-				printf ("|PAIS DO CLIENTE : %s\n",aviao[i].paisOrigCliente);
-				printf ("---------------------------|\n");
-				printf ("|CAPACIDADE DO AVIAO : %d\n",aviao[i].capacidade);
-				printf ("---------------------------|\n");
-				printf ("|CODIGO: %s",aviao[i].codigo);
-				printf ("---------------------------|\n\n\n");
-				system ("pause");
-				printf("Deseja realmente EXCLUIR? [S/N]");
-				scanf(" %c", &excluir);
+				for(j= 0;j<MAX;j++){
+					if(stricmp(aviao[i].codigo,teste.idAviao) == 0){
+						printf("Este avião já tem um registro de teste\n não é possível excluí-lo!");
+						system("pause");
+						flag++;
+						break;
+					}
+				}
+				if(flag != 0){
+					textcolor(10);
+					printf ("\t\tCODIGO VALIDO...\n\n");
+					system ("pause");
+					system ("cls");
+	
+					printf ("|MODELDO AVIAO: %s\n",aviao[i].modelo);
+					printf ("---------------------------|\n");
+					printf ("|NOME DO CLIENTE : %s\n",aviao[i].nomeCliente);
+					printf ("---------------------------|\n");
+					printf ("|PAIS DO CLIENTE : %s\n",aviao[i].paisOrigCliente);
+					printf ("---------------------------|\n");
+					printf ("|CAPACIDADE DO AVIAO : %d\n",aviao[i].capacidade);
+					printf ("---------------------------|\n");
+					printf ("|CODIGO: %s",aviao[i].codigo);
+					printf ("---------------------------|\n\n\n");
+					system ("pause");
+					printf("Deseja realmente EXCLUIR? [S/N]");
+					scanf(" %c", &excluir);
 				
 				while(excluir !='S' && excluir !='N'){
 					printf("Caracter inválido, digite novamente [S/N]");
@@ -1288,8 +1296,9 @@ void exclusaoAviao(struct Aviao aviao[], struct PistaTeste teste){
 					aviao[i].capacidade = 0;
 					printf("exclusão bem sucedida!");
 					system("pause");
-				}	
-				break;		
+					}	
+				break;	
+				}		
 			}else{
 				
 				system ("cls");

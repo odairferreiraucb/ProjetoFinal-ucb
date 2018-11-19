@@ -60,20 +60,27 @@ struct PistaTeste pistaTeste;
 struct Testes testes;
 
 //prototipos das funções
+//principal
+int mostrarMenuPrimcipal();
+//avião 
+int mostraMenuAviao ();
 int inclusaoAviao(struct Aviao aviao, int cont,FILE *arq);
 int alteracaoAviao(struct Aviao aviao);
-int inclusaoPista (struct PistaTeste pistaTeste ,int codigoSeguemcial, int *pcont);
-int mostraMenuAviao ();
-int mostraMenuPista ();
-int mostrarMenuTeste ();
 int mostrarAlteracaoAviao();
-int mostrarMenuPrimcipal();
+void exclusaoAviao(struct Aviao aviao, struct Testes testes);
+//pista
+int mostraMenuPista ();
+int inclusaoPista (struct PistaTeste pistaTeste ,int codigoSeguemcial, int *pcont,FILE *arqP);
+void exclusaoTeste(struct Testes testes);
+//teste
+int mostrarMenuTeste ();
+//consulta
 int mostraMenuConsulta ();
 void mostrarConsultaAviao (struct Aviao aviao,char cod[],FILE *arq);
-void mostrarConsultaPista (struct PistaTeste pistaTeste,int i );
-void exclusaoAviao(struct Aviao aviao, struct Testes testes);
+void mostrarConsultaPista (struct PistaTeste pistaTeste,int codigoS ,FILE *arqP);
+
 struct Aviao validaCodigo(struct Aviao aviao);
-void exclusaoTeste(struct Testes testes);
+
 
 // "CONT" É PARA A STRUCT DE AVIAO, CONT2 PARA PISTAS
 int main(void) {
@@ -83,8 +90,9 @@ char tecla,codigo[7];
 int i, opcao;
 char agora[1000],data[100];
 FILE *arq;
+FILE *arqP;
 arq=fopen ("structAviao.txt","r+b");
-
+arqP=fopen ("structPista.txt","r+b");
 setlocale(LC_ALL, "");
 int tempo = clock(); //começa a contar o tempo
 while(clock() - tempo < 3000) { //enquanto não se passaram 5segundos
@@ -183,7 +191,7 @@ textbackground(0);
 			do {
 
 				system("cls");
-				codigoSeguemcial = inclusaoPista (pistaTeste,codigoSeguemcial,&cont2);
+			codigoSeguemcial = inclusaoPista (pistaTeste,codigoSeguemcial,&cont2,arqP);
 				
 				do{
 								
@@ -358,9 +366,9 @@ textbackground(0);
 					printf ("Informe o codigo seguemcial: ");
 					scanf ("%i",&codigoS);
 			
-					 for (i=0;i<MAX;i++){
-					 	if(codigoS == pistaTeste.codSequencial){
-					 		  mostrarConsultaPista (pistaTeste,i );
+					
+					 		  mostrarConsultaPista (pistaTeste,codigoS,arqP );
+					 		 		fseek(arqP,0,SEEK_SET);
 					 		 	
 					 			do{
 								
@@ -373,23 +381,9 @@ textbackground(0);
 									opcao=4;
 	
 								}
-						 }
+						 
 					 	
-					 } if(codigoS != pistaTeste.codSequencial){
-							
-							system ("cls");
-							textcolor(12);
-								printf ("CODIGO INVALIDO\nTENTE NOVAMENTE\n\n");	
-					 				printf ("\n\nDeseja continuar ?\nComtinuar [0]-Parar [1]\n\n");
-								scanf ("%i",&resp);
-								system ("pause");
-								if (resp == 1) {
-	
-									opcao=4;
-	
-								}
-						}
-							
+			
 			
 				} else if (resp == 3) {
 					opcao=4;
@@ -398,6 +392,7 @@ textbackground(0);
 			}while (resp==0);
 			}
 		}while(opcao == 4);
+		fclose(arqP);
 fclose(arq);
 		return 0 ;
 	}
@@ -420,16 +415,21 @@ void mostrarConsultaAviao (struct Aviao aviao,char cod[],FILE *arq ){
 		}
 
 }
-void mostrarConsultaPista (struct PistaTeste pistaTeste,int i ){
+void mostrarConsultaPista (struct PistaTeste pistaTeste,int codigoS ,FILE *arqP){
+	 fseek(arqP,0,SEEK_SET);
 	system("cls");
 		setlocale(LC_ALL, "C");
+		
+		while (fread(&pistaTeste,sizeof(pistaTeste),1,arqP)){
+			if (codigoS == pistaTeste.codSequencial){
 							printf ("|Codico seguencial de indentificação : %i\n ",pistaTeste.codSequencial);
 							printf ("|Endereço da pista : %s \n",pistaTeste.enderecoPista);
 							printf ("|Tamanho da pista  : %f \n",pistaTeste.tamanhoCircuito);
 							printf ("|UF da pista : %s \n",pistaTeste.uf);
 							printf ("|Velocidade maxima da pista : %i \n",pistaTeste.velocidadeMax);
-							system ("pause");
-
+							getch();
+						}
+				}
 }
 int mostraMenuConsulta () {
 
@@ -892,7 +892,12 @@ int mostraMenuAviao () {
 	return opcao;
 }
 
-int inclusaoPista (struct PistaTeste pistaTeste,int codigoSeguemcial, int *pcont) {
+int  inclusaoPista (struct PistaTeste pistaTeste,int codigoSeguemcial, int *pcont,FILE *arqP) {
+	arqP=fopen ("structPista.txt","ab");
+	if (arqP== NULL){
+	printf ("Erro na abertura..");
+	exit (1);
+}
 	int cont;
 	cont = *pcont;
 	textcolor(7);
@@ -919,7 +924,8 @@ int inclusaoPista (struct PistaTeste pistaTeste,int codigoSeguemcial, int *pcont
 	printf ("%i",pistaTeste.codSequencial);
 	cont++;
 	*pcont = cont;
-	
+	fwrite (&pistaTeste,sizeof (pistaTeste),1,arqP);
+	fclose(arqP);
 	return codigoSeguemcial;
 }
 

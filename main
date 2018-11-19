@@ -71,7 +71,7 @@ int mostrarMenuPrimcipal();
 int mostraMenuConsulta ();
 void mostrarConsultaAviao (struct Aviao aviao[],int i );
 void mostrarConsultaPista (struct PistaTeste pistaTeste[],int i );
-void exclusaoAviao(struct Aviao aviao[], struct Testes teste);
+void exclusaoAviao(struct Aviao aviao[], struct Testes testes[]);
 void validaCodigo(struct Aviao aviao[], int cont);
 void exclusaoTeste(struct Testes testes[]);
 
@@ -109,6 +109,7 @@ while(clock() - tempo < 3000) { //enquanto não se passaram 5segundos
 codigoSeguemcial = 1000 ;
 
 do {
+	
 textbackground(0);
 	opcao = mostrarMenuPrimcipal ();
 	if (tecla == 27)
@@ -150,6 +151,21 @@ textbackground(0);
 			if (resp == 6) {
 				opcao=4;
 			}
+		}else if (opcao == 3 ){
+			do{
+			
+			exclusaoAviao(aviao,testes);
+			
+					do{
+								
+					printf ("\n\nDeseja continuar ?\nComtinuar [0]-Parar [1]\n\n");
+					scanf ("%i",&resp);
+				}while (resp != 0 & resp !=1 );
+				
+				if (resp == 1) {
+					opcao = 4;
+				}
+			} while (resp == 0);
 		}
 
 	} else if (opcao == 2) {
@@ -157,7 +173,7 @@ textbackground(0);
 		textcolor(7);
 		textbackground(0);
 		gotoxy(5, 3);
-		opcao =	mostraMenuPista();
+	opcao =	mostraMenuPista();
 
 		if (opcao == 3) {
 			opcao = 4;
@@ -216,8 +232,8 @@ textbackground(0);
 					 			textcolor(10);
 					 		  	printf ("CODIGO[%i] VALIDO .....\n\n",pistaTeste[i].codSequencial);
 					 		 	textcolor(7);
-					 		 		time_t agora;
-					 		 	_strdate(agora);
+					 		 //		time_t agora;
+					 		 //	_strdate(agora);
 					 		 
 					 		 
 					 	//	testes[i].data = agora;
@@ -274,8 +290,24 @@ textbackground(0);
 						}
 					
 		}while(resp==0);
-			
-		}else if  (resp == 4) {
+}else if (resp == 3){
+		textcolor(7);
+		textbackground(0);
+	do{
+	system("cls");
+	gotoxy(5, 3);
+	exclusaoTeste( testes);
+	do{							
+		printf ("\n\nDeseja continuar ?\nComtinuar [0]-Parar [1]\n\n");
+		scanf ("%i",&resp);
+	}while (resp != 0 & resp !=1 );
+			system ("pause");
+		if (resp == 1) {
+	
+			opcao=4;
+		}
+}while(resp ==0);
+	}else if  (resp == 4) {
 			opcao=4;
 		}
 
@@ -1244,7 +1276,7 @@ void validaCodigo(struct Aviao aviao[], int cont) {
 }
 
 
-void exclusaoAviao(struct Aviao aviao[], struct Testes teste){
+void exclusaoAviao(struct Aviao aviao[], struct Testes testes[]){
 	int retornoFuncao, i, j, posicao,resp,opcao, flag=0;
 	char codigo[7], excluir;
 
@@ -1259,7 +1291,7 @@ void exclusaoAviao(struct Aviao aviao[], struct Testes teste){
 		for(i= 0;i<MAX;i++){
 			if (stricmp(aviao[i].codigo,codigo) == 0) {
 				for(j= 0;j<MAX;j++){
-					if(stricmp(aviao[i].codigo,teste.idAviao) == 0){
+					if(stricmp(aviao[i].codigo,testes[i].idAviao) == 0){
 						printf("Este avião já tem um registro de teste\n não é possível excluí-lo!");
 						system("pause");
 						flag++;
@@ -1307,20 +1339,16 @@ void exclusaoAviao(struct Aviao aviao[], struct Testes teste){
 				printf ("CODIGO INVALIDO\nTENTE NOVAMENTE\n\n");	
 			}
 		}
-		system("cls");
-			gotoxy(5, 3);
-		printf ("\n\nDeseja continuar ?\nComtinuar [0]-Parar [1]\n\n");
-		scanf ("%i",&resp);
-		system ("pause");
-		if (resp == 1){
-
-			opcao = 4;
-		}
+	
 
 
 	} while(resp == 0);
 }
 
 void exclusaoTeste(struct Testes testes[]){
+		textbackground(0); // Define cor de fundo
+
+		
+
 	system("pause");
 }

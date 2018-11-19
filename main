@@ -55,25 +55,25 @@ struct Testes {
 };
 
 // declarando as structs
-struct Aviao aviao[MAX];
-struct PistaTeste pistaTeste[MAX];
-struct Testes testes[MAX];
+struct Aviao aviao;
+struct PistaTeste pistaTeste;
+struct Testes testes;
 
 //prototipos das funções
-int inclusaoAviao(struct Aviao aviao[], int cont);
-int alteracaoAviao(struct Aviao aviao[]);
-int inclusaoPista (struct PistaTeste pistaTeste[] ,int codigoSeguemcial, int *pcont);
+int inclusaoAviao(struct Aviao aviao, int cont);
+int alteracaoAviao(struct Aviao aviao);
+int inclusaoPista (struct PistaTeste pistaTeste ,int codigoSeguemcial, int *pcont);
 int mostraMenuAviao ();
 int mostraMenuPista ();
 int mostrarMenuTeste ();
 int mostrarAlteracaoAviao();
 int mostrarMenuPrimcipal();
 int mostraMenuConsulta ();
-void mostrarConsultaAviao (struct Aviao aviao[],int i );
-void mostrarConsultaPista (struct PistaTeste pistaTeste[],int i );
-void exclusaoAviao(struct Aviao aviao[], struct Testes testes[]);
-void validaCodigo(struct Aviao aviao[], int cont);
-void exclusaoTeste(struct Testes testes[]);
+void mostrarConsultaAviao (struct Aviao aviao,int i );
+void mostrarConsultaPista (struct PistaTeste pistaTeste,int i );
+void exclusaoAviao(struct Aviao aviao, struct Testes testes);
+void validaCodigo(struct Aviao aviao, int cont);
+void exclusaoTeste(struct Testes testes);
 
 // "CONT" É PARA A STRUCT DE AVIAO, CONT2 PARA PISTAS
 int main(void) {
@@ -212,9 +212,9 @@ textbackground(0);
 					fgets(codigo,8,stdin);
 			
 					 for (i=0;i<MAX;i++){
-					 	if(stricmp(codigo,aviao[i].codigo) == 0){
+					 	if(stricmp(codigo,aviao.codigo) == 0){
 					 			textcolor(10);
-					 				printf ("CODIGO[%s] VALIDO .....\n\n",aviao[i].codigo);
+					 				printf ("CODIGO[%s] VALIDO .....\n\n",aviao.codigo);
 								textcolor(7);
 								system ("pause");
 					  do{
@@ -228,9 +228,9 @@ textbackground(0);
 					scanf ("%i",&codigoS);
 			
 					 for (i=0;i<MAX;i++){
-					 	if(codigoS == pistaTeste[i].codSequencial){
+					 	if(codigoS == pistaTeste.codSequencial){
 					 			textcolor(10);
-					 		  	printf ("CODIGO[%i] VALIDO .....\n\n",pistaTeste[i].codSequencial);
+					 		  	printf ("CODIGO[%i] VALIDO .....\n\n",pistaTeste.codSequencial);
 					 		 	textcolor(7);
 					 		 //		time_t agora;
 					 		 //	_strdate(agora);
@@ -251,7 +251,7 @@ textbackground(0);
 								}
 						 }
 				//	
-					 } if(codigoS != pistaTeste[i].codSequencial){
+					 } if(codigoS != pistaTeste.codSequencial){
 							
 							system ("cls");
 							textcolor(12);
@@ -271,7 +271,7 @@ textbackground(0);
 					 		
 						 }
 					 	
-					 } if(stricmp(codigo,aviao[i].codigo) != 0){
+					 } if(stricmp(codigo,aviao.codigo) != 0){
 							
 							system ("cls");
 							textcolor(12);
@@ -335,7 +335,7 @@ textbackground(0);
 					fgets(codigo,8,stdin);
 			
 					 for (i=0;i<MAX;i++){
-					 	if(stricmp(codigo,aviao[i].codigo) == 0){
+					 	if(stricmp(codigo,aviao.codigo) == 0){
 					 		 mostrarConsultaAviao (aviao,i);
 					 		 
 					 			do{
@@ -351,7 +351,7 @@ textbackground(0);
 								}
 						 }
 					 	
-					 } if(stricmp(codigo,aviao[i].codigo) != 0){
+					 } if(stricmp(codigo,aviao.codigo) != 0){
 							
 							system ("cls");
 							textcolor(12);
@@ -380,7 +380,7 @@ textbackground(0);
 					scanf ("%i",&codigoS);
 			
 					 for (i=0;i<MAX;i++){
-					 	if(codigoS == pistaTeste[i].codSequencial){
+					 	if(codigoS == pistaTeste.codSequencial){
 					 		  mostrarConsultaPista (pistaTeste,i );
 					 		 	
 					 			do{
@@ -396,7 +396,7 @@ textbackground(0);
 								}
 						 }
 					 	
-					 } if(codigoS != pistaTeste[i].codSequencial){
+					 } if(codigoS != pistaTeste.codSequencial){
 							
 							system ("cls");
 							textcolor(12);
@@ -423,25 +423,25 @@ textbackground(0);
 		return 0 ;
 	}
 
-void mostrarConsultaAviao (struct Aviao aviao[],int i ){
+void mostrarConsultaAviao (struct Aviao aviao,int i ){
 	system("cls");
 		setlocale(LC_ALL, "C");
-		printf ("|Codico de indentificação : %s\n ",aviao[i].codigo);
-							printf ("|Modelo do avião : %s \n",aviao[i].modelo);
-							printf ("|Capacidade do avião : %i \n",aviao[i].capacidade);
-							printf ("|Nome do cliente : %s \n",aviao[i].nomeCliente);
-							printf ("|Pais de origem do cliente : %s \n",aviao[i].paisOrigCliente);
+		printf ("|Codico de indentificação : %s\n ",aviao.codigo);
+							printf ("|Modelo do avião : %s \n",aviao.modelo);
+							printf ("|Capacidade do avião : %i \n",aviao.capacidade);
+							printf ("|Nome do cliente : %s \n",aviao.nomeCliente);
+							printf ("|Pais de origem do cliente : %s \n",aviao.paisOrigCliente);
 							system ("pause");
 
 }
-void mostrarConsultaPista (struct PistaTeste pistaTeste[],int i ){
+void mostrarConsultaPista (struct PistaTeste pistaTeste,int i ){
 	system("cls");
 		setlocale(LC_ALL, "C");
-							printf ("|Codico seguencial de indentificação : %i\n ",pistaTeste[i].codSequencial);
-							printf ("|Endereço da pista : %s \n",pistaTeste[i].enderecoPista);
-							printf ("|Tamanho da pista  : %f \n",pistaTeste[i].tamanhoCircuito);
-							printf ("|UF da pista : %s \n",pistaTeste[i].uf);
-							printf ("|Velocidade maxima da pista : %i \n",pistaTeste[i].velocidadeMax);
+							printf ("|Codico seguencial de indentificação : %i\n ",pistaTeste.codSequencial);
+							printf ("|Endereço da pista : %s \n",pistaTeste.enderecoPista);
+							printf ("|Tamanho da pista  : %f \n",pistaTeste.tamanhoCircuito);
+							printf ("|UF da pista : %s \n",pistaTeste.uf);
+							printf ("|Velocidade maxima da pista : %i \n",pistaTeste.velocidadeMax);
 							system ("pause");
 
 }
@@ -906,7 +906,7 @@ int mostraMenuAviao () {
 	return opcao;
 }
 
-int inclusaoPista (struct PistaTeste pistaTeste[],int codigoSeguemcial, int *pcont) {
+int inclusaoPista (struct PistaTeste pistaTeste,int codigoSeguemcial, int *pcont) {
 	int cont;
 	cont = *pcont;
 	textcolor(7);
@@ -916,21 +916,21 @@ int inclusaoPista (struct PistaTeste pistaTeste[],int codigoSeguemcial, int *pco
 	printf ("\t\t<< I N C L U S A O  P I S T A >>>\n");
 	printf ("|ENDEREÇO :\n");
 	fflush(stdin);
-	fgets (pistaTeste[cont].enderecoPista,128,stdin);
+	fgets (pistaTeste.enderecoPista,128,stdin);
 	printf ("|UF da pista:\n");
-	fgets (pistaTeste[cont].uf,2,stdin);
+	fgets (pistaTeste.uf,2,stdin);
 	fflush(stdin);
 	do {
 		printf ("|Tamanho do circuito (km) :");
-		scanf ("%f",&pistaTeste[cont].tamanhoCircuito);
-	} while (pistaTeste[cont].tamanhoCircuito < 0);
+		scanf ("%f",&pistaTeste.tamanhoCircuito);
+	} while (pistaTeste.tamanhoCircuito < 0);
 	printf ("|Velocidade maxima :\n");
-	scanf ("%i",&pistaTeste[cont].velocidadeMax);
+	scanf ("%i",&pistaTeste.velocidadeMax);
 
 	codigoSeguemcial =  codigoSeguemcial + 1;
-	pistaTeste[cont].codSequencial = codigoSeguemcial;
+	pistaTeste.codSequencial = codigoSeguemcial;
 	printf ("O seu codico seguemcial e:\n ");
-	printf ("%i",pistaTeste[cont].codSequencial);
+	printf ("%i",pistaTeste.codSequencial);
 	cont++;
 	*pcont = cont;
 	
@@ -939,9 +939,13 @@ int inclusaoPista (struct PistaTeste pistaTeste[],int codigoSeguemcial, int *pco
 
 
 
-int inclusaoAviao(struct Aviao aviao[],int cont) {
-
-
+int inclusaoAviao(struct Aviao aviao,int cont) {
+	FILE *arq;
+	arq=fopen ("structAviao.txt","ab");
+	if (arq== NULL){
+	printf ("Erro na abertura..");
+	exit (1);
+}
 	printf("\t\tINCLUSAO DE AVIAO");
 	printf("\n\n");
 
@@ -950,45 +954,48 @@ int inclusaoAviao(struct Aviao aviao[],int cont) {
 	printf("\n");
 	printf("|Digite o modelo do aviao:");
 	fflush(stdin);
-	fgets(aviao[cont].modelo,11,stdin);
-	while(aviao[cont].modelo[0] == '\n') {
+	fgets(aviao.modelo,11,stdin);
+	while(aviao.modelo[0] == '\n') {
 		printf("|Modelo invalido, digite novamente:");
 		fflush(stdin);
-		fgets(aviao[cont].modelo,11,stdin);
+		fgets(aviao.modelo,11,stdin);
 	}
 	
-	printf("|Modelo do aviao: %s", aviao[cont].modelo);//
-	printf("|codigo do aviao: %s", aviao[cont].codigo);//
+	printf("|Modelo do aviao: %s", aviao.modelo);//
+	printf("|codigo do aviao: %s", aviao.codigo);//
 
 
 	printf("\n");
 	printf("|Digite a capacidade de passageiros do aviao: ");
-	scanf("%d", &aviao[cont].capacidade);
-	while(aviao[cont].capacidade <= 0) {
+	scanf("%d", &aviao.capacidade);
+	while(aviao.capacidade <= 0) {
 		printf("|capacidade inválida, digite novamente:");
-		scanf("%d", &aviao[cont].capacidade);
+		scanf("%d", &aviao.capacidade);
 	}
-	printf("|Capacidade do aviao: %d passageiros",aviao[cont].capacidade);//
+	printf("|Capacidade do aviao: %d passageiros",aviao.capacidade);//
 
 
 	printf("\n");
 	printf("|Digite o nome do cliente: ");
 	fflush(stdin);
-	fgets(aviao[cont].nomeCliente,64,stdin);
-	while(aviao[cont].nomeCliente[0] == '\n') {
+	fgets(aviao.nomeCliente,64,stdin);
+	while(aviao.nomeCliente[0] == '\n') {
 		printf("|Nome inválido, digite novamente:");
 		fflush(stdin);
-		fgets(aviao[cont].nomeCliente,64,stdin);
+		fgets(aviao.nomeCliente,64,stdin);
 	}
-	printf("|Nome do cliente : %s", aviao[cont].nomeCliente);//
+	printf("|Nome do cliente : %s", aviao.nomeCliente);//
 
 
 	printf("\n");
 	printf("|Digite o país de origem do cliente: ");
 	fflush(stdin);
-	fgets(aviao[cont].paisOrigCliente,32,stdin);
-	printf("|País do cliente : %s", aviao[cont].paisOrigCliente);	//
+	fgets(aviao.paisOrigCliente,32,stdin);
+	printf("|País do cliente : %s", aviao.paisOrigCliente);	//
 	
+	
+	fwrite (&aviao,sizeof (aviao),1,arq);
+	fclose(arq);
 	cont ++;			
 	
 	return cont;
@@ -1101,7 +1108,7 @@ int mostrarAlteracaoAviao() {
 
 	return opcao;
 }
-int alteracaoAviao(struct Aviao aviao[]) {
+int alteracaoAviao(struct Aviao aviao) {
 	int retornoFuncao, i, posicao,resp,opcao;
 	char codigo[7], modelo[10], nome[64];
 	do {
@@ -1113,22 +1120,22 @@ int alteracaoAviao(struct Aviao aviao[]) {
 
 		system ("cls");
 		for(i= 0;i<MAX;i++){
-			if (stricmp(aviao[i].codigo,codigo) == 0) {
+			if (stricmp(aviao.codigo,codigo) == 0) {
 
 				textcolor(10);
 				printf ("\t\tCODIGO VALIDO...\n\n");
 				system ("pause");
 				system ("cls");
 
-				printf ("|MODELDO AVIAO: %s\n",aviao[i].modelo);
+				printf ("|MODELDO AVIAO: %s\n",aviao.modelo);
 				printf ("---------------------------|\n");
-				printf ("|NOME DO CLIENTE : %s\n",aviao[i].nomeCliente);
+				printf ("|NOME DO CLIENTE : %s\n",aviao.nomeCliente);
 				printf ("---------------------------|\n");
-				printf ("|PAIS DO CLIENTE : %s\n",aviao[i].paisOrigCliente);
+				printf ("|PAIS DO CLIENTE : %s\n",aviao.paisOrigCliente);
 				printf ("---------------------------|\n");
-				printf ("|CAPACIDADE DO AVIAO : %d\n",aviao[i].capacidade);
+				printf ("|CAPACIDADE DO AVIAO : %d\n",aviao.capacidade);
 				printf ("---------------------------|\n");
-				printf ("|CODIGO: %s",aviao[i].codigo);
+				printf ("|CODIGO: %s",aviao.codigo);
 				printf ("---------------------------|\n\n\n");
 				system ("pause");
 				
@@ -1172,7 +1179,7 @@ int alteracaoAviao(struct Aviao aviao[]) {
 				fflush(stdin);
 				fgets(modelo,10,stdin);
 			}
-			strcpy(aviao[i].modelo,modelo);
+			strcpy(aviao.modelo,modelo);
 
 
 		case 3:
@@ -1180,10 +1187,10 @@ int alteracaoAviao(struct Aviao aviao[]) {
 
 			printf("Inserimento de uma nova capacidade do avião:");
 			printf("\nInsira aqui: ");
-			scanf("%d", &aviao[i].capacidade);
-			while(aviao[i].capacidade <=0) {
+			scanf("%d", &aviao.capacidade);
+			while(aviao.capacidade <=0) {
 				printf("Capacidade inválida, digite novamente: ");
-				scanf("%d", &aviao[i].capacidade);
+				scanf("%d", &aviao.capacidade);
 			}
 
 
@@ -1199,7 +1206,7 @@ int alteracaoAviao(struct Aviao aviao[]) {
 				fflush(stdin);
 				fgets(nome,64,stdin);
 			}
-			strcpy(aviao[i].nomeCliente,nome);
+			strcpy(aviao.nomeCliente,nome);
 
 
 		case 5:
@@ -1210,10 +1217,10 @@ int alteracaoAviao(struct Aviao aviao[]) {
 	return opcao;
 }
 
-
-void validaCodigo(struct Aviao aviao[], int cont) {
+void validaCodigo(struct Aviao aviao, int cont) {
 	char codigo[8];
 	int flag, i;
+//	arq = fopen ("structAviao","r");
 	do {
 		flag = 0;
 		printf("\n| Código de Identificação: ");
@@ -1261,22 +1268,24 @@ void validaCodigo(struct Aviao aviao[], int cont) {
 			printf("codigo invalido, verifique e tente novamente: ");
 			flag++;
 		}
-		for(i=0; i<MAX; i++) {
-			if(stricmp(codigo,aviao[i].codigo) == 0) {
-				printf("codigo já registrado, digite outro codigo");
-				flag++;
-			}
-		}
+//		while (fread(&aviao, sizeof(aviao), 1, arq){
+//			if (strcmp(aviao.codigo==codigo){
+//			
+//				printf("codigo já registrado, digite outro codigo");
+//				flag++;
+//			}
+//		}
+		
 		if(flag == 0) {
 			printf("codigo registrado com sucesso");
-			strcpy(aviao[cont].codigo,codigo);
-			printf("\ncodigo do aviao : %s", aviao[cont].codigo);
+			strcpy(aviao.codigo,codigo);
+			printf("\ncodigo do aviao : %s", aviao.codigo);
 		}
 	} while(flag >= 1);
 }
 
 
-void exclusaoAviao(struct Aviao aviao[], struct Testes testes[]){
+void exclusaoAviao(struct Aviao aviao, struct Testes testes){
 	int retornoFuncao, i, j, posicao,resp,opcao, flag=0;
 	char codigo[7], excluir;
 
@@ -1289,9 +1298,9 @@ void exclusaoAviao(struct Aviao aviao[], struct Testes testes[]){
 
 		system ("cls");
 		for(i= 0;i<MAX;i++){
-			if (stricmp(aviao[i].codigo,codigo) == 0) {
+			if (stricmp(aviao.codigo,codigo) == 0) {
 				for(j= 0;j<MAX;j++){
-					if(stricmp(aviao[i].codigo,testes[i].idAviao) == 0){
+					if(stricmp(aviao.codigo,testes.idAviao) == 0){
 						printf("Este avião já tem um registro de teste\n não é possível excluí-lo!");
 						system("pause");
 						flag++;
@@ -1304,15 +1313,15 @@ void exclusaoAviao(struct Aviao aviao[], struct Testes testes[]){
 					system ("pause");
 					system ("cls");
 	
-					printf ("|MODELDO AVIAO: %s\n",aviao[i].modelo);
+					printf ("|MODELDO AVIAO: %s\n",aviao.modelo);
 					printf ("---------------------------|\n");
-					printf ("|NOME DO CLIENTE : %s\n",aviao[i].nomeCliente);
+					printf ("|NOME DO CLIENTE : %s\n",aviao.nomeCliente);
 					printf ("---------------------------|\n");
-					printf ("|PAIS DO CLIENTE : %s\n",aviao[i].paisOrigCliente);
+					printf ("|PAIS DO CLIENTE : %s\n",aviao.paisOrigCliente);
 					printf ("---------------------------|\n");
-					printf ("|CAPACIDADE DO AVIAO : %d\n",aviao[i].capacidade);
+					printf ("|CAPACIDADE DO AVIAO : %d\n",aviao.capacidade);
 					printf ("---------------------------|\n");
-					printf ("|CODIGO: %s",aviao[i].codigo);
+					printf ("|CODIGO: %s",aviao.codigo);
 					printf ("---------------------------|\n\n\n");
 					system ("pause");
 					printf("Deseja realmente EXCLUIR? [S/N]");
@@ -1323,11 +1332,11 @@ void exclusaoAviao(struct Aviao aviao[], struct Testes testes[]){
 					scanf(" %c", &excluir);
 				}
 				if(excluir == 'S'){
-					aviao[i].codigo[0] = '\0';
-					aviao[i].modelo[0] = '\0';
-					aviao[i].nomeCliente[0] = '\0';
-					aviao[i].paisOrigCliente[0] = '\0';
-					aviao[i].capacidade = 0;
+					aviao.codigo[0] = '\0';
+					aviao.modelo[0] = '\0';
+					aviao.nomeCliente[0] = '\0';
+					aviao.paisOrigCliente[0] = '\0';
+					aviao.capacidade = 0;
 					printf("exclusão bem sucedida!");
 					system("pause");
 					}	
@@ -1345,7 +1354,7 @@ void exclusaoAviao(struct Aviao aviao[], struct Testes testes[]){
 	} while(resp == 0);
 }
 
-void exclusaoTeste(struct Testes testes[]){
+void exclusaoTeste(struct Testes testes){
 		textbackground(0); // Define cor de fundo
 
 		

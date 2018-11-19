@@ -167,7 +167,7 @@ textbackground(0);
 				codigoSeguemcial = inclusaoPista (pistaTeste,codigoSeguemcial,&cont2);
 				
 				do{
-								
+					 			
 					printf ("\n\nDeseja continuar ?\nComtinuar [0]-Parar [1]\n\n");
 					scanf ("%i",&resp);
 				}while (resp != 0 & resp !=1 );

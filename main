@@ -60,7 +60,7 @@ struct PistaTeste pistaTeste;
 struct Testes testes;
 
 //prototipos das funções
-int inclusaoAviao(struct Aviao aviao, int cont);
+int inclusaoAviao(struct Aviao aviao, int cont,FILE *arq);
 int alteracaoAviao(struct Aviao aviao);
 int inclusaoPista (struct PistaTeste pistaTeste ,int codigoSeguemcial, int *pcont);
 int mostraMenuAviao ();
@@ -69,10 +69,10 @@ int mostrarMenuTeste ();
 int mostrarAlteracaoAviao();
 int mostrarMenuPrimcipal();
 int mostraMenuConsulta ();
-void mostrarConsultaAviao (struct Aviao aviao,int i );
+void mostrarConsultaAviao (struct Aviao aviao,char cod[],FILE *arq);
 void mostrarConsultaPista (struct PistaTeste pistaTeste,int i );
 void exclusaoAviao(struct Aviao aviao, struct Testes testes);
-void validaCodigo(struct Aviao aviao, int cont);
+struct Aviao validaCodigo(struct Aviao aviao);
 void exclusaoTeste(struct Testes testes);
 
 // "CONT" É PARA A STRUCT DE AVIAO, CONT2 PARA PISTAS
@@ -82,7 +82,8 @@ int codigoSeguemcial;
 char tecla,codigo[7];
 int i, opcao;
 char agora[1000],data[100];
-
+FILE *arq;
+arq=fopen ("structAviao.txt","r+b");
 
 setlocale(LC_ALL, "");
 int tempo = clock(); //começa a contar o tempo
@@ -128,7 +129,7 @@ textbackground(0);
 		if (opcao == 1) {
 			do {
 				system("cls");
-				cont = inclusaoAviao(aviao, cont);
+				cont = inclusaoAviao(aviao, cont,arq);
 				printf("%d", cont);
 				getch();
 				printf ("Deseja continuar ?\nComtinuar [0]-Parar [1]");
@@ -324,55 +325,33 @@ textbackground(0);
 		textbackground(0);
 			do{
 			
+			
 				system("cls");
 				resp = mostraMenuConsulta ();
 			
 				if (resp == 1) {
+			do{
 					fflush(stdin);
 					system("cls");
 					gotoxy(5, 3);
 					printf ("Informe o codigo : ");
 					fgets(codigo,8,stdin);
-			
-					 for (i=0;i<MAX;i++){
-					 	if(stricmp(codigo,aviao.codigo) == 0){
-					 		 mostrarConsultaAviao (aviao,i);
-					 		 
-					 			do{
+				
+					mostrarConsultaAviao (aviao,codigo,arq);
+				
+					fseek(arq,0,SEEK_SET);
+						do{
 								
-					 					printf ("\n\nDeseja continuar ?\nComtinuar [0]-Parar [1]\n\n");
-										scanf ("%i",&resp);
-									}while (resp != 0 & resp !=1 );
+					 		printf ("\n\nDeseja continuar ?\nComtinuar [0]-Parar [1]\n\n");
+							scanf ("%i",&resp);
+							}while (resp != 0 & resp !=1 );
 								system ("pause");
-								if (resp == 1) {
-	
-									opcao=4;
+							if (resp == 1) {
+							opcao=4;
 	
 								}
-						 }
-					 	
-					 } if(stricmp(codigo,aviao.codigo) != 0){
-							
-							system ("cls");
-							textcolor(12);
-								printf ("CODIGO INVALIDO\nTENTE NOVAMENTE\n\n");	
-								do{
-								
-					 				printf ("\n\nDeseja continuar ?\nComtinuar [0]-Parar [1]\n\n");
-									scanf ("%i",&resp);
-								}while (resp != 0 & resp !=1 );
-								system ("pause");
-								if (resp == 1) {
-	
-									opcao=4;
-	
-								}
-						}
-					
-						
-					//	(stricmp (codigo,aviao[i].codigo) != 0 ||resp == 1 )
-	
-				} else if (resp == 2) {
+					}while(resp==0);
+				} else if (resp == 2){
 					fflush(stdin);
 					system("cls");
 					gotoxy(5, 3);
@@ -419,19 +398,26 @@ textbackground(0);
 			}while (resp==0);
 			}
 		}while(opcao == 4);
-
+fclose(arq);
 		return 0 ;
 	}
 
-void mostrarConsultaAviao (struct Aviao aviao,int i ){
-	system("cls");
+void mostrarConsultaAviao (struct Aviao aviao,char cod[],FILE *arq ){
+ fseek(arq,0,SEEK_SET);
+
+		system("cls");
 		setlocale(LC_ALL, "C");
+	while (fread(&aviao,sizeof(aviao),1,arq)){
+			if (strcmp(aviao.codigo,cod)==0){
+			
 		printf ("|Codico de indentificação : %s\n ",aviao.codigo);
 							printf ("|Modelo do avião : %s \n",aviao.modelo);
 							printf ("|Capacidade do avião : %i \n",aviao.capacidade);
 							printf ("|Nome do cliente : %s \n",aviao.nomeCliente);
 							printf ("|Pais de origem do cliente : %s \n",aviao.paisOrigCliente);
-							system ("pause");
+						getch();
+						}
+		}
 
 }
 void mostrarConsultaPista (struct PistaTeste pistaTeste,int i ){
@@ -939,8 +925,8 @@ int inclusaoPista (struct PistaTeste pistaTeste,int codigoSeguemcial, int *pcont
 
 
 
-int inclusaoAviao(struct Aviao aviao,int cont) {
-	FILE *arq;
+int inclusaoAviao(struct Aviao aviao,int cont,FILE *arq) {
+	
 	arq=fopen ("structAviao.txt","ab");
 	if (arq== NULL){
 	printf ("Erro na abertura..");
@@ -949,13 +935,13 @@ int inclusaoAviao(struct Aviao aviao,int cont) {
 	printf("\t\tINCLUSAO DE AVIAO");
 	printf("\n\n");
 
-	validaCodigo(aviao, cont);
+   aviao=validaCodigo(aviao);
 	
 	printf("\n");
 	printf("|Digite o modelo do aviao:");
 	fflush(stdin);
 	fgets(aviao.modelo,11,stdin);
-	while(aviao.modelo[0] == '\n') {
+	while(aviao.modelo == "\n") {
 		printf("|Modelo invalido, digite novamente:");
 		fflush(stdin);
 		fgets(aviao.modelo,11,stdin);
@@ -1109,7 +1095,9 @@ int mostrarAlteracaoAviao() {
 	return opcao;
 }
 int alteracaoAviao(struct Aviao aviao) {
-	int retornoFuncao, i, posicao,resp,opcao;
+	FILE *arq;
+	arq = fopen ("structAviao","r+");
+	int retornoFuncao, i, posicao,resp,opcao,cont=0;
 	char codigo[7], modelo[10], nome[64];
 	do {
 		// arrumar problema de invalido
@@ -1165,7 +1153,7 @@ int alteracaoAviao(struct Aviao aviao) {
 		case 1:
 			printf("alteração de código de identificação\n");
 			printf("Inserimento de um novo código de id:");
-			validaCodigo(aviao, i);
+			validaCodigo(aviao);
 
 		case 2:
 			printf("alteração de modelo do avião\n");
@@ -1213,11 +1201,12 @@ int alteracaoAviao(struct Aviao aviao) {
 			printf("alteração de país de origem do cliente\n");
 
 	}
-
+fclose(arq);
 	return opcao;
 }
 
-void validaCodigo(struct Aviao aviao, int cont) {
+struct Aviao validaCodigo(struct Aviao aviao) {
+	
 	char codigo[8];
 	int flag, i;
 //	arq = fopen ("structAviao","r");
@@ -1282,6 +1271,7 @@ void validaCodigo(struct Aviao aviao, int cont) {
 			printf("\ncodigo do aviao : %s", aviao.codigo);
 		}
 	} while(flag >= 1);
+	return aviao;
 }
 
 

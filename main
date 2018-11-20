@@ -94,7 +94,7 @@ char agora[1000],data[100];
 FILE *arq;
 FILE *arqP;
 FILE *arqT;
-arq=fopen ("structAviao.txt","r+b");
+arq=fopen ("structAviao","r+b");
 arqP=fopen ("structPista.txt","r+b");
 
 setlocale(LC_ALL, "");
@@ -879,7 +879,7 @@ int  inclusaoPista (struct PistaTeste pistaTeste,int codigoSeguemcial, int *pcon
 
 int inclusaoAviao(struct Aviao aviao,int cont,FILE *arq) {
 	
-	arq=fopen ("structAviao.txt","ab");
+	arq=fopen ("structAviao","ab");
 	if (arq== NULL){
 	printf ("Erro na abertura..");
 	exit (1);
@@ -1048,13 +1048,14 @@ int mostrarAlteracaoAviao() {
 }
 int alteracaoAviao(struct Aviao aviao,FILE *arq) {
 
-	arq = fopen ("structAviao.txt","r+b");
+	arq = fopen ("structAviao","r+b");
 
+		
 	int retornoFuncao, i, posicao,resp,opcao,cont=0;
 	char codigo[7], modelo[10], nome[64];
-	do {
+
 		// arrumar problema de invalido
-		
+	do {	
 		system ("cls");
 		printf ("informe seu codigo de indentificação : ");
 		fflush(stdin);
@@ -1082,9 +1083,9 @@ int alteracaoAviao(struct Aviao aviao,FILE *arq) {
 					
 				system ("cls");
 	
-		retornoFuncao = mostrarAlteracaoAviao();
+				retornoFuncao = mostrarAlteracaoAviao();
 		
-			switch(retornoFuncao) {
+		switch(retornoFuncao) {
 		
 
 		case 1:
@@ -1093,6 +1094,7 @@ int alteracaoAviao(struct Aviao aviao,FILE *arq) {
 			printf("alteração de código de identificação\n");
 			printf("Inserimento de um novo código de id:");
 			validaCodigo(aviao,arq);
+			
 	fwrite (aviao.codigo,sizeof (char),7,arq);
 	break;
 		case 2:
@@ -1110,8 +1112,10 @@ int alteracaoAviao(struct Aviao aviao,FILE *arq) {
 				fgets(modelo,10,stdin);
 			}
 			strcpy(aviao.modelo,modelo);
+			fseek(arq,sizeof(aviao)*-1,SEEK_CUR);
+			fwrite (aviao.modelo,sizeof (int),4,arq);
+			fseek(arq,0,SEEK_SET);
 	
-	 fgets(aviao.modelo, 10, arq);
 	 		break;
 		case 3:
 			system("cls");
@@ -1126,7 +1130,7 @@ int alteracaoAviao(struct Aviao aviao,FILE *arq) {
 				scanf("%d", &aviao.capacidade);
 			}
 
-	//fwrite (aviao.capacidade,sizeof(int),1,arq);
+	fwrite (aviao.nomeCliente,sizeof (int),4,arq);
 		break;
 			case 4:
 			system("cls");
@@ -1146,7 +1150,7 @@ int alteracaoAviao(struct Aviao aviao,FILE *arq) {
 		
 			strcpy(aviao.nomeCliente,nome);
 	
-			fwrite (aviao.nomeCliente,sizeof (char),64,arq);
+		fwrite (aviao.nomeCliente,sizeof (char),64,arq);
 		break;
 		case 5:
 			system("cls");
@@ -1154,6 +1158,7 @@ int alteracaoAviao(struct Aviao aviao,FILE *arq) {
 			printf("alteração de país de origem do cliente\n");
 			break;
 	}
+//	fwrite (&aviao,sizeof (aviao),1,arq);
 		system("cls");
 			gotoxy(5, 3);
 			

@@ -74,6 +74,8 @@ int inclusaoPista (struct PistaTeste pistaTeste ,int codigoSeguemcial, int *pcon
 void exclusaoTeste(struct Testes testes);
 //teste
 int mostrarMenuTeste ();
+void inclusaoTeste(struct Testes testes);
+void alterarTeste(struct Testes testes);
 //consulta
 int mostraMenuConsulta ();
 void mostrarConsultaAviao (struct Aviao aviao,char cod[],FILE *arq);
@@ -937,7 +939,7 @@ int inclusaoAviao(struct Aviao aviao,int cont,FILE *arq) {
 	if (arq== NULL){
 	printf ("Erro na abertura..");
 	exit (1);
-}
+	}
 	printf("\t\tINCLUSAO DE AVIAO");
 	printf("\n\n");
 
@@ -1350,15 +1352,6 @@ void exclusaoAviao(struct Aviao aviao, struct Testes testes){
 	} while(resp == 0);
 }
 
-void exclusaoTeste(struct Testes testes){
-		textbackground(0); // Define cor de fundo
-
-		
-
-	system("pause");
-}
-
-
 void inclusaoTeste(struct Testes testes){
 char codigo[7];
 int i, flag, codigoP, velocM;
@@ -1390,3 +1383,47 @@ int i, flag, codigoP, velocM;
 	_strdate(testes.data);
 	system("pause");
 }
+
+void alterarTeste(struct Testes testes){
+char codigo[7], menu, sn;
+int flag = 0;
+	do{
+		
+		printf(" ALTERAÇÃO TESTE \n");
+		printf("digite o codigo do avião: ");
+		fflush(stdin);
+		fgets(codigo,8,stdin);
+		while(codigo[0] == '\n'){
+			printf("código inválido, digite novamente:");
+			fgets(codigo,8,stdin);
+		}
+		
+		//fazer for para varrer se tem codigo
+		if(stricmp(testes.idAviao,codigo) == 0){
+			flag++;
+		}
+		if(flag != 0){
+			printf("digite o que deseja alterar");
+			printf("1- alterar velocidade máxima do avião \n");
+			printf("2- alterar id do avião \n");
+			printf("3- alterar id da pista \n");
+			scanf("%d", &menu);
+			while(menu != 1 && menu != 2 && menu != 3 ){
+				printf("seleção inválida, digite novamente: ");
+				scanf("%d", &menu);
+			}
+		}else{
+			printf("código inválido,deseja digitar novamente? [S/N]");
+			scanf(" %c", &sn);
+			while(sn !='S' && sn !='N'){
+				printf("resposta inválida, digite novamente: ");
+				scanf(" %c", &sn);
+			}
+			if(sn == 'N'){
+				exit(1);
+			}
+		}
+	}while(sn != 'N');
+		
+}
+	

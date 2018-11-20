@@ -1357,3 +1357,36 @@ void exclusaoTeste(struct Testes testes){
 
 	system("pause");
 }
+
+
+void inclusaoTeste(struct Testes testes){
+char codigo[7];
+int i, flag, codigoP, velocM;
+		
+	printf(" INCLUSÃO TESTE \n");
+	printf("digite o codigo do aviao: ");
+	fflush(stdin);
+	fgets(codigo,8,stdin);
+	while(codigo[0] == '\n'){
+		printf("código inválido, digite novamente:");
+		fgets(codigo,8,stdin);
+	}
+	strcpy(testes.idAviao,codigo);
+	
+	printf("digite o codigo sequencial da pista: ");
+	while(codigoP <= 0 || codigoP >9999){
+		printf("código inválido, digite novamente:");
+		scanf("%d",&codigoP);
+	}
+	testes.idPista = codigoP;
+	
+	printf("\n digite a velocidade maxima em km/h: ");
+	scanf("%d", &velocM);
+	while(velocM <= 0){
+		printf("velocidade inválida, digite novamente:");
+		scanf("%d",&velocM);
+	}	
+	testes.velocidadeMax = velocM;
+	_strdate(testes.data);
+	system("pause");
+}

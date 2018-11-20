@@ -1,3 +1,5 @@
+//https://stackoverflow.com/questions/3028642/regular-expression-for-letters-numbers-and
+//https://regex101.com/
 /*
 CORES - TEXTCOLOR e TEXTBACKGROUND:
 Preto....... BLACK..... 0
@@ -94,32 +96,30 @@ char agora[1000],data[100];
 FILE *arq;
 FILE *arqP;
 FILE *arqT;
-arq=fopen ("structAviao","r+b");
-arqP=fopen ("structPista.txt","r+b");
 
 setlocale(LC_ALL, "");
-int tempo = clock(); //começa a contar o tempo
-while(clock() - tempo < 3000) { //enquanto não se passaram 5segundos
-	textcolor(14);
-	textbackground(0);
-	printf ("      ____________________			 \n");
-	printf ("      |           | |	 |	         \n");
-	printf ("      |  _________| |	 |           \n");
-	printf ("      |  |   	    | 	 |           \n");
-	printf ("      |  |     	    |    |     \n");
-	printf ("      |  |    ______|    |     	     \n");
-	printf ("      |  |   |____  |	 |           \n");
-	printf ("      |  |_______|  |	 |__________ \n");
-	printf ("      |             |              | \n");
-	printf ("      |_____________|______________| \n");
-	printf ("             A-V-I-Õ-E-S                                   ");
-
-	tempo = clock();
-
-	while(clock() - tempo < 3000) { //enquanto não se passaram 5segundos
-	}
-}
-codigoSeguemcial = 1000 ;
+//int tempo = clock(); //começa a contar o tempo
+//while(clock() - tempo < 3000) { //enquanto não se passaram 5segundos
+//	textcolor(14);
+//	textbackground(0);
+//	printf ("      ____________________			 \n");
+//	printf ("      |           | |	 |	         \n");
+//	printf ("      |  _________| |	 |           \n");
+//	printf ("      |  |   	    | 	 |           \n");
+//	printf ("      |  |     	    |    |     \n");
+//	printf ("      |  |    ______|    |     	     \n");
+//	printf ("      |  |   |____  |	 |           \n");
+//	printf ("      |  |_______|  |	 |__________ \n");
+//	printf ("      |             |              | \n");
+//	printf ("      |_____________|______________| \n");
+//	printf ("             A-V-I-Õ-E-S                                   ");
+//
+//	tempo = clock();
+//
+//	while(clock() - tempo < 3000) { //enquanto não se passaram 5segundos
+//	}
+//}
+//codigoSeguemcial = 1000 ;
 
 do {
 	
@@ -142,7 +142,7 @@ textbackground(0);
 			do {
 				system("cls");
 				cont = inclusaoAviao(aviao, cont,arq);
-				printf("%d", cont);
+				
 				getch();
 				printf ("Deseja continuar ?\nComtinuar [0]-Parar [1]");
 				scanf ("%i",&resp);
@@ -337,8 +337,7 @@ textbackground(0);
 			}while (resp==0);
 			}
 		}while(opcao == 4);
-		fclose(arqP);
-fclose(arq);
+		
 
 		return 0 ;
 	}
@@ -1113,9 +1112,10 @@ int alteracaoAviao(struct Aviao aviao,FILE *arq) {
 			}
 			strcpy(aviao.modelo,modelo);
 			fseek(arq,sizeof(aviao)*-1,SEEK_CUR);
-			fwrite (aviao.modelo,sizeof (int),4,arq);
+			fwrite (aviao.modelo,sizeof(int),4,arq);
 			fseek(arq,0,SEEK_SET);
-	
+		
+		
 	 		break;
 		case 3:
 			system("cls");
@@ -1158,6 +1158,7 @@ int alteracaoAviao(struct Aviao aviao,FILE *arq) {
 			printf("alteração de país de origem do cliente\n");
 			break;
 	}
+
 //	fwrite (&aviao,sizeof (aviao),1,arq);
 		system("cls");
 			gotoxy(5, 3);
@@ -1200,8 +1201,8 @@ int alteracaoAviao(struct Aviao aviao,FILE *arq) {
 
 	} while(resp == 0);
 
+	fclose(arq);
 
-fclose(arq);
 return opcao;
 }
 

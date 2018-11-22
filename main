@@ -38,6 +38,7 @@ struct Aviao {
 		char nomeCliente[64];
 		char paisOrigCliente[32];
 		char modelo[10];
+		int idExclusao;
 	};
 	
 struct PistaTeste {
@@ -69,12 +70,11 @@ int mostraMenuAviao ();
 int inclusaoAviao(struct Aviao aviao, int cont,FILE *arq);
 int alteracaoAviao(struct Aviao aviao,FILE *arq);
 int mostrarAlteracaoAviao();
-void exclusaoAviao(struct Aviao aviao, struct Testes testes,FILE *arq);
+void exclusaoAviao(struct Aviao aviao, struct Testes testes,FILE *arq,FILE *arq1,FILE *arqT);
 //pista
 int mostraMenuPista ();
 int inclusaoPista (struct PistaTeste pistaTeste ,int codigoSeguemcial, int *pcont,FILE *arqP);
 void exclusaoTeste(struct Testes testes);
-void alterarPista(struct PistaTeste pista);
 //teste
 int mostrarMenuTeste ();
 void inclusaoTeste(struct Testes testes,FILE *arqT);
@@ -96,6 +96,7 @@ char tecla,codigo[7];
 int i, opcao;
 char agora[1000],data[100];
 FILE *arq;
+FILE *arq1;
 FILE *arqP;
 FILE *arqT;
 
@@ -171,7 +172,7 @@ textbackground(0);
 		}else if (opcao == 3 ){
 			do{
 			
-			exclusaoAviao(aviao,testes,arq);
+			exclusaoAviao(aviao,testes,arq,arq1,arqT);
 		//	arq = remove("structAviao"); apaga toto o arquivo
 					do{
 								
@@ -867,7 +868,7 @@ int  inclusaoPista (struct PistaTeste pistaTeste,int codigoSeguemcial, int *pcon
 
 	codigoSeguemcial =  codigoSeguemcial + 1;
 	pistaTeste.codSequencial = codigoSeguemcial;
-	printf ("O seu codico sequencial e:\n ");
+	printf ("O seu codico seguemcial e:\n ");
 	printf ("%i",pistaTeste.codSequencial);
 	cont++;
 	*pcont = cont;
@@ -1062,7 +1063,7 @@ int alteracaoAviao(struct Aviao aviao,FILE *arq) {
 		fgets(codigo,8,stdin);
 		
 	while (fread(&aviao,sizeof(aviao),1,arq)){
-			if (stricmp(aviao.codigo,codigo)==0){
+			if (strcmp(aviao.codigo,codigo)==0){
 
 				textcolor(10);
 				printf ("\t\tCODIGO VALIDO...\n\n");
@@ -1085,89 +1086,89 @@ int alteracaoAviao(struct Aviao aviao,FILE *arq) {
 	
 				retornoFuncao = mostrarAlteracaoAviao();
 		
-				switch(retornoFuncao) {
-				
+		switch(retornoFuncao) {
 		
-				case 1:
-					system("cls");
-					gotoxy(5, 3);
-					printf("alteração de código de identificação\n");
-					printf("Inserimento de um novo código de id:");
-					aviao=validaCodigo(aviao,arq);
-					
-					fseek(arq,sizeof(aviao)*-1,SEEK_CUR);
-					fwrite (&aviao,sizeof(aviao),1,arq);
-					fseek(arq,0,SEEK_SET);
-				
-			break;
-				case 2:
-					system("cls");
-					gotoxy(5, 3);
-					printf("alteração de modelo do avião\n");
+
+		case 1:
+			system("cls");
+			gotoxy(5, 3);
+			printf("alteração de código de identificação\n");
+			printf("Inserimento de um novo código de id:");
+			aviao=validaCodigo(aviao,arq);
+			
+			fseek(arq,sizeof(aviao)*-1,SEEK_CUR);
+			fwrite (&aviao,sizeof(aviao),1,arq);
+			fseek(arq,0,SEEK_SET);
 		
-					printf("Inserimento de um novo modelo de avião:");
-					printf("\nInsira aqui: ");
-					fflush(stdin);
-					fgets(modelo,10,stdin);
-					while(modelo[0] == '\n') {
-						printf("codigo invalido, digite novamente:");
-						fflush(stdin);
-						fgets(modelo,10,stdin);
-					}
-					strcpy(aviao.modelo,modelo);
-					
-					fseek(arq,sizeof(aviao)*-1,SEEK_CUR);
-					fwrite (&aviao,sizeof(aviao),1,arq);
-					fseek(arq,0,SEEK_SET);
-				
-				
-			 		break;
-				case 3:
-					system("cls");
-					gotoxy(5, 3);
-					printf("alteração de capacidade do avião\n");
-		
-					printf("Inserimento de uma nova capacidade do avião:");
-					printf("\nInsira aqui: ");
-					scanf("%d", &aviao.capacidade);
-					while(aviao.capacidade <=0) {
-						printf("Capacidade inválida, digite novamente: ");
-						scanf("%d", &aviao.capacidade);
-					}
-				fseek(arq,sizeof(aviao)*-1,SEEK_CUR);
-					fwrite (&aviao,sizeof(aviao),1,arq);
-					fseek(arq,0,SEEK_SET);
-				
-				break;
-					case 4:
-					system("cls");
-					gotoxy(5, 3);
-					printf("alteração de nome do cliente\n");
-		
-					printf("Inserimento de um novo nome do cliente:");
-					printf("\nInsira aqui: ");
-					fflush(stdin);
-					fgets(nome,64,stdin);
-					while(nome[i] == '\n') {
-						printf("nome inválido, digite novamente:");
-						fflush(stdin);
-						fgets(nome,64,stdin);
-						
-					}
-				
-					strcpy(aviao.nomeCliente,nome);
-					fseek(arq,sizeof(aviao)*-1,SEEK_CUR);
-					fwrite (&aviao,sizeof(aviao),1,arq);
-					fseek(arq,0,SEEK_SET);
-				
-		
-				break;
-				case 5:
-					system("cls");
-					gotoxy(5, 3);
-					printf("alteração de país de origem do cliente\n");
-					break;
+	break;
+		case 2:
+			system("cls");
+			gotoxy(5, 3);
+			printf("alteração de modelo do avião\n");
+
+			printf("Inserimento de um novo modelo de avião:");
+			printf("\nInsira aqui: ");
+			fflush(stdin);
+			fgets(modelo,10,stdin);
+			while(modelo[0] == '\n') {
+				printf("codigo invalido, digite novamente:");
+				fflush(stdin);
+				fgets(modelo,10,stdin);
 			}
+			strcpy(aviao.modelo,modelo);
+			
+			fseek(arq,sizeof(aviao)*-1,SEEK_CUR);
+			fwrite (&aviao,sizeof(aviao),1,arq);
+			fseek(arq,0,SEEK_SET);
+		
+		
+	 		break;
+		case 3:
+			system("cls");
+			gotoxy(5, 3);
+			printf("alteração de capacidade do avião\n");
+
+			printf("Inserimento de uma nova capacidade do avião:");
+			printf("\nInsira aqui: ");
+			scanf("%d", &aviao.capacidade);
+			while(aviao.capacidade <=0) {
+				printf("Capacidade inválida, digite novamente: ");
+				scanf("%d", &aviao.capacidade);
+			}
+		fseek(arq,sizeof(aviao)*-1,SEEK_CUR);
+			fwrite (&aviao,sizeof(aviao),1,arq);
+			fseek(arq,0,SEEK_SET);
+		
+		break;
+			case 4:
+			system("cls");
+			gotoxy(5, 3);
+			printf("alteração de nome do cliente\n");
+
+			printf("Inserimento de um novo nome do cliente:");
+			printf("\nInsira aqui: ");
+			fflush(stdin);
+			fgets(nome,64,stdin);
+			while(nome[i] == '\n') {
+				printf("nome inválido, digite novamente:");
+				fflush(stdin);
+				fgets(nome,64,stdin);
+				
+			}
+		
+			strcpy(aviao.nomeCliente,nome);
+		fseek(arq,sizeof(aviao)*-1,SEEK_CUR);
+			fwrite (&aviao,sizeof(aviao),1,arq);
+			fseek(arq,0,SEEK_SET);
+		
+
+		break;
+		case 5:
+			system("cls");
+			gotoxy(5, 3);
+			printf("alteração de país de origem do cliente\n");
+			break;
+	}
 
 //	fwrite (&aviao,sizeof (aviao),1,arq);
 		system("cls");
@@ -1290,33 +1291,35 @@ struct Aviao validaCodigo(struct Aviao aviao,FILE *arq) {
 }
 
 
-void exclusaoAviao(struct Aviao aviao, struct Testes testes,FILE *arq){
-arq=fopen ("structAviao","r+");
+void exclusaoAviao(struct Aviao aviao, struct Testes testes,FILE *arq,FILE *arq1,FILE *arqT){
+arq=fopen ("structAviao","r");
+arqT=fopen ("structTeste.txt","r");
+arq1 = fopen ("novoStruct","w");
 	int retornoFuncao, i, j, posicao,resp,opcao, flag=0;
 	char codigo[7], excluir;
 
 	
 	
 		system ("cls");
-		printf ("informe seu codigo de indentificação : ");
+		printf ("informe seu codigo de indentificação aviao : ");
 		fflush(stdin);
 		fgets(codigo,8,stdin);
 		while (fread(&aviao,sizeof(aviao),1,arq)){
-			if (strcmp(aviao.codigo,codigo)==0){ 
-		
-		system ("cls");
-		for(i= 0;i<MAX;i++){
-			if (stricmp(aviao.codigo,codigo) == 0) {
-				for(j= 0;j<MAX;j++){
-					if(stricmp(aviao.codigo,testes.idAviao) == 0){
-						printf("Este avião já tem um registro de teste\n não é possível excluí-lo!");
-						system("pause");
-						flag++;
-						break;
-					}
-				}
-				if(flag != 0){
+			if (strcmp(aviao.codigo,codigo)==0){
+			
+				aviao.idExclusao = 1;
+				
+				fseek(arq,sizeof(aviao)*-1,SEEK_CUR);
+				fwrite (&aviao,sizeof(aviao),1,arq);
+				fseek(arq,0,SEEK_SET);
+		//	rewind(arqT);
+	
+//			while (fread(&testes,sizeof(testes),1,arqT)){
+//					if(stricmp(aviao.codigo,testes.idAviao) == 0){
+			
+				
 					textcolor(10);
+					system ("cls");
 					printf ("\t\tCODIGO VALIDO...\n\n");
 					system ("pause");
 					system ("cls");
@@ -1335,35 +1338,40 @@ arq=fopen ("structAviao","r+");
 					printf("Deseja realmente EXCLUIR? [S/N]");
 					scanf(" %c", &excluir);
 				
-				while(excluir !='S' && excluir !='N'){
-					printf("Caracter inválido, digite novamente [S/N]");
-					scanf(" %c", &excluir);
-				}
-				if(excluir == 'S'){
-					aviao.codigo[0] = '\0';
-					aviao.modelo[0] = '\0';
-					aviao.nomeCliente[0] = '\0';
-					aviao.paisOrigCliente[0] = '\0';
-					aviao.capacidade = 0;
-					printf("exclusão bem sucedida!");
-					system("pause");
-					}	
-				break;	
-				}		
-			}else{
 				
-				system ("cls");
-				printf ("CODIGO INVALIDO\nTENTE NOVAMENTE\n\n");	
+			
+				if(excluir == 's'){
+				rewind(arq);
+			while (fread(&aviao,sizeof(aviao),1,arq)){
+				if (aviao.idExclusao==0){
+					
+			 	fwrite (&aviao,sizeof (aviao),1,arq1);
+			
+			}
+		
+			
+					
 			}
 		}
-	
-		}				
-	}
-	
-
-
-	fclose(arq);
+ 				
+					
 }
+	
+}	
+	fclose(arq);
+arq = remove("structAviao");	
+rename("novoStruct","structAviao");
+printf("exclusão bem sucedida!\n");
+	system("pause");
+				
+	
+	fclose(arqT);
+	fclose (arq1);
+			
+}
+	
+
+
 
 void exclusaoTeste(struct Testes testes){
 	
@@ -1373,8 +1381,6 @@ void exclusaoTeste(struct Testes testes){
 
 	system("pause");
 }
-
-
 void inclusaoTeste(struct Testes testes,FILE *arqT){
 		arqT=fopen ("structTeste.txt","ab");
 		
@@ -1533,74 +1539,4 @@ int flag = 0;
 	} while ((tecla != 13) && (tecla != 27)); // 13=ENTER 27=ESC
  	
  }
-
-void alterarPista(struct PistaTeste pista){
-int codigoP, opcao;
-char enderecoNovo[64],uf[2];
-float tamanhoNovo;	
-	system("cls");
-	printf("ALTERAÇÃO DA PISTA DE TESTE:");
-	printf("digite o codigo sequencial da pista: ");
-	while(codigoP <= 0 || codigoP >9999){
-		printf("código inválido, digite novamente:");
-		scanf("%d",&codigoP);
-	}
-	//faz a varredura aqui gustavo
-		if(stricmp(pista.codSequencial,codigoP) == 0){
-			printf("código sequencial válido\n");
-			printf ("|CÓDIGO SEQUENCIAL: %s\n",pista.codSequencial);
-			printf ("---------------------------|\n");
-			printf ("|ENDEREÇO DA PISTA : %s\n",pista.enderecoPista);
-			printf ("---------------------------|\n");
-			printf ("|UNIDADE FEDERATIVA DA PISTA:  : %s\n",pista.uf);
-			printf ("---------------------------|\n");
-			printf ("|TAMANHO DO CIRCUITO : %f\n",pista.tamanhoCircuito);
-			printf ("---------------------------|\n");
-			
-			//opcao = funcao de menu
-			
-			switch(opcao){
-				case 1:
-					printf("alteração do endereço\n");
-					printf("digite o novo endereço da pista: ");
-					fflush(stdin);
-					fgets(enderecoNovo,64,stdin);
-					while(enderecoNovo[0] == '\n') {
-						printf("endereço inválido, digite novamente:");
-						fflush(stdin);
-						fgets(enderecoNovo,64,stdin);
-					}
-					printf("endereço alterado com sucesso! ");
-					strcpy(pista.enderecoPista,enderecoNovo);
-					system("pause");
-					break;
-				
-				case 2:
-					printf("alteração da unidade federativa\n");
-					printf("digite o novo UF da pista: ");
-					fflush(stdin);
-					fgets(uf,2,stdin);
-					while(enderecoNovo[0] == '\n') {
-						printf("uf inválida, digite novamente:");
-						fflush(stdin);
-						fgets(uf,2,stdin);
-					}
-					printf("endereço alterado com sucesso! ");
-					strcpy(pista.uf,uf);
-					system("pause");
-					break;
-				case 3:
-					printf("alteração do tamanho do circuito\n");
-					printf("digite o novo tamanho do circuito: ");
-					scanf("%f", &tamanhoNovo);
-					while(tamanhoNovo<=0){
-						printf("tamanho inválido, digite novamente: ");
-						scanf("%f", &tamanhoNovo);
-					}
-					break;
-			}
-			system ("pause");
-			
-		}
 	
-}

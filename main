@@ -69,7 +69,7 @@ int mostraMenuAviao ();
 int inclusaoAviao(struct Aviao aviao, int cont,FILE *arq);
 int alteracaoAviao(struct Aviao aviao,FILE *arq);
 int mostrarAlteracaoAviao();
-void exclusaoAviao(struct Aviao aviao, struct Testes testes);
+void exclusaoAviao(struct Aviao aviao, struct Testes testes,FILE *arq);
 //pista
 int mostraMenuPista ();
 int inclusaoPista (struct PistaTeste pistaTeste ,int codigoSeguemcial, int *pcont,FILE *arqP);
@@ -78,6 +78,7 @@ void exclusaoTeste(struct Testes testes);
 int mostrarMenuTeste ();
 void inclusaoTeste(struct Testes testes,FILE *arqT);
 void alterarTeste(struct Testes testes,FILE *arqT);
+void mostrarMenuAlterar ();
 //consulta
 int mostraMenuConsulta ();
 void mostrarConsultaAviao (struct Aviao aviao,char cod[],FILE *arq);
@@ -119,7 +120,7 @@ setlocale(LC_ALL, "");
 //	while(clock() - tempo < 3000) { //enquanto não se passaram 5segundos
 //	}
 //}
-//codigoSeguemcial = 1000 ;
+codigoSeguemcial = 1000 ;
 
 do {
 	
@@ -169,8 +170,8 @@ textbackground(0);
 		}else if (opcao == 3 ){
 			do{
 			
-			exclusaoAviao(aviao,testes);
-			
+			exclusaoAviao(aviao,testes,arq);
+		//	arq = remove("structAviao"); apaga toto o arquivo
 					do{
 								
 					printf ("\n\nDeseja continuar ?\nComtinuar [0]-Parar [1]\n\n");
@@ -838,7 +839,7 @@ int mostraMenuAviao () {
 }
 
 int  inclusaoPista (struct PistaTeste pistaTeste,int codigoSeguemcial, int *pcont,FILE *arqP) {
-	arqP=fopen ("structPista.txt","ab");
+	arqP=fopen ("structPista","ab");
 	if (arqP== NULL){
 	printf ("Erro na abertura..");
 	exit (1);
@@ -1046,9 +1047,8 @@ int mostrarAlteracaoAviao() {
 	return opcao;
 }
 int alteracaoAviao(struct Aviao aviao,FILE *arq) {
-
 	arq = fopen ("structAviao","r+b");
-
+	
 		
 	int retornoFuncao, i, posicao,resp,opcao,cont=0;
 	char codigo[7], modelo[10], nome[64];
@@ -1068,7 +1068,7 @@ int alteracaoAviao(struct Aviao aviao,FILE *arq) {
 				system ("pause");
 				system ("cls");
 
-				printf ("|MODELDO AVIAO: %s\n",aviao.modelo);
+				printf ("|MODELODO AVIAO: %s\n",aviao.modelo);
 				printf ("---------------------------|\n");
 				printf ("|NOME DO CLIENTE : %s\n",aviao.nomeCliente);
 				printf ("---------------------------|\n");
@@ -1092,9 +1092,12 @@ int alteracaoAviao(struct Aviao aviao,FILE *arq) {
 			gotoxy(5, 3);
 			printf("alteração de código de identificação\n");
 			printf("Inserimento de um novo código de id:");
-			validaCodigo(aviao,arq);
+			aviao=validaCodigo(aviao,arq);
 			
-	fwrite (aviao.codigo,sizeof (char),7,arq);
+			fseek(arq,sizeof(aviao)*-1,SEEK_CUR);
+			fwrite (&aviao,sizeof(aviao),1,arq);
+			fseek(arq,0,SEEK_SET);
+		
 	break;
 		case 2:
 			system("cls");
@@ -1111,8 +1114,9 @@ int alteracaoAviao(struct Aviao aviao,FILE *arq) {
 				fgets(modelo,10,stdin);
 			}
 			strcpy(aviao.modelo,modelo);
+			
 			fseek(arq,sizeof(aviao)*-1,SEEK_CUR);
-			fwrite (aviao.modelo,sizeof(int),4,arq);
+			fwrite (&aviao,sizeof(aviao),1,arq);
 			fseek(arq,0,SEEK_SET);
 		
 		
@@ -1129,8 +1133,10 @@ int alteracaoAviao(struct Aviao aviao,FILE *arq) {
 				printf("Capacidade inválida, digite novamente: ");
 				scanf("%d", &aviao.capacidade);
 			}
-
-	fwrite (aviao.nomeCliente,sizeof (int),4,arq);
+		fseek(arq,sizeof(aviao)*-1,SEEK_CUR);
+			fwrite (&aviao,sizeof(aviao),1,arq);
+			fseek(arq,0,SEEK_SET);
+		
 		break;
 			case 4:
 			system("cls");
@@ -1149,8 +1155,11 @@ int alteracaoAviao(struct Aviao aviao,FILE *arq) {
 			}
 		
 			strcpy(aviao.nomeCliente,nome);
-	
-		fwrite (aviao.nomeCliente,sizeof (char),64,arq);
+		fseek(arq,sizeof(aviao)*-1,SEEK_CUR);
+			fwrite (&aviao,sizeof(aviao),1,arq);
+			fseek(arq,0,SEEK_SET);
+		
+
 		break;
 		case 5:
 			system("cls");
@@ -1280,7 +1289,8 @@ struct Aviao validaCodigo(struct Aviao aviao,FILE *arq) {
 }
 
 
-void exclusaoAviao(struct Aviao aviao, struct Testes testes){
+void exclusaoAviao(struct Aviao aviao, struct Testes testes,FILE *arq){
+arq=fopen ("structAviao","r+");
 	int retornoFuncao, i, j, posicao,resp,opcao, flag=0;
 	char codigo[7], excluir;
 
@@ -1290,7 +1300,16 @@ void exclusaoAviao(struct Aviao aviao, struct Testes testes){
 		printf ("informe seu codigo de indentificação : ");
 		fflush(stdin);
 		fgets(codigo,8,stdin);
-
+		while (fread(&aviao,sizeof(aviao),1,arq)){
+			if (strcmp(aviao.codigo,codigo)==0){ 
+			aviao.codigo = NULL;
+			aviao.capacidade = NULL;
+			aviao.modelo = NULL;
+			aviao.nomeCliente = NULL;
+			aviao.paisOrigCliente = NULL;
+		}
+	}
+			fclose(arq);
 		system ("cls");
 		for(i= 0;i<MAX;i++){
 			if (stricmp(aviao.codigo,codigo) == 0) {
@@ -1414,15 +1433,10 @@ int flag = 0;
 			flag++;
 		}
 		if(flag != 0){
-			printf("digite o que deseja alterar");
-			printf("1- alterar velocidade máxima do avião \n");
-			printf("2- alterar id do avião \n");
-			printf("3- alterar id da pista \n");
-			scanf("%d", &menu);
-			while(menu != 1 && menu != 2 && menu != 3 ){
-				printf("seleção inválida, digite novamente: ");
-				scanf("%d", &menu);
-			}
+		
+		
+		
+				 mostrarMenuAlterar ();
 		}else{
 			printf("código inválido,deseja digitar novamente? [S/N]");
 			scanf(" %c", &sn);
@@ -1437,4 +1451,86 @@ int flag = 0;
 	}while(sn != 'N');
 		
 }
+ void mostrarMenuAlterar (){
+ 	setlocale(LC_ALL, "C");
+	char tecla;
+	int i, opcao;
+	textbackground(0); // Define cor de fundo
+	clrscr();          // Limpa a tela
+	_setcursortype(0); // Desliga o cursor
+	textcolor(15);     // Define cor de face
+
+	gotoxy(19,6);
+	printf("           <<<  Menu Pista  >>>");
+	// DESENHAR UM QUADRADO
+	// Desenha as linhas horizontais do quadrado
+	textcolor(7);
+	for (i=34; i<=50; i++) {
+		gotoxy(i,9);
+		printf("%c", 196);
+		gotoxy(i,18);
+		printf("%c", 196);
+	}
+	// Desenha as linhas verticais do quadrado
+	for (i=9; i<=17; i++) {
+		gotoxy(33,i);
+		printf("%c", 179);
+		gotoxy(50,i);
+		printf("%c", 179);
+	}
+	// Desenha os quanto cantos do quadrado
+	gotoxy(33,9);
+	printf("%c", 218);
+	gotoxy(50,9);
+	printf("%c", 191);
+	gotoxy(33,18);
+	printf("%c", 192);
+	gotoxy(50,18);
+	printf("%c", 217);
+
+	// OPERACAO DO MENU
+	opcao = 1; // Seleciona a primeira opcao do menu
+	do {
+		setlocale(LC_ALL, "");
+		textcolor(7);
+		textbackground(0);
+		gotoxy(34,11);
+		printf("  ALTERAR VELOCIDADE ");
+		gotoxy(34,12);
+		printf("  ALTERAR ID AVIAO");
+		gotoxy(34,13);
+		printf("  ALTERAR ID PISTA");
+		// Escreve o item selecionado em destaque
+		textcolor(15);
+		//textbackground(1);
+		switch (opcao) {
+			case 1:
+				gotoxy(34,11);
+				printf("->");
+				break;
+			case 2:
+				gotoxy(34,12);
+				printf("->");
+				break;
+			case 3:
+				gotoxy(34,13);
+				printf("->");
+				break;
+
+		}
+		tecla = getch();    // Recebe a tecla pressionada
+		if (tecla == -32) { // -32 = tecla especial (setas, etc...)
+			tecla = getch(); // Recebe o novo valor ecoado no buffer por ser tecla especial
+			if (tecla == 72) // Seta para cima
+				opcao--;
+			if (tecla == 80) // Seta para baixo
+				opcao++;
+			if (opcao == 0)
+				opcao = 5;
+			if (opcao == 6)
+				opcao = 1;
+		}
+	} while ((tecla != 13) && (tecla != 27)); // 13=ENTER 27=ESC
+ 	
+ }
 	

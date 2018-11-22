@@ -1294,7 +1294,7 @@ arq=fopen ("structAviao","r+");
 	int retornoFuncao, i, j, posicao,resp,opcao, flag=0;
 	char codigo[7], excluir;
 
-	do{
+	
 	
 		system ("cls");
 		printf ("informe seu codigo de indentificação : ");
@@ -1302,14 +1302,7 @@ arq=fopen ("structAviao","r+");
 		fgets(codigo,8,stdin);
 		while (fread(&aviao,sizeof(aviao),1,arq)){
 			if (strcmp(aviao.codigo,codigo)==0){ 
-			aviao.codigo = NULL;
-			aviao.capacidade = NULL;
-			aviao.modelo = NULL;
-			aviao.nomeCliente = NULL;
-			aviao.paisOrigCliente = NULL;
-		}
-	}
-			fclose(arq);
+		
 		system ("cls");
 		for(i= 0;i<MAX;i++){
 			if (stricmp(aviao.codigo,codigo) == 0) {
@@ -1363,9 +1356,12 @@ arq=fopen ("structAviao","r+");
 			}
 		}
 	
+		}				
+	}
+	
 
 
-	} while(resp == 0);
+	fclose(arq);
 }
 
 void exclusaoTeste(struct Testes testes){

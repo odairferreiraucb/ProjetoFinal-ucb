@@ -1312,7 +1312,7 @@ arq1 = fopen ("novoStruct","w");
 				fseek(arq,sizeof(aviao)*-1,SEEK_CUR);
 				fwrite (&aviao,sizeof(aviao),1,arq);
 				fseek(arq,0,SEEK_SET);
-		//	rewind(arqT);
+			rewind(arqT);
 	
 //			while (fread(&testes,sizeof(testes),1,arqT)){
 //					if(stricmp(aviao.codigo,testes.idAviao) == 0){
@@ -1343,8 +1343,9 @@ arq1 = fopen ("novoStruct","w");
 				if(excluir == 's'){
 				rewind(arq);
 			while (fread(&aviao,sizeof(aviao),1,arq)){
+				fseek(arq1,0,SEEK_SET);
 				if (aviao.idExclusao==0){
-					
+
 			 	fwrite (&aviao,sizeof (aviao),1,arq1);
 			
 			}
@@ -1359,14 +1360,15 @@ arq1 = fopen ("novoStruct","w");
 	
 }	
 	fclose(arq);
+	fclose(arqT);
+	fclose (arq1);
 arq = remove("structAviao");	
 rename("novoStruct","structAviao");
-printf("exclusão bem sucedida!\n");
+printf("\n\nexclusão bem sucedida!\n");
 	system("pause");
 				
 	
-	fclose(arqT);
-	fclose (arq1);
+
 			
 }
 	

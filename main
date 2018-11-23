@@ -51,7 +51,9 @@ struct PistaTeste {
 };
 
 struct Testes {
-	int idAviao;
+char idAviao[7];
+int idPista;
+
 	char data[1000];
 	int velocidadeMax;
 };
@@ -1582,6 +1584,7 @@ int i, flag, codigoP, velocM;
 	}
 	while (fread(&aviao,sizeof(aviao),1,arq)){
 			if (strcmp(aviao.codigo,codigo)==0){
+			strcpy(testes.idAviao,codigo);
 	system ("cls");
 
 	printf("digite o codigo sequencial da pista: ");
@@ -1592,7 +1595,7 @@ int i, flag, codigoP, velocM;
 	}
 		while (fread(&pistaTeste,sizeof(pistaTeste),1,arqP)){
 			if (codigoP == pistaTeste.codSequencial){
-		//teste.idAviao = 1 ;
+		testes.idPista=codigoP;
 		fflush(stdin);
 		printf("\n digite a velocidade maxima em km/h: ");
 		scanf("%d", &velocM);

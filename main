@@ -51,8 +51,7 @@ struct PistaTeste {
 };
 
 struct Testes {
-	char idAviao[7];
-	int idPista;
+	int idAviao;
 	char data[1000];
 	int velocidadeMax;
 };
@@ -74,10 +73,11 @@ void exclusaoAviao(struct Aviao aviao, struct Testes testes,FILE *arq,FILE *arq1
 //pista
 int mostraMenuPista ();
 int inclusaoPista (struct PistaTeste pistaTeste ,int codigoSeguemcial, int *pcont,FILE *arqP);
+int alteraPista (struct PistaTeste pistaTeste, FILE *arqP );
 void exclusaoTeste(struct Testes testes);
 //teste
 int mostrarMenuTeste ();
-void inclusaoTeste(struct Testes testes,FILE *arqT);
+void inclusaoTeste(struct Testes testes,FILE *arqT,FILE *arq,FILE *arqP,struct PistaTeste pistaTeste,struct Aviao aviao);
 void alterarTeste(struct Testes testes,FILE *arqT);
 void mostrarMenuAlterar ();
 //consulta
@@ -86,7 +86,7 @@ void mostrarConsultaAviao (struct Aviao aviao,char cod[],FILE *arq);
 void mostrarConsultaPista (struct PistaTeste pistaTeste,int codigoS ,FILE *arqP);
 
 struct Aviao validaCodigo(struct Aviao aviao,FILE *arq);
-
+int mostrarMenuAlterarPista ();
 
 // "CONT" É PARA A STRUCT DE AVIAO, CONT2 PARA PISTAS
 int main(void) {
@@ -213,8 +213,31 @@ textbackground(0);
 				}
 			} while (resp == 0);
 
+		}else if (opcao==2){
+			do{
+			
+		system("cls");
+			gotoxy(5, 3);
+			 opcao =alteraPista (pistaTeste,arqP );
+		if (opcao!= 5){
+		 	do{							
+		
+			
+				printf ("\n\nDeseja continuar ?\nComtinuar [0]-Parar [1]\n\n");
+				scanf ("%i",&resp);
+			}while (resp != 0 & resp !=1 );
+				system ("pause");
+			if (resp == 1) {
+	
+			opcao=4;
 		}
-
+			
+		}else{
+			resp=1;
+			opcao=4;
+		}
+		}while (resp==0);
+}
 	} else if (opcao == 3) {
 	
 		resp =	mostrarMenuTeste();
@@ -224,7 +247,7 @@ textbackground(0);
 		
 			gotoxy(5, 3);
 				system("cls");
-		 inclusaoTeste( testes,arqT);
+		 inclusaoTeste( testes,arqT,arq,arqP,pistaTeste,aviao);
 		 do{							
 		printf ("\n\nDeseja continuar ?\nComtinuar [0]-Parar [1]\n\n");
 		scanf ("%i",&resp);
@@ -344,7 +367,6 @@ textbackground(0);
 
 		return 0 ;
 	}
-
 void mostrarConsultaAviao (struct Aviao aviao,char cod[],FILE *arq ){
  fseek(arq,0,SEEK_SET);
 
@@ -857,8 +879,9 @@ int  inclusaoPista (struct PistaTeste pistaTeste,int codigoSeguemcial, int *pcon
 	fflush(stdin);
 	fgets (pistaTeste.enderecoPista,128,stdin);
 	printf ("|UF da pista:\n");
-	fgets (pistaTeste.uf,2,stdin);
 	fflush(stdin);
+	fgets (pistaTeste.uf,2,stdin);
+
 	do {
 		printf ("|Tamanho do circuito (km) :");
 		scanf ("%f",&pistaTeste.tamanhoCircuito);
@@ -1048,6 +1071,159 @@ int mostrarAlteracaoAviao() {
 
 	return opcao;
 }
+int alteraPista (struct PistaTeste pistaTeste, FILE *arqP ){
+	arqP = fopen ("structPista","r+b");
+		textcolor(7);
+	textbackground(0);
+		
+	int codigoUsuario,opcao;
+		printf ("Informe o codigo seguemcial da pista ");
+		scanf ("%i",&codigoUsuario);
+		while (fread(&pistaTeste,sizeof(pistaTeste),1,arqP)){
+				if (codigoUsuario == pistaTeste.codSequencial){
+					textcolor(10);
+				printf ("\t\tCODIGO VALIDO...\n\n");
+				system ("pause");
+				system ("cls");
+
+				printf ("|ENDEREÇO DA PISTA: %s\n",pistaTeste.enderecoPista);
+				printf ("---------------------------|\n");
+				printf ("|UF DA PISTA : %s\n",pistaTeste.uf);
+				printf ("---------------------------|\n");
+				printf ("|TAMANHO  DA PISTA : %f\n",pistaTeste.tamanhoCircuito);
+				printf ("---------------------------|\n");
+				printf ("|VELOCIDADE MAXIMA : %i\n",pistaTeste.velocidadeMax);
+				printf ("---------------------------|\n");
+				system ("pause");
+					
+				system ("cls");
+				opcao=mostrarMenuAlterarPista();
+				char novoEndereco[64],novoUf[2];
+			
+				switch (opcao) { 
+				case 1:
+						system("cls");
+						gotoxy(5, 3);
+					printf ("informe o novo endereço da pista : ");
+						fflush(stdin);
+						fgets(novoEndereco,64,stdin);
+						
+					strcpy(pistaTeste.enderecoPista,novoEndereco);
+						fseek(arqP,sizeof(pistaTeste)*-1,SEEK_CUR);
+						fwrite (&pistaTeste,sizeof(pistaTeste),1,arqP);
+						fseek(arqP,0,SEEK_SET);
+					break;
+				case 2:
+						system("cls");
+						gotoxy(5, 3);
+					printf ("Informe o novo UF da pista ");
+					fflush(stdin);
+					fgets(pistaTeste.uf,3,stdin);
+		//			strcpy(pistaTeste.uf,novoUf);
+						fseek(arqP,sizeof(pistaTeste)*-1,SEEK_CUR);
+						fwrite (&pistaTeste,sizeof(pistaTeste),1,arqP);
+						fseek(arqP,0,SEEK_SET);
+						break;
+				case 3:
+						system("cls");
+						gotoxy(5, 3);
+					printf ("informe o novo tamanho da pista ");
+					scanf ("%f",&pistaTeste.tamanhoCircuito);
+						fseek(arqP,sizeof(pistaTeste)*-1,SEEK_CUR);
+						fwrite (&pistaTeste,sizeof(pistaTeste),1,arqP);
+						fseek(arqP,0,SEEK_SET);
+					break;
+				case 4:
+						system("cls");
+						gotoxy(5, 3);
+						printf ("informe a nova velocidade ");
+						scanf ("%i",&pistaTeste.velocidadeMax);
+							fseek(arqP,sizeof(pistaTeste)*-1,SEEK_CUR);
+							fwrite (&pistaTeste,sizeof(pistaTeste),1,arqP);
+							fseek(arqP,0,SEEK_SET);
+					break ;
+					case 5:
+						opcao=5;
+						break;
+						
+					
+			}
+			
+				}
+			}
+			fclose (arqP);
+			return opcao;
+}
+int mostrarMenuAlterarPista (){
+	
+	setlocale(LC_ALL, "C");
+	char tecla;
+	int i, opcao;
+	textbackground(0); // Define cor de fundo
+	clrscr();          // Limpa a tela
+	_setcursortype(0); // Desliga o cursor
+	textcolor(15);     // Define cor de face
+
+	gotoxy(19,6);
+	printf("           <<<  MENU ALTERAR PISTA  >>>");
+	// DESENHAR UM QUADRADO
+	// Desenha as linhas horizontais do quadrado
+	textcolor(7);
+	for (i=34; i<=54; i++) {
+		gotoxy(i,9);printf("%c", 196);
+		gotoxy(i,18);printf("%c", 196);
+	}
+	// Desenha as linhas verticais do quadrado
+	for (i=9; i<=17; i++) {
+		gotoxy(33,i);printf("%c", 179);
+		gotoxy(54,i);printf("%c", 179);
+	}
+	// Desenha os quanto cantos do quadrado
+	gotoxy(33,9);printf("%c", 218);
+	gotoxy(54,9);printf("%c", 191);
+	gotoxy(33,18);printf("%c", 192);
+	gotoxy(54,18);printf("%c", 217);
+
+	// OPERACAO DO MENU
+	opcao = 1; // Seleciona a primeira opcao do menu
+	do {
+		setlocale(LC_ALL, "");
+		textcolor(7);
+		textbackground(0);
+		
+		gotoxy(34,11);printf("  ALTERAR ENDEREÇO");
+		gotoxy(34,12);printf("  ALTERAR UF");
+		gotoxy(34,13);printf("  ALTERAR TAMANHO");
+		gotoxy(34,14);printf("  ALTERAR VELOCIDADE");
+		gotoxy(34,15);printf("  VOLTAR AO MENU");
+
+		
+		// Escreve o item selecionado em destaque
+		textcolor(15);
+		//textbackground(1);
+		switch (opcao) {
+			case 1:gotoxy(34,11);printf("->");break;
+			case 2:gotoxy(34,12);printf("->");break;
+			case 3:gotoxy(34,13);printf("->");break;
+			case 4:gotoxy(34,14);printf("->");break;
+			case 5:gotoxy(34,15);printf("->");break;
+		}
+		tecla = getch();    // Recebe a tecla pressionada
+		if (tecla == -32) { // -32 = tecla especial (setas, etc...)
+			tecla = getch(); // Recebe o novo valor ecoado no buffer por ser tecla especial
+			if (tecla == 72) // Seta para cima
+				opcao--;
+			if (tecla == 80) // Seta para baixo
+				opcao++;
+			if (opcao == 0)
+				opcao = 6;
+			if (opcao == 7)
+				opcao = 1;
+		}
+	} while ((tecla != 13) && (tecla != 27)); // 13=ENTER 27=ESC
+	return opcao;
+}
+
 int alteracaoAviao(struct Aviao aviao,FILE *arq) {
 	arq = fopen ("structAviao","r+b");
 	
@@ -1218,11 +1394,13 @@ return opcao;
 }
 
 struct Aviao validaCodigo(struct Aviao aviao,FILE *arq) {
-	 fseek(arq,0,SEEK_CUR);
+		//  fseek(arq,0,SEEK_CUR);
+	  arq=fopen ("structAviao","r+b");
+
 	
 	char codigo[8];
 	int flag, i;
- arq=fopen ("structAviao.txt","r+b");
+
 	do {
 		flag = 0;
 		printf("\n| Código de Identificação: ");
@@ -1233,6 +1411,14 @@ struct Aviao validaCodigo(struct Aviao aviao,FILE *arq) {
 			printf("codigo invalido, digite novamente:");
 			fflush(stdin);
 			fgets(codigo,8,stdin);
+		}
+			while (fread(&aviao,sizeof(aviao),1,arq)){
+			
+			if (strcmp(aviao.codigo,codigo)==0){
+			
+				printf("codigo já registrado, digite outro codigo");
+				flag++;
+			}
 		}
 		if((codigo[0] >=65 && codigo[0] <=90) || (codigo[0] >=97 && codigo[0] <=122 )) {
 			if((codigo[1] >=65 && codigo[1] <=90) || (codigo[1] >=97 && codigo[1] <=122 )) {
@@ -1271,14 +1457,7 @@ struct Aviao validaCodigo(struct Aviao aviao,FILE *arq) {
 			flag++;
 		}
 	
-		while (fread(&aviao, sizeof(aviao), 1, arq)){
-				 fseek(arq,0,SEEK_CUR);
-			if (strcmp(aviao.codigo,codigo)==0){
-			
-				printf("codigo já registrado, digite outro codigo");
-				flag++;
-			}
-		}
+	
 		
 		if(flag == 0) {
 			printf("codigo registrado com sucesso");
@@ -1383,9 +1562,11 @@ void exclusaoTeste(struct Testes testes){
 
 	system("pause");
 }
-void inclusaoTeste(struct Testes testes,FILE *arqT){
-		arqT=fopen ("structTeste.txt","ab");
-		
+void inclusaoTeste(struct Testes testes,FILE *arqT,FILE *arq,FILE *arqP,struct PistaTeste pistaTeste,struct Aviao aviao){
+		arqT=fopen ("structTeste","ab");
+	arqP=fopen ("structPista","r");
+		arq=fopen ("structAviao","r");
+
 			if (arqT== NULL){
 	printf ("Erro na abertura..");
 	exit (1);
@@ -1393,33 +1574,45 @@ void inclusaoTeste(struct Testes testes,FILE *arqT){
 char codigo[7];
 int i, flag, codigoP, velocM;
 		
-	printf(" INCLUSÃO TESTE \n");
-	printf("digite o codigo do aviao: ");
-	fflush(stdin);
-	fgets(codigo,8,stdin);
-	while(codigo[0] == '\n'){
+
+	system ("cls");
+		printf ("informe seu codigo de indentificação do avião : ");
+		fflush(stdin);
+		fgets(codigo,8,stdin);
+		while(codigo[0] == '\n'){
 		printf("código inválido, digite novamente:");
 		fgets(codigo,8,stdin);
 	}
-	strcpy(testes.idAviao,codigo);
-	
+	while (fread(&aviao,sizeof(aviao),1,arq)){
+			if (strcmp(aviao.codigo,codigo)==0){
+	system ("cls");
+
 	printf("digite o codigo sequencial da pista: ");
+	scanf("%d",&codigoP);
 	while(codigoP <= 0 || codigoP >9999){
 		printf("código inválido, digite novamente:");
 		scanf("%d",&codigoP);
 	}
-	testes.idPista = codigoP;
-	
-	printf("\n digite a velocidade maxima em km/h: ");
-	scanf("%d", &velocM);
-	while(velocM <= 0){
-		printf("velocidade inválida, digite novamente:");
-		scanf("%d",&velocM);
-	}	
-	testes.velocidadeMax = velocM;
-	_strdate(testes.data);
-	system("pause");
-	fwrite (&testes,sizeof (testes),1,arqT);
+		while (fread(&pistaTeste,sizeof(pistaTeste),1,arqP)){
+			if (codigoP == pistaTeste.codSequencial){
+		//teste.idAviao = 1 ;
+		fflush(stdin);
+		printf("\n digite a velocidade maxima em km/h: ");
+		scanf("%d", &velocM);
+		while(velocM <= 0){
+			printf("velocidade inválida, digite novamente:");
+			scanf("%d",&velocM);
+		}	
+		testes.velocidadeMax = velocM;
+		_strdate(testes.data);
+		system("pause");
+		fwrite (&testes,sizeof (testes),1,arqT);
+	}
+	}
+}
+}
+	fclose(arqT);
+	fclose(arqP);
 	fclose(arqT);
 }
 void alterarTeste(struct Testes testes,FILE *arqT){

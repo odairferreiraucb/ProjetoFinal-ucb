@@ -79,7 +79,7 @@ void exclusaoTeste(struct Testes testes);
 int mostrarMenuTeste ();
 void inclusaoTeste(struct Testes testes,FILE *arqT,FILE *arq,FILE *arqP,struct PistaTeste pistaTeste,struct Aviao aviao);
 void alterarTeste(struct Testes testes,FILE *arqT);
-void mostrarMenuAlterar ();
+int mostrarMenuAlterar ();
 //consulta
 int mostraMenuConsulta ();
 void mostrarConsultaAviao (struct Aviao aviao,char cod[],FILE *arq);
@@ -130,7 +130,7 @@ textbackground(0);
 	opcao = mostrarMenuPrimcipal ();
 	if (tecla == 27)
 		opcao = 0; // Indicando que saiu do menu sem escolher
-	textcolor(15);
+	textcolor(7);
 	textbackground(0);
 	if (opcao == 1) {
 		textcolor(7);
@@ -239,7 +239,7 @@ textbackground(0);
 		}while (resp==0);
 }
 	} else if (opcao == 3) {
-	
+
 		resp =	mostrarMenuTeste();
 		if (resp == 1){
 			textcolor(7);
@@ -260,6 +260,8 @@ textbackground(0);
 		 }else if (resp == 2){
 		 		gotoxy(5, 3);
 				system("cls");
+				textcolor(7);
+				textbackground(0);
 		 	alterarTeste(testes,arqT);
 		 do{							
 		printf ("\n\nDeseja continuar ?\nComtinuar [0]-Parar [1]\n\n");
@@ -310,15 +312,14 @@ textbackground(0);
 			
 				if (resp == 1) {
 			do{
+					system ("cls");
+					printf ("informe seu codigo de indentificação aviao : ");
 					fflush(stdin);
-					system("cls");
-					gotoxy(5, 3);
-					printf ("Informe o codigo : ");
 					fgets(codigo,8,stdin);
-				
-					mostrarConsultaAviao (aviao,codigo,arq);
-				
-					fseek(arq,0,SEEK_SET);
+					
+							mostrarConsultaAviao (aviao,codigo,arq);
+						
+				system("pause");
 						do{
 								
 					 		printf ("\n\nDeseja continuar ?\nComtinuar [0]-Parar [1]\n\n");
@@ -339,8 +340,7 @@ textbackground(0);
 			
 					
 					 		  mostrarConsultaPista (pistaTeste,codigoS,arqP );
-					 		 		fseek(arqP,0,SEEK_SET);
-					 		 	
+					 		 			system ("pause");
 					 			do{
 								
 					 					printf ("\n\nDeseja continuar ?\nComtinuar [0]-Parar [1]\n\n");
@@ -368,8 +368,7 @@ textbackground(0);
 		return 0 ;
 	}
 void mostrarConsultaAviao (struct Aviao aviao,char cod[],FILE *arq ){
- fseek(arq,0,SEEK_SET);
-
+arq=fopen ("structAviao","r");
 		system("cls");
 		setlocale(LC_ALL, "C");
 	while (fread(&aviao,sizeof(aviao),1,arq)){
@@ -380,13 +379,12 @@ void mostrarConsultaAviao (struct Aviao aviao,char cod[],FILE *arq ){
 							printf ("|Capacidade do avião : %i \n",aviao.capacidade);
 							printf ("|Nome do cliente : %s \n",aviao.nomeCliente);
 							printf ("|Pais de origem do cliente : %s \n",aviao.paisOrigCliente);
-						getch();
 						}
 		}
-
+fclose (arq);
 }
 void mostrarConsultaPista (struct PistaTeste pistaTeste,int codigoS ,FILE *arqP){
-	 fseek(arqP,0,SEEK_SET);
+		arqP = fopen ("structPista","r");
 	system("cls");
 		setlocale(LC_ALL, "C");
 		
@@ -397,9 +395,9 @@ void mostrarConsultaPista (struct PistaTeste pistaTeste,int codigoS ,FILE *arqP)
 							printf ("|Tamanho da pista  : %f \n",pistaTeste.tamanhoCircuito);
 							printf ("|UF da pista : %s \n",pistaTeste.uf);
 							printf ("|Velocidade maxima da pista : %i \n",pistaTeste.velocidadeMax);
-							getch();
 						}
 				}
+				fclose (arqP);
 }
 int mostraMenuConsulta () {
 
@@ -497,7 +495,7 @@ int mostrarMenuPrimcipal() {
 	textbackground(0); // Define cor de fundo
 	clrscr();          // Limpa a tela
 	_setcursortype(0); // Desliga o cursor
-	textcolor(15);     // Define cor de face
+	     // Define cor de face
 
 
 	clrscr();
@@ -598,7 +596,7 @@ int mostrarMenuTeste () {
 	textbackground(0); // Define cor de fundo
 	clrscr();          // Limpa a tela
 	_setcursortype(0); // Desliga o cursor
-	textcolor(15);     // Define cor de face
+    // Define cor de face
 
 	gotoxy(19,6);
 	printf("           <<<  P I S T A - T E S T E   >>>");
@@ -643,7 +641,7 @@ int mostrarMenuTeste () {
 		gotoxy(34,14);
 		printf("  VOLTAR AO MENU");
 		// Escreve o item selecionado em destaque
-		textcolor(15);
+	
 		//textbackground(1);
 		switch (opcao) {
 			case 1:
@@ -1073,10 +1071,9 @@ int mostrarAlteracaoAviao() {
 }
 int alteraPista (struct PistaTeste pistaTeste, FILE *arqP ){
 	arqP = fopen ("structPista","r+b");
-		textcolor(7);
-	textbackground(0);
-		
 	int codigoUsuario,opcao;
+		textcolor(7);
+		textbackground(0);
 		printf ("Informe o codigo seguemcial da pista ");
 		scanf ("%i",&codigoUsuario);
 		while (fread(&pistaTeste,sizeof(pistaTeste),1,arqP)){
@@ -1155,14 +1152,14 @@ int alteraPista (struct PistaTeste pistaTeste, FILE *arqP ){
 			return opcao;
 }
 int mostrarMenuAlterarPista (){
-	
+textcolor(7);
+		textbackground(0);	
 	setlocale(LC_ALL, "C");
 	char tecla;
 	int i, opcao;
 	textbackground(0); // Define cor de fundo
 	clrscr();          // Limpa a tela
 	_setcursortype(0); // Desliga o cursor
-	textcolor(15);     // Define cor de face
 
 	gotoxy(19,6);
 	printf("           <<<  MENU ALTERAR PISTA  >>>");
@@ -1616,9 +1613,12 @@ int i, flag, codigoP, velocM;
 	fclose(arqT);
 }
 void alterarTeste(struct Testes testes,FILE *arqT){
+	arqT=fopen ("structTeste","r+b");
+		
 char codigo[7], menu, sn;
-int flag = 0;
-	do{
+int flag = 0,opcao;
+	textcolor(7);
+	textbackground(0);
 		
 		printf(" ALTERAÇÃO TESTE \n");
 		printf("digite o codigo do avião: ");
@@ -1629,16 +1629,25 @@ int flag = 0;
 			fgets(codigo,8,stdin);
 		}
 		
-		//fazer for para varrer se tem codigo
+	while (fread(&testes,sizeof(testes),1,arqT)){
 		if(stricmp(testes.idAviao,codigo) == 0){
-			flag++;
+			
+			 opcao = mostrarMenuAlterar ();
+			 switch(opcao){
+			 	case 1:
+			 		printf ("Informe a nova velocidade: ");
+			 		scanf ("%i",&testes.velocidadeMax);
+			 		
+			 		
+			fseek(arqT,sizeof(testes)*-1,SEEK_CUR);
+			fwrite (&testes,sizeof(testes),1,arqT);
+			fseek(arqT,0,SEEK_SET);
+			 	break;
+			 }
+
+		
 		}
-		if(flag != 0){
 		
-		
-		
-				 mostrarMenuAlterar ();
-		}else{
 			printf("código inválido,deseja digitar novamente? [S/N]");
 			scanf(" %c", &sn);
 			while(sn !='S' && sn !='N'){
@@ -1648,11 +1657,12 @@ int flag = 0;
 			if(sn == 'N'){
 				exit(1);
 			}
-		}
-	}while(sn != 'N');
 		
+	}while(sn != 'N');
+
+			fclose(arqT);
 }
- void mostrarMenuAlterar (){
+ int mostrarMenuAlterar (){
  	setlocale(LC_ALL, "C");
 	char tecla;
 	int i, opcao;
@@ -1662,7 +1672,7 @@ int flag = 0;
 	textcolor(15);     // Define cor de face
 
 	gotoxy(19,6);
-	printf("           <<<  Menu Pista  >>>");
+	printf("           <<<  Menu Teste  >>>");
 	// DESENHAR UM QUADRADO
 	// Desenha as linhas horizontais do quadrado
 	textcolor(7);
@@ -1732,6 +1742,6 @@ int flag = 0;
 				opcao = 1;
 		}
 	} while ((tecla != 13) && (tecla != 27)); // 13=ENTER 27=ESC
- 	
+ 	return opcao;
  }
 	

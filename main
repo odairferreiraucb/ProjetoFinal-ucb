@@ -1717,7 +1717,11 @@ int flag = 0,opcao,codigo;
 		printf(" ALTERAÇÃO TESTE \n");
 		printf("digite o codigo do teste: ");
 
-	scanf ("%i",&codigo);	
+	scanf ("%i",&codigo);
+	while(codigo <=0){
+		printf("código inválido, digite novamente: ");
+		scanf ("%i",&codigo);
+	}	
 		
 					
 
@@ -1747,6 +1751,10 @@ int flag = 0,opcao,codigo;
 				system("cls");
 			 	printf ("Informe a nova velocidade: ");
 			 	scanf ("%i",&testes.velocidadeMax);
+			 	while(testes.velocidadeMax <= 0){
+			 		printf("velocidade inválida, digite novamente: ");
+			 		scanf ("%i",&testes.velocidadeMax);
+				}
 			 		
 			 		
 			fseek(arqT,sizeof(testes)*-1,SEEK_CUR);

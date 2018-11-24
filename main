@@ -1128,11 +1128,15 @@ int alteraPista (struct PistaTeste pistaTeste, FILE *arqP ){
 				case 1:
 						system("cls");
 						gotoxy(5, 3);
-					printf ("informe o novo endereço da pista : ");
+						printf ("informe o novo endereço da pista : ");
 						fflush(stdin);
 						fgets(novoEndereco,64,stdin);
-						
-					strcpy(pistaTeste.enderecoPista,novoEndereco);
+						while(novoEndereco[0] == '\n'){
+							printf("endereço inválido, digite novamente: ");
+							flush(stdin);
+							fgets(novoEndereco,64,stdin);
+						}
+						strcpy(pistaTeste.enderecoPista,novoEndereco);
 						fseek(arqP,sizeof(pistaTeste)*-1,SEEK_CUR);
 						fwrite (&pistaTeste,sizeof(pistaTeste),1,arqP);
 						fseek(arqP,0,SEEK_SET);
@@ -1151,8 +1155,12 @@ int alteraPista (struct PistaTeste pistaTeste, FILE *arqP ){
 				case 3:
 						system("cls");
 						gotoxy(5, 3);
-					printf ("informe o novo tamanho da pista ");
-					scanf ("%f",&pistaTeste.tamanhoCircuito);
+						printf ("informe o novo tamanho da pista ");
+						scanf ("%f",&pistaTeste.tamanhoCircuito);
+						while(pistaTeste.tamanhoCircuito <= 0){
+							printf("tamanho inválido, digite novamente: ");
+							scanf ("%f",&pistaTeste.tamanhoCircuito);
+						}
 						fseek(arqP,sizeof(pistaTeste)*-1,SEEK_CUR);
 						fwrite (&pistaTeste,sizeof(pistaTeste),1,arqP);
 						fseek(arqP,0,SEEK_SET);
@@ -1162,6 +1170,10 @@ int alteraPista (struct PistaTeste pistaTeste, FILE *arqP ){
 						gotoxy(5, 3);
 						printf ("informe a nova velocidade ");
 						scanf ("%i",&pistaTeste.velocidadeMax);
+						while(pistaTeste.velocidadeMax <= 0){
+							printf("velocidade inválida, digite novamente: ");
+							scanf ("%f",&pistaTeste.velocidadeMax);
+						}
 							fseek(arqP,sizeof(pistaTeste)*-1,SEEK_CUR);
 							fwrite (&pistaTeste,sizeof(pistaTeste),1,arqP);
 							fseek(arqP,0,SEEK_SET);
@@ -1178,6 +1190,8 @@ int alteraPista (struct PistaTeste pistaTeste, FILE *arqP ){
 			fclose (arqP);
 			return opcao;
 }
+
+
 int mostrarMenuAlterarPista (){
 textcolor(7);
 		textbackground(0);	

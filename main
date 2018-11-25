@@ -2186,7 +2186,7 @@ int flag = 0,opcao,codigo;
 
 void relatorioR5(struct Testes testes,FILE *arqT,struct PistaTeste pistaTeste,FILE *arqP){
 char ufP = 64 ;	
-arqT=fopen ("structTeste","rb");
+arqT=fopen ("structTeste","ab");
 arqP=fopen ("structPista","ab");		
 	
 	

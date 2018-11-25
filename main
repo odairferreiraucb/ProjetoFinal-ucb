@@ -33,6 +33,7 @@ Branco......... WHITE........ 15
 
 //structs
 struct Aviao {
+	    int idTeste;
 		char codigo[7];
 		int capacidade;
 		char nomeCliente[64];
@@ -89,7 +90,12 @@ void mostrarConsultaPista (struct PistaTeste pistaTeste,int codigoS ,FILE *arqP)
 
 struct Aviao validaCodigo(struct Aviao aviao,FILE *arq);
 int mostrarMenuAlterarPista ();
-
+// RELATORIOS 
+	int menuRelatorio ();
+int mostrarRelatorioAviao ();
+int mostrarRelatorioPista();
+int relatorioR2 (struct Aviao aviao,FILE *arq);
+int relatorioR3 (struct Testes testes,FILE *arqT);
 // "CONT" É PARA A STRUCT DE AVIAO, CONT2 PARA PISTAS
 int main(void) {
 int resp,continuar,cont = 0, cont2 =0,codigoS;
@@ -312,11 +318,26 @@ textbackground(0);
 
 
 	} else if (opcao == 5) {
-		system("cls");
+	
+				gotoxy(5, 3);	
+				system("cls");
+			opcao= menuRelatorio ();
+			if (opcao==1){
+					gotoxy(5, 3);	
+					system("cls");
+					opcao=relatorioR2 (aviao,arq);
+			}else if (opcao==2){
+					gotoxy(5, 3);	
+					system("cls");
+			opcao = relatorioR3 (testes,arqT);
+			}else if (opcao==3){
+				opcao=4;
+			}
 
-		gotoxy(5, 3);
-		printf ("<< O B R I G A D O >>");
-		break;
+		
+		  
+		  
+		  
 	} else if (opcao == 4 ) {
 		textcolor(7);
 		textbackground(0);
@@ -383,6 +404,316 @@ textbackground(0);
 
 		return 0 ;
 	}
+	int menuRelatorio (){
+	setlocale(LC_ALL, "C");
+	char tecla;
+	int i, opcao,resp;
+	textbackground(0); // Define cor de fundo
+	clrscr();          // Limpa a tela
+	_setcursortype(0); // Desliga o cursor
+	textcolor(15);     // Define cor de face
+
+	gotoxy(19,6);
+	printf("           <<<  R-E-L-A-T-R-I-O-S  >>>");
+	// DESENHAR UM QUADRADO
+	// Desenha as linhas horizontais do quadrado
+	textcolor(7);
+	for (i=34; i<=51; i++) {
+		gotoxy(i,9);
+		printf("%c", 196);
+		gotoxy(i,18);
+		printf("%c", 196);
+	}
+	// Desenha as linhas verticais do quadrado
+	for (i=9; i<=17; i++) {
+		gotoxy(33,i);
+		printf("%c", 179);
+		gotoxy(51,i);
+		printf("%c", 179);
+	}
+	// Desenha os quanto cantos do quadrado
+	gotoxy(33,9);
+	printf("%c", 218);
+	gotoxy(51,9);
+	printf("%c", 191);
+	gotoxy(33,18);
+	printf("%c", 192);
+	gotoxy(51,18);
+	printf("%c", 217);
+
+	// OPERACAO DO MENU
+	opcao = 1; // Seleciona a primeira opcao do menu
+	do {
+		setlocale(LC_ALL, "");
+		textcolor(7);
+		textbackground(0);
+		gotoxy(34,11);
+		printf("  RELATORIO AVIÃO");
+		gotoxy(34,12);
+		printf("  RELATORIO PISTA");
+		gotoxy(34,13);
+		printf("  VOLTAR AO MENU");
+	
+		// Escreve o item selecionado em destaque
+		textcolor(15);
+		//textbackground(1);
+		switch (opcao) {
+			case 1:
+				gotoxy(34,11);
+				printf("->");
+				break;
+			case 2:
+				gotoxy(34,12);
+				printf("->");
+				break;
+			case 3:
+				gotoxy(34,13);
+				printf("->");
+				break;
+		
+		}
+		tecla = getch();    // Recebe a tecla pressionada
+		if (tecla == -32) { // -32 = tecla especial (setas, etc...)
+			tecla = getch(); // Recebe o novo valor ecoado no buffer por ser tecla especial
+			if (tecla == 72) // Seta para cima
+				opcao--;
+			if (tecla == 80) // Seta para baixo
+				opcao++;
+			if (opcao == 0)
+				opcao = 5;
+			if (opcao == 6)
+				opcao = 1;
+		}
+	} while ((tecla != 13) && (tecla != 27)); // 13=ENTER 27=ESC
+		
+		return opcao;
+	
+	}
+	int relatorioR3 (struct Testes testes,FILE *arqT){
+			int codigoP;
+		int opcao;
+		arqT=fopen ("structTeste","rb");
+		opcao=mostrarRelatorioPista();
+	
+		switch (opcao){
+			case 1:
+					system("cls");
+					gotoxy(5, 3);
+					printf ("Informe o codigo da pista : ");
+					scanf ("%i",&codigoP);
+					while (fread(&testes,sizeof(testes),1,arqT) ){
+						if (testes.idPista==codigoP){
+							printf ("|AVIAO: %s\t|PISTA: %i \t|DATA: %s \t|VELOCIDADE: %i",testes.idAviao,testes.idPista,testes.data,testes.velocidadeMax);
+							
+						}
+					}
+					break;
+			case 2:
+			 
+			 break;		
+	}
+		fclose (arqT);
+		return opcao;
+	}
+	int  relatorioR2 (struct Aviao aviao,FILE *arq){
+	arq=fopen ("structAviao","rb");
+
+	int opcao ;
+	char nome [64];
+	opcao =mostrarRelatorioAviao();
+	switch (opcao){
+		case 1:
+			system("cls");
+			gotoxy(5, 3);
+			printf ("Informe o nome do cliente :");
+			fflush(stdin);
+			fgets (nome,64,stdin);
+				while (fread(&aviao,sizeof(aviao),1,arq) ){
+				if (strcmp(aviao.nomeCliente,nome)==0  ) {
+					if (aviao.idTeste==1){
+					
+									printf ("|CODIGO. %s\t |MODELO: %s\t|CAPACIDADE. %i|NOME: %s|PAIS. brasil\n\n\n",aviao.codigo,aviao.modelo,aviao.capacidade,aviao.nomeCliente);
+}
+			}
+			}
+			case 2:
+				opcao=4;
+				break;
+		
+		
+	}
+		
+		system ("pause");
+	fclose (arq);
+	return opcao;
+}
+	int mostrarRelatorioPista(){
+		char tecla;
+	int i, opcao;
+	textbackground(0); // Define cor de fundo
+	clrscr();          // Limpa a tela
+	_setcursortype(0); // Desliga o cursor
+	textcolor(7);     // Define cor de face
+
+	gotoxy(19,6);
+	setlocale(LC_ALL, "C");
+		clrscr();
+	printf("           <<<  R-E-L-A-T-A-R-I-O.-T-E-S-T-E-S   >>>");
+	// DESENHAR UM QUADRADO
+	// Desenha as linhas horizontais do quadrado
+	textcolor(7);
+	for (i=34; i<=50; i++) {
+		gotoxy(i,9);
+		printf("%c", 196);
+		gotoxy(i,18);
+		printf("%c", 196);
+	}
+	// Desenha as linhas verticais do quadrado
+	for (i=9; i<=17; i++) {
+		gotoxy(33,i);
+		printf("%c", 179);
+		gotoxy(50,i);
+		printf("%c", 179);
+	}
+	// Desenha os quanto cantos do quadrado
+	gotoxy(33,9);
+	printf("%c", 218);
+	gotoxy(50,9);
+	printf("%c", 191);
+	gotoxy(33,18);
+	printf("%c", 192);
+	gotoxy(50,18);
+	printf("%c", 217);
+
+	// OPERACAO DO MENU
+	opcao = 1; // Seleciona a primeira opcao do menu
+	do {
+		setlocale(LC_ALL, "");
+		textcolor(7);
+		textbackground(0);
+		gotoxy(34,11);
+		printf("  PESQUISAR PELO ID PISTA");
+		gotoxy(34,12);
+		printf("  PESQUISAR PELA DATA");
+		gotoxy(34,13);
+		printf("  VOLTAR AO MENU");
+		// Escreve o item selecionado em destaque
+		textcolor(15);
+		//textbackground(1);
+		switch (opcao) {
+			case 1:
+				gotoxy(34,11);
+				printf("->");
+				break;
+			case 2:
+				gotoxy(34,12);
+				printf("->");
+				break;
+			case 3:
+				gotoxy(34,13);
+				printf("->");
+				break;
+
+		}
+		tecla = getch();    // Recebe a tecla pressionada
+		if (tecla == -32) { // -32 = tecla especial (setas, etc...)
+			tecla = getch(); // Recebe o novo valor ecoado no buffer por ser tecla especial
+			if (tecla == 72) // Seta para cima
+				opcao--;
+			if (tecla == 80) // Seta para baixo
+				opcao++;
+			if (opcao == 0)
+				opcao = 3;
+			if (opcao == 4)
+				opcao = 1;
+		}
+	} while ((tecla != 13) && (tecla != 27)); // 13=ENTER 27=ESC
+		return opcao;
+	}
+	int mostrarRelatorioAviao (){
+		
+
+	char tecla;
+	int i, opcao;
+	textbackground(0); // Define cor de fundo
+	clrscr();          // Limpa a tela
+	_setcursortype(0); // Desliga o cursor
+	textcolor(7);     // Define cor de face
+
+	gotoxy(19,6);
+	setlocale(LC_ALL, "C");
+		clrscr();
+	printf("           <<<  R-E-LA-T-O-R-I-O--A-V-I-A-O   >>>");
+	// DESENHAR UM QUADRADO
+	// Desenha as linhas horizontais do quadrado
+	textcolor(7);
+	for (i=34; i<=50; i++) {
+		gotoxy(i,9);
+		printf("%c", 196);
+		gotoxy(i,18);
+		printf("%c", 196);
+	}
+	// Desenha as linhas verticais do quadrado
+	for (i=9; i<=17; i++) {
+		gotoxy(33,i);
+		printf("%c", 179);
+		gotoxy(50,i);
+		printf("%c", 179);
+	}
+	// Desenha os quanto cantos do quadrado
+	gotoxy(33,9);
+	printf("%c", 218);
+	gotoxy(50,9);
+	printf("%c", 191);
+	gotoxy(33,18);
+	printf("%c", 192);
+	
+
+	// OPERACAO DO MENU
+	opcao = 1; // Seleciona a primeira opcao do menu
+	do {
+		setlocale(LC_ALL, "");
+		textcolor(7);
+		textbackground(0);
+		gotoxy(34,11);
+		printf("  PESQUISA PELO NOME");
+		gotoxy(34,12);
+		printf("  VOLTAR AO MENU");
+		// Escreve o item selecionado em destaque
+		textcolor(15);
+		//textbackground(1);
+		switch (opcao) {
+			case 1:
+				gotoxy(34,11);
+				printf("->");
+				break;
+			case 2:
+				gotoxy(34,12);
+				printf("->");
+				break;
+		
+
+		}
+		tecla = getch();    // Recebe a tecla pressionada
+		if (tecla == -32) { // -32 = tecla especial (setas, etc...)
+			tecla = getch(); // Recebe o novo valor ecoado no buffer por ser tecla especial
+			if (tecla == 72) // Seta para cima
+				opcao--;
+			if (tecla == 80) // Seta para baixo
+				opcao++;
+			if (opcao == 0)
+				opcao = 3;
+			if (opcao == 4)
+				opcao = 1;
+		}
+	} while ((tecla != 13) && (tecla != 27)); // 13=ENTER 27=ESC
+
+	textcolor(15);
+	textbackground(0);
+	return opcao;
+	system ("pause");
+}
+	
 void mostrarConsultaAviao (struct Aviao aviao,char cod[],FILE *arq ){
 arq=fopen ("structAviao","r");
 		system("cls");
@@ -1616,7 +1947,7 @@ void exclusaoTeste(struct Testes testes,FILE *arqT,FILE * arqT1){
 int inclusaoTeste(struct Testes testes,FILE *arqT,FILE *arq,FILE *arqP,struct PistaTeste pistaTeste,struct Aviao aviao,int idTeste){
 		arqT=fopen ("structTeste","ab");
 		arqP=fopen ("structPista","r");
-		arq=fopen ("structAviao","r");
+		arq=fopen ("structAviao","r+b");
 		textcolor(7);
 		textbackground(0);
 			if (arqT== NULL){
@@ -1637,6 +1968,10 @@ int i, flag, codigoP, velocM;
 	}
 	while (fread(&aviao,sizeof(aviao),1,arq)){
 			if (strcmp(aviao.codigo,codigo)==0){
+				aviao.idTeste=1;
+					fseek(arq,sizeof(aviao)*-1,SEEK_CUR);
+					fwrite (&aviao,sizeof(aviao),1,arq);
+					fseek(arq,0,SEEK_SET);
 		
 		strcpy(testes.idAviao,codigo);
 	system ("cls");
@@ -1649,7 +1984,8 @@ int i, flag, codigoP, velocM;
 	}
 		while (fread(&pistaTeste,sizeof(pistaTeste),1,arqP)){
 			if (codigoP == pistaTeste.codSequencial){
-	testes.idPista=codigoP;
+			
+		testes.idPista=codigoP;
 		fflush(stdin);
 		printf("\n digite a velocidade maxima em km/h: ");
 		scanf("%d", &velocM);
@@ -1824,5 +2160,4 @@ int flag = 0,opcao,codigo;
 	} while ((tecla != 13) && (tecla != 27)); // 13=ENTER 27=ESC
  	return opcao;
  }
-	
 	

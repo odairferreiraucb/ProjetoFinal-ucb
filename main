@@ -91,7 +91,7 @@ void mostrarConsultaPista (struct PistaTeste pistaTeste,int codigoS ,FILE *arqP)
 struct Aviao validaCodigo(struct Aviao aviao,FILE *arq);
 int mostrarMenuAlterarPista ();
 // RELATORIOS 
-	int menuRelatorio ();
+int menuRelatorio ();
 int mostrarRelatorioAviao ();
 int mostrarRelatorioPista();
 int relatorioR2 (struct Aviao aviao,FILE *arq);
@@ -452,7 +452,10 @@ textbackground(0);
 		gotoxy(34,12);
 		printf("  RELATORIO PISTA");
 		gotoxy(34,13);
+		printf("  RELATORIO TODOS OS TESTES POR UF");
+		gotoxy(34,14);
 		printf("  VOLTAR AO MENU");
+		
 	
 		// Escreve o item selecionado em destaque
 		textcolor(15);
@@ -468,6 +471,10 @@ textbackground(0);
 				break;
 			case 3:
 				gotoxy(34,13);
+				printf("->");
+				break;
+			case 4:
+				gotoxy(34,14);
 				printf("->");
 				break;
 		
@@ -494,7 +501,7 @@ textbackground(0);
 		int opcao;
 		char data[1000];
 		arqT=fopen ("structTeste","rb");
-			arqT=fopen ("structTeste","ab");
+		arqT=fopen ("structTeste","ab");
 		opcao=mostrarRelatorioPista();
 	
 		switch (opcao){
@@ -529,12 +536,12 @@ textbackground(0);
 		fclose (arqT);
 		return opcao;
 	}
-	int  relatorioR2 (struct Aviao aviao,FILE *arq){
+int  relatorioR2 (struct Aviao aviao,FILE *arq){
 	arq=fopen ("structAviao","rb");
 
 	int opcao ;
 	char nome [64];
-	opcao =mostrarRelatorioAviao();
+	opcao = mostrarRelatorioAviao();
 	switch (opcao){
 		case 1:
 			system("cls");
@@ -1246,6 +1253,7 @@ int  inclusaoPista (struct PistaTeste pistaTeste,int codigoSeguemcial, int *pcon
 	printf ("|UF da pista:\n");
 	fflush(stdin);
 	fgets (pistaTeste.uf,3,stdin);
+	pistaTeste.uf[0] = toupper(pistaTeste.uf[0]);
 
 	printf ("|Tamanho do circuito (km) :");
 	scanf ("%f",&pistaTeste.tamanhoCircuito);
@@ -2174,4 +2182,22 @@ int flag = 0,opcao,codigo;
 	} while ((tecla != 13) && (tecla != 27)); // 13=ENTER 27=ESC
  	return opcao;
  }
+ 
+
+void relatorioR5(struct Testes testes,FILE *arqT,struct PistaTeste pistaTeste,FILE *arqP){
+char ufP = 64 ;	
+arqT=fopen ("structTeste","rb");
+arqP=fopen ("structPista","ab");		
 	
+	
+	printf("")
+	while (fread(&pistaTeste,sizeof(pistaTeste),1,arqP) && ufP<91 ){
+		ufP++;
+		if(pistaTeste.uf[0] == ufP){
+			while(fread(&testes,sizeof(testes),1,arqT));{
+				
+			}
+		}
+	}
+
+}

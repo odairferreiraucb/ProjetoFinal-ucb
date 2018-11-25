@@ -95,7 +95,7 @@ int mostrarMenuAlterarPista ();
 int mostrarRelatorioAviao ();
 int mostrarRelatorioPista();
 int relatorioR2 (struct Aviao aviao,FILE *arq);
-int relatorioR3 (struct Testes testes,FILE *arqT);
+int relatorioR3 (struct Testes testes,FILE *arqT,struct PistaTeste pistaTeste,FILE *arqP);
 // "CONT" É PARA A STRUCT DE AVIAO, CONT2 PARA PISTAS
 int main(void) {
 int resp,continuar,cont = 0, cont2 =0,codigoS;
@@ -329,7 +329,7 @@ textbackground(0);
 			}else if (opcao==2){
 					gotoxy(5, 3);	
 					system("cls");
-			opcao = relatorioR3 (testes,arqT);
+			opcao = relatorioR3 (testes,arqT,pistaTeste,arqP);
 			}else if (opcao==3){
 				opcao=4;
 			}
@@ -489,10 +489,12 @@ textbackground(0);
 		return opcao;
 	
 	}
-	int relatorioR3 (struct Testes testes,FILE *arqT){
+	int relatorioR3 (struct Testes testes,FILE *arqT,struct PistaTeste pistaTeste,FILE *arqP){
 			int codigoP;
 		int opcao;
+		char data[1000];
 		arqT=fopen ("structTeste","rb");
+			arqT=fopen ("structTeste","ab");
 		opcao=mostrarRelatorioPista();
 	
 		switch (opcao){
@@ -509,9 +511,21 @@ textbackground(0);
 					}
 					break;
 			case 2:
-			 
+				system("cls");
+					gotoxy(5, 3);
+			 printf ("Informe a data do teste : ");
+			 	fflush(stdin);
+				fgets(data,1000,stdin);
+					while (fread(&testes,sizeof(testes),1,arqT)){
+					if(data==testes.data ){
+					printf ("|AVIAO: %s\t|PISTA: %i \t|DATA: %s \t|VELOCIDADE: %i",testes.idAviao,testes.idPista,testes.data,testes.velocidadeMax);
+
+				}
+			}
+		
 			 break;		
 	}
+		fclose (arqT);
 		fclose (arqT);
 		return opcao;
 	}

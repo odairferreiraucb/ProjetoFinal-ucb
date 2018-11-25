@@ -2208,3 +2208,36 @@ arqP=fopen ("structPista","ab");
 	}
 
 }
+
+
+void relatorioR6(struct Testes testes,FILE *arqT){
+arqT=fopen ("structTeste","ab");	
+int velocMin, velocMax;	
+	
+	
+	printf("precisamos de um intervalo de velocidade para este relatório: \n");
+	printf("digite o valor um valor mínimo de velocidade em km/h:");
+	scanf("%d", &velocMin);
+	while(velocMin <0){
+		printf("valor inválido, digite novamente: ");
+		scanf("%d", &velocMin);
+	}
+	printf("digite o valor um valor máximo de velocidade em km/h:");
+	scanf("%d", &velocMax);
+	while(velocMin <0){
+		printf("valor inválido, digite novamente: ");
+		scanf("%d", &velocMax);
+	}
+	system("cls");
+	while(fread(&testes,sizeof(testes),1,arqT));{
+		if(testes.velocidadeMax > velocMin && testes.velocidadeMax < velocMax){
+			printf("UF da pista do teste: %s", pistaTeste.uf);
+			printf("Identificação do avião: %s", testes.idAviao);
+			printf("Identificação da pista: %d", testes.idPista);
+			printf("Identificação do teste: %d", testes.idTeste);
+			printf("velocidade máx: %d" ,testes.velocidadeMax);
+			printf("data do teste : %s", testes.data);
+		}
+	}
+	
+}

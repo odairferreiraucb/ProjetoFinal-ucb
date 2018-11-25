@@ -1590,55 +1590,26 @@ char codigo[7], excluir;
 void exclusaoTeste(struct Testes testes,FILE *arqT,FILE * arqT1){
 	int codigo;
 	char excluir;
-	arqT=fopen ("structTeste","r+b");
-	arqT1=fopen ("novoTeste","w");
+	arqT=fopen ("structTeste","rb");
+	arqT1=fopen ("novoTeste","wb");
 	printf ("Informe o codigo do teste :");
 	scanf ("%i",&codigo);
 	while (fread(&testes,sizeof(testes),1,arqT)){
-			if (codigo == testes.idTeste){
-				testes.idExclusao=1;
-				fseek(arqT,sizeof(testes)*-1,SEEK_CUR);
-				fwrite (&testes,sizeof(testes),1,arqT);
-				fseek(arqT,0,SEEK_SET);
-				rewind(arqT);
-	
-				printf ("\t\tCODIGO VALIDO...\n\n");
-				system ("pause");
-				system ("cls");
-
-				printf ("|DATA DO TESTE: %s\n",testes.data);
-				printf ("---------------------------|\n");
-				printf ("|VELOCIDADE MAXIMA DO TESTE  : %i\n",testes.velocidadeMax);
-				printf ("---------------------------|\n");
-				printf ("|AVIAO DO TESTE : %s\n",testes.idAviao);
-				printf ("---------------------------|\n");
-				printf ("|PISTA DO TESTE : %d\n",testes.idPista);
-				printf ("---------------------------|\n\n");
-				system ("pause");
-				printf("\n\nDeseja realmente EXCLUIR? [S/N]");
-					scanf(" %c", &excluir);
-					excluir = toupper(excluir);
-					while(excluir != 'S' && excluir != 'N'){
-						printf("caracter inválido, digite novamente: ");
-						scanf(" %c", &excluir);
-						excluir = toupper(excluir);
-					}
-					rewind(arqT);
-				if (excluir == 's'){
-					while (fread(&testes,sizeof(testes),1,arqT)){	
-						fseek(arqT1,0,SEEK_SET);
-						if (testes.idExclusao==0){
-							
-							fwrite (&testes,sizeof (testes),1,arqT1);	
-						}
-					}
-				}
-			}
+			if (codigo != testes.idTeste){
+			fwrite (&testes,sizeof (testes),1,arqT1);
 		}
+	}
 	fclose (arqT);
 	fclose (arqT1);
-	arqT1 = remove("structTeste");	
-	rename("novoTeste","structTeste");
+	arqT=fopen ("structTeste","wb");
+	arqT1=fopen ("novoTeste","rb");
+	
+	while (fread(&testes,sizeof(testes),1,arqT1)){
+				fwrite (&testes,sizeof (testes),1,arqT);
+		}
+	
+	fclose (arqT);
+	fclose (arqT1);
 	printf("\n\nexclusão bem sucedida!\n");
 	system("pause");
 }
@@ -1853,4 +1824,5 @@ int flag = 0,opcao,codigo;
 	} while ((tecla != 13) && (tecla != 27)); // 13=ENTER 27=ESC
  	return opcao;
  }
+	
 	

@@ -324,6 +324,7 @@ textbackground(0);
 				gotoxy(5, 3);	
 				system("cls");
 			opcao= menuRelatorio ();
+		if (opcao != 4){
 			if (opcao==1){
 					gotoxy(5, 3);	
 					system("cls");
@@ -357,6 +358,10 @@ textbackground(0);
 	
 			opcao=4;
 		}
+	}else {
+		resp =1;
+		opcao=4;
+	}
 }while(resp ==0);
 		
 		  

@@ -2190,14 +2190,21 @@ arqT=fopen ("structTeste","rb");
 arqP=fopen ("structPista","ab");		
 	
 	
-	printf("")
 	while (fread(&pistaTeste,sizeof(pistaTeste),1,arqP) && ufP<91 ){
 		ufP++;
 		if(pistaTeste.uf[0] == ufP){
 			while(fread(&testes,sizeof(testes),1,arqT));{
-				
+				if(pistaTeste.codSequencial == testes.idPista ){
+					printf("UF da pista do teste: %s", pistaTeste.uf);
+					printf("Identificação do avião: %s", testes.idAviao);
+					printf("Identificação da pista: %d", testes.idPista);
+					printf("Identificação do teste: %d", testes.idTeste);
+					printf("velocidade máx: %d" ,testes.velocidadeMax);
+					printf("data do teste : %s", testes.data);
+				}
 			}
 		}
+		printf("\n\n");
 	}
 
 }

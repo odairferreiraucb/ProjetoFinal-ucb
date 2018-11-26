@@ -109,6 +109,8 @@ FILE *arq1;
 FILE *arqP;
 FILE *arqT;
 FILE * arqT1;
+arqP=fopen ("structPista","r");
+arqT=fopen ("structTeste","r");
 setlocale(LC_ALL, "");
 //int tempo = clock(); //começa a contar o tempo
 //while(clock() - tempo < 3000) { //enquanto não se passaram 5segundos
@@ -130,9 +132,17 @@ setlocale(LC_ALL, "");
 //
 //	while(clock() - tempo < 3000) { //enquanto não se passaram 5segundos
 //	}
-//}
-codigoSequencial = 1000 ;
-idTeste = 1000;
+//}	
+	
+if (pistaTeste.codSequencial==0){
+	codigoSequencial = 1000 ;
+	}	
+
+
+if (testes.idTeste==0){
+	idTeste = 1000;
+	}
+
 do {
 	
 textbackground(15);
@@ -214,8 +224,8 @@ textbackground(15);
 		textcolor(7);
 		textbackground(0);
 		gotoxy(5, 3);
-	opcao =	mostraMenuPista();
-
+		opcao =	mostraMenuPista();
+		
 		if (opcao == 3) {
 			opcao = 4;
 
@@ -486,7 +496,8 @@ textbackground(15);
 			}
 		}while(opcao == 4);
 		
-
+fclose (arqT);
+fclose (arqP);
 		return 0 ;
 	}
 int mostrarRelatorioTeste (){

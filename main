@@ -135,7 +135,7 @@ codigoSeguemcial = 1000 ;
 idTeste = 1000;
 do {
 	
-textbackground(0);
+textbackground(15);
 	opcao = mostrarMenuPrimcipal ();
 	if (tecla == 27)
 		opcao = 0; // Indicando que saiu do menu sem escolher
@@ -169,19 +169,29 @@ textbackground(0);
 
 			} while(resp == 0);
 		} else if (opcao == 2) {
+	do{
+			
 			system("cls");
 			gotoxy(5, 3);
 			 opcao=alteracaoAviao(aviao,arq);
 			
-
-	
-		if (resp == 1){
-
-			opcao = 4;
-		}
-			if (resp == 6) {
+		if (opcao != 6){
+						do{
+							system("cls");
+							gotoxy(5, 5);		
+					printf ("\n\nDeseja continuar ?\nComtinuar [0]-Parar [1]\n\n");
+					scanf ("%i",&resp);
+					}while (resp != 0 & resp !=1 );
+				if (resp == 1) {
+					opcao = 4;
+				}
+		}else {
 				opcao=4;
-			}
+				resp=1;
+			
+	
+		}
+	} while (resp == 0);
 		}else if (opcao == 3 ){
 			do{
 			
@@ -227,11 +237,12 @@ textbackground(0);
 			} while (resp == 0);
 
 		}else if (opcao==2){
-			do{
+		
+		do{
 			
 		system("cls");
 			gotoxy(5, 3);
-			 opcao =alteraPista (pistaTeste,arqP );
+			 opcao = alteraPista (pistaTeste,arqP );
 		if (opcao!= 5){
 		 	do{							
 		
@@ -245,12 +256,13 @@ textbackground(0);
 			opcao=4;
 		}
 			
-		}else{
-			resp=1;
+		}else{	
 			opcao=4;
+			resp=1;
+		
 		}
-		}while (resp==0);
-}
+		}while(resp==0);
+	}
 	} else if (opcao == 3) {
 		textcolor(7);
 		textbackground(0);
@@ -326,17 +338,57 @@ textbackground(0);
 			opcao= menuRelatorio ();
 		if (opcao != 4){
 			if (opcao==1){
+				do {
+			
 					gotoxy(5, 3);	
 					system("cls");
 					opcao=relatorioR2 (aviao,arq);
+			if (opcao!=2){
+					
+			do{							
+			printf ("\n\nDeseja continuar ?\nComtinuar [0]-Parar [1]\n\n");
+			scanf ("%i",&resp);
+			}while (resp != 0 & resp !=1 );
+			system ("pause");
+	
+		if (resp == 1) {
+	
+			opcao=4;
+		}
+	}else {
+		resp=1;
+		opcao=4;
+	}
+	}while (resp==0);
 			}else if (opcao==2){
+				do{
 					gotoxy(5, 3);	
 					system("cls");
 			opcao = relatorioR3 (testes,arqT,pistaTeste,arqP);
-			opcao=mostrarRelatorioTeste ();
-			}else if (opcao==3){
+		if (opcao!=3){
+		
+			
+				do{							
+			printf ("\n\nDeseja continuar ?\nComtinuar [0]-Parar [1]\n\n");
+			scanf ("%i",&resp);
+			}while (resp != 0 & resp !=1 );
+			system ("pause");
 	
+		if (resp == 1) {
+	
+			opcao=4;
+		}
+	}else {
+		resp=1;
+		opcao=4;
+	}
+		}while (resp==0);
+			}else if (opcao==3){
+	do{
 				opcao=mostrarRelatorioTeste();
+		if (opcao !=3){
+		
+				
 				if (opcao==1){
 				system("cls");
 				gotoxy(5, 3);
@@ -345,19 +397,23 @@ textbackground(0);
 				system("cls");
 				gotoxy(5, 3);
 					relatorioR6( testes,arqT);
-				}else if (opcao == 3){
+				}
+					do{							
+				printf ("\n\nDeseja continuar ?\nComtinuar [0]-Parar [1]\n\n");
+				scanf ("%i",&resp);
+				}while (resp != 0 & resp !=1 );
+				system ("pause");
+				if (resp == 1) {
+	
 					opcao=4;
 				}
+			}else {
+				resp=1;
+				opcao=4;
 			}
-		do{							
-		printf ("\n\nDeseja continuar ?\nComtinuar [0]-Parar [1]\n\n");
-		scanf ("%i",&resp);
-	}while (resp != 0 & resp !=1 );
-			system ("pause");
-		if (resp == 1) {
+		}while(resp==0);
+			}
 	
-			opcao=4;
-		}
 	}else {
 		resp =1;
 		opcao=4;
@@ -521,79 +577,77 @@ int mostrarRelatorioTeste (){
 	return opcao;
 }
 	int menuRelatorio (){
-	setlocale(LC_ALL, "C");
+		setlocale(LC_ALL, "");
 	char tecla;
-	int i, opcao,resp;
-	textbackground(0); // Define cor de fundo
+	int i, opcao;
+	textbackground(15); // Define cor de fundo
 	clrscr();          // Limpa a tela
 	_setcursortype(0); // Desliga o cursor
-	textcolor(15);     // Define cor de face
+	     // Define cor de face
 
-	gotoxy(19,6);
-	printf("           <<<  R-E-L-A-T-R-I-O-S  >>>");
+	textcolor(1);
+	clrscr();
+	gotoxy(41,6);
+	printf("           <<<   A V I Ã O  >>>");
 	// DESENHAR UM QUADRADO
 	// Desenha as linhas horizontais do quadrado
-	textcolor(7);
-	for (i=34; i<=51; i++) {
+	textcolor(0);
+
+	setlocale(LC_ALL, "C");
+	for (i=50; i<=70; i++) {
 		gotoxy(i,9);
-		printf("%c", 196);
-		gotoxy(i,18);
-		printf("%c", 196);
+		printf("%c", 205);
+		gotoxy(i,18);+
+		printf("%c", 205);
 	}
 	// Desenha as linhas verticais do quadrado
-	for (i=9; i<=17; i++) {
-		gotoxy(33,i);
-		printf("%c", 179);
-		gotoxy(51,i);
-		printf("%c", 179);
+for (i=9; i<=17; i++) {
+		gotoxy(50,i);printf("%c", 179);
+		gotoxy(70,i);printf("%c", 179);
 	}
 	// Desenha os quanto cantos do quadrado
-	gotoxy(33,9);
-	printf("%c", 218);
-	gotoxy(51,9);
-	printf("%c", 191);
-	gotoxy(33,18);
-	printf("%c", 192);
-	gotoxy(51,18);
-	printf("%c", 217);
+	gotoxy(50,9);printf("%c", 218);
+	gotoxy(70,9);printf("%c", 191);
+	gotoxy(50,18);printf("%c", 200);
+	gotoxy(70,18);printf("%c", 188);
+
 
 	// OPERACAO DO MENU
 	opcao = 1; // Seleciona a primeira opcao do menu
 	do {
 		setlocale(LC_ALL, "");
-		textcolor(7);
-		textbackground(0);
-		gotoxy(34,11);
-		printf("  RELATORIO AVIÃO");
-		gotoxy(34,12);
-		printf("  RELATORIO PISTA");
-		gotoxy(34,13);
-		printf("  RELATORIO TESTES");
-		gotoxy(34,14);
-		printf("  VOLTAR AO MENU");
-		
+		textcolor(0);
+		textbackground(15);
+		gotoxy(53,11);
+		printf("  Relatorio Avião");
+		gotoxy(53,12);
+		printf("  Relatorio Pista");
+		gotoxy(53,13);
+		printf("  Relatorio Teste");
+		gotoxy(53,14);
+		printf("  Voltar ao Menu ");
 	
 		// Escreve o item selecionado em destaque
-		textcolor(15);
+		textcolor(0);
 		//textbackground(1);
 		switch (opcao) {
 			case 1:
-				gotoxy(34,11);
+				gotoxy(53,11);
 				printf("->");
 				break;
 			case 2:
-				gotoxy(34,12);
+				gotoxy(53,12);
 				printf("->");
 				break;
 			case 3:
-				gotoxy(34,13);
+				gotoxy(53,13);
 				printf("->");
 				break;
 			case 4:
-				gotoxy(34,14);
+				gotoxy(53,14);
 				printf("->");
 				break;
-		
+			
 		}
 		tecla = getch();    // Recebe a tecla pressionada
 		if (tecla == -32) { // -32 = tecla especial (setas, etc...)
@@ -603,12 +657,13 @@ int mostrarRelatorioTeste (){
 			if (tecla == 80) // Seta para baixo
 				opcao++;
 			if (opcao == 0)
-				opcao = 5;
-			if (opcao == 6)
+				opcao = 4;
+			if (opcao == 5)
 				opcao = 1;
 		}
-	} while ((tecla != 13) && (tecla != 27)); // 13=ENTER 27=ESC
 		
+	} while ((tecla != 13) && (tecla != 27)); // 13=ENTER 27=ESC
+
 		return opcao;
 	
 	}
@@ -673,14 +728,12 @@ int  relatorioR2 (struct Aviao aviao,FILE *arq){
 }
 			}
 			}
-			case 2:
-				opcao=4;
-				break;
+			
 		
 		
 	}
 		
-		system ("pause");
+		
 	fclose (arq);
 	return opcao;
 }
@@ -884,73 +937,73 @@ void mostrarConsultaPista (struct PistaTeste pistaTeste,int codigoS ,FILE *arqP)
 				fclose (arqP);
 }
 int mostraMenuConsulta () {
-
+setlocale(LC_ALL, "");
 	char tecla;
 	int i, opcao;
-	textbackground(0); // Define cor de fundo
+	textbackground(15); // Define cor de fundo
 	clrscr();          // Limpa a tela
 	_setcursortype(0); // Desliga o cursor
-	textcolor(7);     // Define cor de face
+	     // Define cor de face
 
-	gotoxy(19,6);
-	setlocale(LC_ALL, "C");
-		clrscr();
-	printf("           <<<  C-O-N-S-U-L-T-A   >>>");
+	textcolor(1);
+	clrscr();
+	gotoxy(41,6);
+	printf("           <<<   A V I Ã O  >>>");
 	// DESENHAR UM QUADRADO
 	// Desenha as linhas horizontais do quadrado
-	textcolor(7);
-	for (i=34; i<=50; i++) {
+	textcolor(0);
+
+	setlocale(LC_ALL, "C");
+	for (i=50; i<=70; i++) {
 		gotoxy(i,9);
-		printf("%c", 196);
-		gotoxy(i,18);
-		printf("%c", 196);
+		printf("%c", 205);
+		gotoxy(i,18);+
+		printf("%c", 205);
 	}
 	// Desenha as linhas verticais do quadrado
-	for (i=9; i<=17; i++) {
-		gotoxy(33,i);
-		printf("%c", 179);
-		gotoxy(50,i);
-		printf("%c", 179);
+for (i=9; i<=17; i++) {
+		gotoxy(50,i);printf("%c", 179);
+		gotoxy(70,i);printf("%c", 179);
 	}
 	// Desenha os quanto cantos do quadrado
-	gotoxy(33,9);
-	printf("%c", 218);
-	gotoxy(50,9);
-	printf("%c", 191);
-	gotoxy(33,18);
-	printf("%c", 192);
-	gotoxy(50,18);
-	printf("%c", 217);
+	gotoxy(50,9);printf("%c", 218);
+	gotoxy(70,9);printf("%c", 191);
+	gotoxy(50,18);printf("%c", 200);
+	gotoxy(70,18);printf("%c", 188);
+
 
 	// OPERACAO DO MENU
 	opcao = 1; // Seleciona a primeira opcao do menu
 	do {
 		setlocale(LC_ALL, "");
-		textcolor(7);
-		textbackground(0);
-		gotoxy(34,11);
-		printf("  LISTA AVIÃO");
-		gotoxy(34,12);
-		printf("  LISTA PISTA");
-		gotoxy(34,13);
-		printf("  VOLTAR AO MENU");
+		textcolor(0);
+		textbackground(15);
+		gotoxy(53,11);
+		printf("  Lista Avião");
+		gotoxy(53,12);
+		printf("  Lista Pista");
+		gotoxy(53,13);
+		printf("  Voltar ao Menu ");
+	
+	
 		// Escreve o item selecionado em destaque
-		textcolor(15);
+		textcolor(0);
 		//textbackground(1);
 		switch (opcao) {
 			case 1:
-				gotoxy(34,11);
+				gotoxy(53,11);
 				printf("->");
 				break;
 			case 2:
-				gotoxy(34,12);
+				gotoxy(53,12);
 				printf("->");
 				break;
 			case 3:
-				gotoxy(34,13);
+				gotoxy(53,13);
 				printf("->");
 				break;
-
+		
+			
 		}
 		tecla = getch();    // Recebe a tecla pressionada
 		if (tecla == -32) { // -32 = tecla especial (setas, etc...)
@@ -964,8 +1017,8 @@ int mostraMenuConsulta () {
 			if (opcao == 4)
 				opcao = 1;
 		}
+		
 	} while ((tecla != 13) && (tecla != 27)); // 13=ENTER 27=ESC
-
 	textcolor(15);
 	textbackground(0);
 	return opcao;
@@ -976,81 +1029,76 @@ int mostrarMenuPrimcipal() {
 	setlocale(LC_ALL, "C");
 	char tecla;
 	int i, opcao;
-	textbackground(0); // Define cor de fundo
+	textbackground(15); // Define cor de fundo
 	clrscr();          // Limpa a tela
 	_setcursortype(0); // Desliga o cursor
 	     // Define cor de face
 
-
+	textcolor(1);
 	clrscr();
-	gotoxy(19,6);
+	gotoxy(41,6);
 	printf("           <<<   M E N U   >>>");
 	// DESENHAR UM QUADRADO
 	// Desenha as linhas horizontais do quadrado
-	textcolor(7);
+	textcolor(0);
 
 	setlocale(LC_ALL, "C");
-	for (i=34; i<=45; i++) {
+	for (i=50; i<=70; i++) {
 		gotoxy(i,9);
-		printf("%c", 196);
-		gotoxy(i,18);
-		printf("%c", 196);
+		printf("%c", 205);
+		gotoxy(i,18);+
+		printf("%c", 205);
 	}
 	// Desenha as linhas verticais do quadrado
-	for (i=9; i<=17; i++) {
-		gotoxy(33,i);
-		printf("%c", 179);
-		gotoxy(46,i);
-		printf("%c", 179);
+for (i=9; i<=17; i++) {
+		gotoxy(50,i);printf("%c", 179);
+		gotoxy(70,i);printf("%c", 179);
 	}
 	// Desenha os quanto cantos do quadrado
-	gotoxy(33,9);
-	printf("%c", 218);
-	gotoxy(46,9);
-	printf("%c", 191);
-	gotoxy(33,18);
-	printf("%c", 192);
-	gotoxy(46,18);
-	printf("%c", 217);
+	gotoxy(50,9);printf("%c", 218);
+	gotoxy(70,9);printf("%c", 191);
+	gotoxy(50,18);printf("%c", 200);
+	gotoxy(70,18);printf("%c", 188);
+
 
 	// OPERACAO DO MENU
 	opcao = 1; // Seleciona a primeira opcao do menu
 	do {
 		setlocale(LC_ALL, "");
-		textcolor(7);
-		textbackground(0);
-		gotoxy(34,11);
+		textcolor(0);
+		textbackground(15);
+		gotoxy(53,11);
 		printf("  Menu Avião");
-		gotoxy(34,12);
+		gotoxy(53,12);
 		printf("  Menu Pista");
-		gotoxy(34,13);
+		gotoxy(53,13);
 		printf("  Menu Teste");
-		gotoxy(34,14);
+		gotoxy(53,14);
 		printf("  Consulta  ");
-		gotoxy(34,15);
+		gotoxy(53,15);
 		printf("  RELATORIO ");
 		// Escreve o item selecionado em destaque
-		textcolor(15);
+		textcolor(0);
 		//textbackground(1);
 		switch (opcao) {
 			case 1:
-				gotoxy(34,11);
+				gotoxy(53,11);
 				printf("->");
 				break;
 			case 2:
-				gotoxy(34,12);
+				gotoxy(53,12);
 				printf("->");
 				break;
 			case 3:
-				gotoxy(34,13);
+				gotoxy(53,13);
 				printf("->");
 				break;
 			case 4:
-				gotoxy(34,14);
+				gotoxy(53,14);
 				printf("->");
 				break;
 			case 5:
-				gotoxy(34,15);
+				gotoxy(53,15);
 				printf("->");
 				break;
 		}
@@ -1066,6 +1114,7 @@ int mostrarMenuPrimcipal() {
 			if (opcao == 6)
 				opcao = 1;
 		}
+		
 	} while ((tecla != 13) && (tecla != 27)); // 13=ENTER 27=ESC
 
 	return opcao;
@@ -1074,76 +1123,77 @@ int mostrarMenuPrimcipal() {
 
 int mostrarMenuTeste () {
 
-	setlocale(LC_ALL, "C");
+		setlocale(LC_ALL, "");
 	char tecla;
 	int i, opcao;
-	textbackground(0); // Define cor de fundo
+	textbackground(15); // Define cor de fundo
 	clrscr();          // Limpa a tela
 	_setcursortype(0); // Desliga o cursor
-    // Define cor de face
+	     // Define cor de face
 
-	gotoxy(19,6);
-	printf("           <<<  P I S T A - T E S T E   >>>");
+	textcolor(1);
+	clrscr();
+	gotoxy(41,6);
+	printf("           <<<   A V I Ã O  >>>");
 	// DESENHAR UM QUADRADO
 	// Desenha as linhas horizontais do quadrado
-	textcolor(7);
-	for (i=34; i<=50; i++) {
+	textcolor(0);
+
+	setlocale(LC_ALL, "C");
+	for (i=50; i<=70; i++) {
 		gotoxy(i,9);
-		printf("%c", 196);
-		gotoxy(i,18);
-		printf("%c", 196);
+		printf("%c", 205);
+		gotoxy(i,18);+
+		printf("%c", 205);
 	}
 	// Desenha as linhas verticais do quadrado
-	for (i=9; i<=17; i++) {
-		gotoxy(33,i);
-		printf("%c", 179);
-		gotoxy(50,i);
-		printf("%c", 179);
+for (i=9; i<=17; i++) {
+		gotoxy(50,i);printf("%c", 179);
+		gotoxy(70,i);printf("%c", 179);
 	}
 	// Desenha os quanto cantos do quadrado
-	gotoxy(33,9);
-	printf("%c", 218);
-	gotoxy(50,9);
-	printf("%c", 191);
-	gotoxy(33,18);
-	printf("%c", 192);
-	gotoxy(50,18);
-	printf("%c", 217);
+	gotoxy(50,9);printf("%c", 218);
+	gotoxy(70,9);printf("%c", 191);
+	gotoxy(50,18);printf("%c", 200);
+	gotoxy(70,18);printf("%c", 188);
+
 
 	// OPERACAO DO MENU
 	opcao = 1; // Seleciona a primeira opcao do menu
 	do {
 		setlocale(LC_ALL, "");
-		textcolor(7);
-		textbackground(0);
-		gotoxy(34,11);
-		printf("  INCLUIR TESTE");
-		gotoxy(34,12);
-		printf("  ALTERAR TESTE");
-		gotoxy(34,13);
-		printf("  EXCLUIR TESTE");
-		gotoxy(34,14);
-		printf("  VOLTAR AO MENU");
-		// Escreve o item selecionado em destaque
+		textcolor(0);
+		textbackground(15);
+		gotoxy(53,11);
+		printf("  Incluir Teste");
+		gotoxy(53,12);
+		printf("  Alterar Teste");
+		gotoxy(53,13);
+		printf("  excluir Teste ");
+		gotoxy(53,14);
+		printf("  Voltar ao Menu ");
 	
+		// Escreve o item selecionado em destaque
+		textcolor(0);
 		//textbackground(1);
 		switch (opcao) {
 			case 1:
-				gotoxy(34,11);
+				gotoxy(53,11);
 				printf("->");
 				break;
 			case 2:
-				gotoxy(34,12);
+				gotoxy(53,12);
 				printf("->");
 				break;
 			case 3:
-				gotoxy(34,13);
+				gotoxy(53,13);
 				printf("->");
 				break;
 			case 4:
-				gotoxy(34,14);
+				gotoxy(53,14);
 				printf("->");
 				break;
+			
 		}
 		tecla = getch();    // Recebe a tecla pressionada
 		if (tecla == -32) { // -32 = tecla especial (setas, etc...)
@@ -1153,11 +1203,13 @@ int mostrarMenuTeste () {
 			if (tecla == 80) // Seta para baixo
 				opcao++;
 			if (opcao == 0)
-				opcao = 5;
-			if (opcao == 6)
+				opcao = 4;
+			if (opcao == 5)
 				opcao = 1;
 		}
+		
 	} while ((tecla != 13) && (tecla != 27)); // 13=ENTER 27=ESC
+
 
 	textcolor(15);
 	textbackground(7);
@@ -1166,72 +1218,73 @@ int mostrarMenuTeste () {
 }
 
 int mostraMenuPista () {
-
-	setlocale(LC_ALL, "C");
+setlocale(LC_ALL, "");
 	char tecla;
 	int i, opcao;
-	textbackground(0); // Define cor de fundo
+	textbackground(15); // Define cor de fundo
 	clrscr();          // Limpa a tela
 	_setcursortype(0); // Desliga o cursor
-	textcolor(15);     // Define cor de face
+	     // Define cor de face
 
-	gotoxy(19,6);
-	printf("           <<<  P I S T A  >>>");
+	textcolor(1);
+	clrscr();
+	gotoxy(41,6);
+	printf("           <<<   A V I Ã O  >>>");
 	// DESENHAR UM QUADRADO
 	// Desenha as linhas horizontais do quadrado
-	textcolor(7);
-	for (i=34; i<=50; i++) {
+	textcolor(0);
+
+	setlocale(LC_ALL, "C");
+	for (i=50; i<=70; i++) {
 		gotoxy(i,9);
-		printf("%c", 196);
-		gotoxy(i,18);
-		printf("%c", 196);
+		printf("%c", 205);
+		gotoxy(i,18);+
+		printf("%c", 205);
 	}
 	// Desenha as linhas verticais do quadrado
-	for (i=9; i<=17; i++) {
-		gotoxy(33,i);
-		printf("%c", 179);
-		gotoxy(50,i);
-		printf("%c", 179);
+for (i=9; i<=17; i++) {
+		gotoxy(50,i);printf("%c", 179);
+		gotoxy(70,i);printf("%c", 179);
 	}
 	// Desenha os quanto cantos do quadrado
-	gotoxy(33,9);
-	printf("%c", 218);
-	gotoxy(50,9);
-	printf("%c", 191);
-	gotoxy(33,18);
-	printf("%c", 192);
-	gotoxy(50,18);
-	printf("%c", 217);
+	gotoxy(50,9);printf("%c", 218);
+	gotoxy(70,9);printf("%c", 191);
+	gotoxy(50,18);printf("%c", 200);
+	gotoxy(70,18);printf("%c", 188);
+
 
 	// OPERACAO DO MENU
 	opcao = 1; // Seleciona a primeira opcao do menu
 	do {
 		setlocale(LC_ALL, "");
-		textcolor(7);
-		textbackground(0);
-		gotoxy(34,11);
-		printf("  INCLUIR PISTA");
-		gotoxy(34,12);
-		printf("  ALTERAR PISTA");
-		gotoxy(34,13);
-		printf("  VOLTAR AO MENU");
+		textcolor(0);
+		textbackground(15);
+		gotoxy(53,11);
+		printf("  Incluir Pista");
+		gotoxy(53,12);
+		printf("  Alterar Pista");
+		gotoxy(53,13);
+		printf("  Voltar ao Menu ");
+	
+	
 		// Escreve o item selecionado em destaque
-		textcolor(15);
+		textcolor(0);
 		//textbackground(1);
 		switch (opcao) {
 			case 1:
-				gotoxy(34,11);
+				gotoxy(53,11);
 				printf("->");
 				break;
 			case 2:
-				gotoxy(34,12);
+				gotoxy(53,12);
 				printf("->");
 				break;
 			case 3:
-				gotoxy(34,13);
+				gotoxy(53,13);
 				printf("->");
 				break;
-
+		
+			
 		}
 		tecla = getch();    // Recebe a tecla pressionada
 		if (tecla == -32) { // -32 = tecla especial (setas, etc...)
@@ -1241,10 +1294,11 @@ int mostraMenuPista () {
 			if (tecla == 80) // Seta para baixo
 				opcao++;
 			if (opcao == 0)
-				opcao = 5;
-			if (opcao == 6)
+				opcao = 3;
+			if (opcao == 4)
 				opcao = 1;
 		}
+		
 	} while ((tecla != 13) && (tecla != 27)); // 13=ENTER 27=ESC
 
 	textcolor(15);
@@ -1253,76 +1307,77 @@ int mostraMenuPista () {
 
 }
 int mostraMenuAviao () {
-	setlocale(LC_ALL, "C");
+	setlocale(LC_ALL, "");
 	char tecla;
-	int i, opcao,resp;
-	textbackground(0); // Define cor de fundo
+	int i, opcao;
+	textbackground(15); // Define cor de fundo
 	clrscr();          // Limpa a tela
 	_setcursortype(0); // Desliga o cursor
-	textcolor(15);     // Define cor de face
+	     // Define cor de face
 
-	gotoxy(19,6);
-	printf("           <<<  A V I A O   >>>");
+	textcolor(1);
+	clrscr();
+	gotoxy(41,6);
+	printf("           <<<   A V I Ã O  >>>");
 	// DESENHAR UM QUADRADO
 	// Desenha as linhas horizontais do quadrado
-	textcolor(7);
-	for (i=34; i<=51; i++) {
+	textcolor(0);
+
+	setlocale(LC_ALL, "C");
+	for (i=50; i<=70; i++) {
 		gotoxy(i,9);
-		printf("%c", 196);
-		gotoxy(i,18);
-		printf("%c", 196);
+		printf("%c", 205);
+		gotoxy(i,18);+
+		printf("%c", 205);
 	}
 	// Desenha as linhas verticais do quadrado
-	for (i=9; i<=17; i++) {
-		gotoxy(33,i);
-		printf("%c", 179);
-		gotoxy(51,i);
-		printf("%c", 179);
+for (i=9; i<=17; i++) {
+		gotoxy(50,i);printf("%c", 179);
+		gotoxy(70,i);printf("%c", 179);
 	}
 	// Desenha os quanto cantos do quadrado
-	gotoxy(33,9);
-	printf("%c", 218);
-	gotoxy(51,9);
-	printf("%c", 191);
-	gotoxy(33,18);
-	printf("%c", 192);
-	gotoxy(51,18);
-	printf("%c", 217);
+	gotoxy(50,9);printf("%c", 218);
+	gotoxy(70,9);printf("%c", 191);
+	gotoxy(50,18);printf("%c", 200);
+	gotoxy(70,18);printf("%c", 188);
+
 
 	// OPERACAO DO MENU
 	opcao = 1; // Seleciona a primeira opcao do menu
 	do {
 		setlocale(LC_ALL, "");
-		textcolor(7);
-		textbackground(0);
-		gotoxy(34,11);
-		printf("  INCLUIR AVIÃO");
-		gotoxy(34,12);
-		printf("  ALTERAR AVIAO");
-		gotoxy(34,13);
-		printf("  EXCLUIR AVIAO");
-		gotoxy(34,14);
-		printf("  VOLTAR AO MENU");
+		textcolor(0);
+		textbackground(15);
+		gotoxy(53,11);
+		printf("  Incluir Avião");
+		gotoxy(53,12);
+		printf("  Alterar Avião");
+		gotoxy(53,13);
+		printf("  excluir Avião");
+		gotoxy(53,14);
+		printf("  Voltar ao Menu");
+	
 		// Escreve o item selecionado em destaque
-		textcolor(15);
+		textcolor(0);
 		//textbackground(1);
 		switch (opcao) {
 			case 1:
-				gotoxy(34,11);
+				gotoxy(53,11);
 				printf("->");
 				break;
 			case 2:
-				gotoxy(34,12);
+				gotoxy(53,12);
 				printf("->");
 				break;
 			case 3:
-				gotoxy(34,13);
+				gotoxy(53,13);
 				printf("->");
 				break;
 			case 4:
-				gotoxy(34,14);
+				gotoxy(53,14);
 				printf("->");
 				break;
+			
 		}
 		tecla = getch();    // Recebe a tecla pressionada
 		if (tecla == -32) { // -32 = tecla especial (setas, etc...)
@@ -1332,11 +1387,13 @@ int mostraMenuAviao () {
 			if (tecla == 80) // Seta para baixo
 				opcao++;
 			if (opcao == 0)
-				opcao = 5;
-			if (opcao == 6)
+				opcao = 4;
+			if (opcao == 5)
 				opcao = 1;
 		}
+		
 	} while ((tecla != 13) && (tecla != 27)); // 13=ENTER 27=ESC
+
 
 	textcolor(15);
 	textbackground(0);
@@ -1456,88 +1513,87 @@ int inclusaoAviao(struct Aviao aviao,int cont,FILE *arq) {
 
 
 int mostrarAlteracaoAviao() {
-	setlocale(LC_ALL, "C");
+setlocale(LC_ALL, "");
 	char tecla;
-	int i, opcao,resp;
-	textbackground(0); // Define cor de fundo
+	int i, opcao;
+	textbackground(15); // Define cor de fundo
 	clrscr();          // Limpa a tela
 	_setcursortype(0); // Desliga o cursor
-	textcolor(15);     // Define cor de face
+	     // Define cor de face
 
-	gotoxy(19,6);
-	printf("           <<<  P I S T A - T E S T E  >>>");
+	textcolor(1);
+	clrscr();
+	gotoxy(41,6);
+	printf("           <<<  A L T E R A - A V I Ã O  >>>");
 	// DESENHAR UM QUADRADO
 	// Desenha as linhas horizontais do quadrado
-	textcolor(7);
-	for (i=34; i<=60; i++) {
+	textcolor(0);
+
+	setlocale(LC_ALL, "C");
+	for (i=50; i<=71; i++) {
 		gotoxy(i,9);
-		printf("%c", 196);
-		gotoxy(i,18);
-		printf("%c", 196);
+		printf("%c", 205);
+		gotoxy(i,18);+
+		printf("%c", 205);
 	}
 	// Desenha as linhas verticais do quadrado
-	for (i=9; i<=17; i++) {
-		gotoxy(33,i);
-		printf("%c", 179);
-		gotoxy(60,i);
-		printf("%c", 179);
+for (i=9; i<=17; i++) {
+		gotoxy(50,i);printf("%c", 179);
+		gotoxy(71,i);printf("%c", 179);
 	}
 	// Desenha os quanto cantos do quadrado
-	gotoxy(33,9);
-	printf("%c", 218);
-	gotoxy(60,9);
-	printf("%c", 191);
-	gotoxy(33,18);
-	printf("%c", 192);
-	gotoxy(60,18);
-	printf("%c", 217);
+	gotoxy(50,9);printf("%c", 218);
+	gotoxy(71,9);printf("%c", 191);
+	gotoxy(50,18);printf("%c", 200);
+	gotoxy(71,18);printf("%c", 188);
+
 
 	// OPERACAO DO MENU
 	opcao = 1; // Seleciona a primeira opcao do menu
 	do {
 		setlocale(LC_ALL, "");
-		textcolor(7);
-		textbackground(0);
-		gotoxy(34,11);
+		textcolor(0);
+		textbackground(15);
+		gotoxy(51,11);
 		printf("  AlTERAR CODIGO");
-		gotoxy(34,12);
+		gotoxy(51,12);
 		printf("  ALTERAR MODELO");
-		gotoxy(34,13);
+		gotoxy(51,13);
 		printf("  AlTERAR CAPACIDADE");
-		gotoxy(34,14);
-		printf("  AlTERAR NOME CLIENTE:");
-		gotoxy(34,15);
-		printf("  AlTERAR PAIS DO CLIENTE:");
-		gotoxy(34,16);
+		gotoxy(51,14);
+		printf("  AlTERAR CLIENTE");
+		gotoxy(51,15);
+		printf("  AlTERAR PAIS ");
+		gotoxy(51,16);
 		printf("  VOLTAR AO MENU");
 
 
 		// Escreve o item selecionado em destaque
-		textcolor(15);
+		textcolor(0);
 		//textbackground(1);
 		switch (opcao) {
 			case 1:
-				gotoxy(34,11);
+				gotoxy(51,11);
 				printf("->");
 				break;
 			case 2:
-				gotoxy(34,12);
+				gotoxy(51,12);
 				printf("->");
 				break;
 			case 3:
-				gotoxy(34,13);
+				gotoxy(51,13);
 				printf("->");
 				break;
 			case 4:
-				gotoxy(34,14);
+				gotoxy(51,14);
 				printf("->");
 				break;
 			case 5:
-				gotoxy(34,15);
+				gotoxy(51,15);
 				printf("->");
 				break;
 			case 6:
-				gotoxy(34,16);
+				gotoxy(50,16);
 				printf("->");
 				break;
 
@@ -1554,7 +1610,11 @@ int mostrarAlteracaoAviao() {
 			if (opcao == 7)
 				opcao = 1;
 		}
+		
 	} while ((tecla != 13) && (tecla != 27)); // 13=ENTER 27=ESC
+
+
+
 
 	textcolor(15);
 	textbackground(0);
@@ -1647,17 +1707,16 @@ int alteraPista (struct PistaTeste pistaTeste, FILE *arqP ){
 							fwrite (&pistaTeste,sizeof(pistaTeste),1,arqP);
 							fseek(arqP,0,SEEK_SET);
 					break ;
-					case 5:
-						opcao=5;
-						break;
+				
 						
 					
 			}
 			
 				}
-			}
-			fclose (arqP);
+					fclose (arqP);
 			return opcao;
+			}
+		
 }
 
 
@@ -1736,7 +1795,7 @@ arq = fopen ("structAviao","r+b");
 int retornoFuncao, i, posicao,resp,opcao,cont=0, flag = 0;
 char codigo[7], modelo[10], nome[64];
 
-	do {	
+
 		system ("cls");
 		printf ("informe seu codigo de indentificação : ");
 		fflush(stdin);
@@ -1770,8 +1829,8 @@ char codigo[7], modelo[10], nome[64];
 					
 				system ("cls");
 				
-				flag++;
-				retornoFuncao = mostrarAlteracaoAviao();
+				
+				opcao = mostrarAlteracaoAviao();
 		
 				switch(retornoFuncao) {	
 
@@ -1854,44 +1913,14 @@ char codigo[7], modelo[10], nome[64];
 					break;
 				}
 		
-				system("cls");
-				gotoxy(5, 3);
-				printf ("\n\nDeseja continuar ?\nContinuar[0]   Parar[1]\n\n");
-				scanf ("%i",&resp);
-				system ("pause");
-				while(resp != 0 && resp !=1){
-					printf("numero inválido, digite novamente, Continuar[0]   Parar[1]:");
-					scanf ("%i",&resp);
-				}
 				
-		
-			
-				if (resp == 1){
-		
-					opcao = 4;
-				}
 			}
 		}		
 		
 
-		if (flag == 0){
-			rewind(arq);
-			system("cls");
-			gotoxy(5, 3);
-			printf ("código inválido");
-			printf ("\n\n\nDeseja continuar ?\nContinuar[0]   Parar[1]\n\n");
-			scanf (" %d",&resp);
-			while(resp != 0 && resp !=1){
-				printf("numero inválido, digite novamente, Continuar[0]   Parar[1]:");
-				scanf (" %d",&resp);
-			}
 		
-			if (resp == 1){
+		
 	
-				opcao = 4;
-			}
-		}
-	}while(resp != 1 && flag==0);
 
 fclose(arq);
 

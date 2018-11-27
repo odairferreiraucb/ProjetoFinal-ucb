@@ -60,10 +60,15 @@ struct Testes {
 	int idExclusao;
 };
 
+struct Paises{
+	char nomePaises[32];
+};
+
 // declarando as structs
 struct Aviao aviao;
 struct PistaTeste pistaTeste;
 struct Testes testes;
+struct Paises paises;
 
 //prototipos das funções
 //principal
@@ -87,8 +92,14 @@ int mostrarMenuAlterar ();
 int mostraMenuConsulta ();
 void mostrarConsultaAviao (struct Aviao aviao,char cod[],FILE *arq);
 void mostrarConsultaPista (struct PistaTeste pistaTeste,int codigoS ,FILE *arqP);
+//paises
+void validaPaises(struct Paises paises, FILE *arqPais);
+void achaPaises(struct Paises paises, FILE *arqPais);
+
+
 
 struct Aviao validaCodigo(struct Aviao aviao,FILE *arq);
+
 int mostrarMenuAlterarPista ();
 // RELATORIOS 
 int mostrarRelatorioTeste ();
@@ -109,6 +120,7 @@ FILE *arq1;
 FILE *arqP;
 FILE *arqT;
 FILE * arqT1;
+FILE *arqPais;
 arqP=fopen ("structPista","r");
 arqT=fopen ("structTeste","r");
 setlocale(LC_ALL, "");
@@ -2427,4 +2439,63 @@ int velocMin, velocMax;
 		}
 	}
 	
+}
+
+void validaPaises(struct Paises paises, FILE *arqPais){
+char resp;
+int i = 1; 
+	arqPais=fopen ("paises.txt","a");
+	if (arqPais== NULL){
+		printf ("Erro na abertura..");
+		exit (1);
+	}	
+	do{
+		printf("digite o nome dos pais %d: ", i);
+		fflush(stdin);
+		fgets(paises.nomePaises,32,stdin);
+		fwrite (&paises,sizeof(paises),1,arqPais);
+		printf("continuar? [S/N]: ");
+		scanf(" %c", &resp);
+		resp = toupper(resp);
+		while(resp != 'S' && resp != 'N'){
+			printf("caracter invalido, digite novamente: ");
+			scanf(" %c", &resp);
+			resp = toupper(resp);
+		}
+		i++;
+	}while(resp != 0);
+	
+	
+	fclose(arqPais);
+}
+
+
+void achaPaises(struct Paises paises, FILE *arqPais){
+char paisesB[64];
+int flag = 0;
+	arqPais = fopen ("paises.txt", "r");
+	if (arqPais== NULL){
+		printf ("Erro na abertura..");
+		exit (1);
+	}
+	printf("digite o nome do pais que deseja escolher:");
+	fflush(stdin);
+	fgets(paisesB,32,stdin);
+	do{
+		rewind(arqPais);	
+		while (fread(&paises,sizeof(paises),1,arqPais)){
+			if(stricmp(paises.nomePaises,paisesB) == 0){
+				printf("pais valido");
+				printf("\n %s", paises.nomePaises);
+				system("pause");
+				flag++;
+			}
+		}
+		if(flag == 0){
+			printf("pais invalido, digite novamente: ");
+			fflush(stdin);
+			fgets(paisesB,32,stdin);
+		}
+	}while(flag == 0);
+fclose(arqPais);
 }

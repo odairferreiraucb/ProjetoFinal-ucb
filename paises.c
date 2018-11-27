@@ -109,8 +109,8 @@ FILE *arq1;
 FILE *arqP;
 FILE *arqT;
 FILE * arqT1;
-arqP=fopen ("structPista","r");
-arqT=fopen ("structTeste","r");
+
+arqT=fopen ("structTeste","rb");
 setlocale(LC_ALL, "");
 //int tempo = clock(); //começa a contar o tempo
 //while(clock() - tempo < 3000) { //enquanto não se passaram 5segundos
@@ -133,6 +133,8 @@ setlocale(LC_ALL, "");
 //	while(clock() - tempo < 3000) { //enquanto não se passaram 5segundos
 //	}
 //}	
+	
+
 	
 
 
@@ -1431,21 +1433,21 @@ for (i=9; i<=17; i++) {
 }
 
 int  inclusaoPista (struct PistaTeste pistaTeste,int codigoSequencial, int *pcont,FILE *arqP) {
-int cont;	
+int cont,i=0;	
+	arqP=fopen ("structPista","rb");
+	if (arqP== NULL){
+	
+	
+				pistaTeste.codSequencial=1;
+		
+	}
+	fclose(arqP);
 
 	arqP=fopen ("structPista","ab");
-	if (arqP== NULL){
-		printf ("Erro na abertura..");
-		exit (1);
-	}
-
-	if (pistaTeste.codSequencial==0){
-	codigoSequencial = 1000 ;
-	}	
 
 	textcolor(0);
 	textbackground(15);
-	setlocale(LC_ALL, "C");
+	setlocale(LC_ALL, "");
 	printf ("\t\t<< I N C L U S A O  P I S T A >>>\n");
 	printf ("|ENDEREÇO :\n");
 	fflush(stdin);
@@ -1473,9 +1475,18 @@ int cont;
 		printf("velocidade invalida, digite novamente: ");
 		scanf ("%d",&pistaTeste.velocidadeMax);
 	}
+	while (fread(&pistaTeste,sizeof(pistaTeste),1,arqP)){
+		if (pistaTeste.codSequencial >= 0){
+			i++;
+		}
 
-	codigoSequencial++;
-	pistaTeste.codSequencial = codigoSequencial;
+
+}
+
+ pistaTeste.codSequencial= 1000 +i;
+	
+		pistaTeste.codSequencial=	pistaTeste.codSequencial +1;
+			
 	printf ("O seu código sequencial e: ");
 	printf ("%i",pistaTeste.codSequencial);
 
@@ -2028,8 +2039,9 @@ int flag, i;
 			printf("\ncodigo do aviao : %s", aviao.codigo);
 		}
 	} while(flag >= 1);
+
+	fclose(arq);	
 	return aviao;
-	fclose(arq);
 }
 
 

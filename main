@@ -134,9 +134,6 @@ setlocale(LC_ALL, "");
 //	}
 //}	
 	
-if (pistaTeste.codSequencial==0){
-	codigoSequencial = 1000 ;
-	}	
 
 
 if (testes.idTeste==0){
@@ -153,7 +150,7 @@ textbackground(15);
 	textbackground(0);
 	if (opcao == 1) {
 		textcolor(7);
-		textbackground(0);
+		textbackground(15);
 		gotoxy(5, 3);
 		fflush(stdin);
 
@@ -161,6 +158,8 @@ textbackground(15);
 
 
 		if (opcao == 1) {
+			textcolor(0);
+		textbackground(15);
 			do {
 				system("cls");
 				cont = inclusaoAviao(aviao, cont,arq);
@@ -180,7 +179,8 @@ textbackground(15);
 			} while(resp == 0);
 		} else if (opcao == 2) {
 	do{
-			
+			textcolor(0);
+		textbackground(15);
 			system("cls");
 			gotoxy(5, 3);
 			 opcao=alteracaoAviao(aviao,arq);
@@ -203,6 +203,8 @@ textbackground(15);
 		}
 	} while (resp == 0);
 		}else if (opcao == 3 ){
+			textcolor(0);
+		textbackground(15);
 			do{
 			
 			exclusaoAviao(aviao,testes,arq,arq1,arqT);
@@ -221,8 +223,8 @@ textbackground(15);
 
 	} else if (opcao == 2) {
 
-		textcolor(7);
-		textbackground(0);
+		textcolor(0);
+	textbackground(15);
 		gotoxy(5, 3);
 		opcao =	mostraMenuPista();
 		
@@ -230,6 +232,8 @@ textbackground(15);
 			opcao = 4;
 
 		} else if (opcao == 1) {
+					textcolor(0);
+					textbackground(15);
 			do {
 
 				system("cls");
@@ -247,6 +251,8 @@ textbackground(15);
 			} while (resp == 0);
 
 		}else if (opcao==2){
+		textcolor(0);
+		textbackground(15);
 		
 		do{
 			
@@ -274,10 +280,12 @@ textbackground(15);
 		}while(resp==0);
 	}
 	} else if (opcao == 3) {
-		textcolor(7);
-		textbackground(0);
+		textcolor(0);
+		textbackground(15);
 		resp =	mostrarMenuTeste();
 		if (resp == 1){
+					textcolor(0);
+		textbackground(15);
 			do{
 		
 					gotoxy(5, 3);
@@ -295,8 +303,8 @@ textbackground(15);
 			}while (resp==0);
 		 }else if (resp == 2){
 		 		
-		textcolor(7);
-		textbackground(0);
+		textcolor(0);
+		textbackground(15);
 		gotoxy(5, 3);
 		system("cls");
 		 	do{
@@ -318,8 +326,8 @@ textbackground(15);
 		}
 	}while (resp==0);
 }else if (resp == 3){
-		textcolor(7);
-		textbackground(0);
+		textcolor(0);
+		textbackground(15);
 	do{
 	system("cls");
 	gotoxy(5, 3);
@@ -348,6 +356,8 @@ textbackground(15);
 			opcao= menuRelatorio ();
 		if (opcao != 4){
 			if (opcao==1){
+						textcolor(0);
+			textbackground(15);
 				do {
 			
 					gotoxy(5, 3);	
@@ -371,6 +381,8 @@ textbackground(15);
 	}
 	}while (resp==0);
 			}else if (opcao==2){
+						textcolor(0);
+						textbackground(15);
 				do{
 					gotoxy(5, 3);	
 					system("cls");
@@ -394,7 +406,9 @@ textbackground(15);
 	}
 		}while (resp==0);
 			}else if (opcao==3){
-	do{
+				textcolor(0);
+				textbackground(15);
+			do{
 				opcao=mostrarRelatorioTeste();
 		if (opcao !=3){
 		
@@ -434,8 +448,8 @@ textbackground(15);
 		  
 		  
 	} else if (opcao == 4 ) {
-		textcolor(7);
-		textbackground(0);
+		textcolor(0);
+		textbackground(15);
 			do{
 			
 			
@@ -443,6 +457,8 @@ textbackground(15);
 				resp = mostraMenuConsulta ();
 			
 				if (resp == 1) {
+						textcolor(0);
+						textbackground(15);
 			do{
 					system ("cls");
 					printf ("informe seu codigo de indentificação aviao : ");
@@ -464,6 +480,8 @@ textbackground(15);
 								}
 					}while(resp==0);
 				} else if (resp == 2){
+						textcolor(0);
+						textbackground(15);
 					fflush(stdin);
 					system("cls");
 					gotoxy(5, 3);
@@ -501,71 +519,69 @@ fclose (arqP);
 		return 0 ;
 	}
 int mostrarRelatorioTeste (){
-	setlocale(LC_ALL, "C");
+		setlocale(LC_ALL, "");
 	char tecla;
-	int i, opcao,resp;
-	textbackground(0); // Define cor de fundo
+	int i, opcao;
+	textbackground(15); // Define cor de fundo
 	clrscr();          // Limpa a tela
 	_setcursortype(0); // Desliga o cursor
-	textcolor(15);     // Define cor de face
+	     // Define cor de face
 
-	gotoxy(19,6);
-	printf("           <<<  R-E-L-A-T-R-I-O-S  >>>");
+	textcolor(1);
+	clrscr();
+	gotoxy(41,6);
+	printf("           <<<   A V I Ã O  >>>");
 	// DESENHAR UM QUADRADO
 	// Desenha as linhas horizontais do quadrado
-	textcolor(7);
-	for (i=34; i<=51; i++) {
+	textcolor(0);
+
+	setlocale(LC_ALL, "C");
+	for (i=50; i<=80; i++) {
 		gotoxy(i,9);
-		printf("%c", 196);
-		gotoxy(i,18);
-		printf("%c", 196);
+		printf("%c", 205);
+		gotoxy(i,18);+
+		printf("%c", 205);
 	}
 	// Desenha as linhas verticais do quadrado
-	for (i=9; i<=17; i++) {
-		gotoxy(33,i);
-		printf("%c", 179);
-		gotoxy(51,i);
-		printf("%c", 179);
+for (i=9; i<=17; i++) {
+		gotoxy(50,i);printf("%c", 179);
+		gotoxy(80,i);printf("%c", 179);
 	}
 	// Desenha os quanto cantos do quadrado
-	gotoxy(33,9);
-	printf("%c", 218);
-	gotoxy(51,9);
-	printf("%c", 191);
-	gotoxy(33,18);
-	printf("%c", 192);
-	gotoxy(51,18);
-	printf("%c", 217);
+	gotoxy(50,9);printf("%c", 218);
+	gotoxy(80,9);printf("%c", 191);
+	gotoxy(50,18);printf("%c", 200);
+	gotoxy(80,18);printf("%c", 188);
 
 	// OPERACAO DO MENU
 	opcao = 1; // Seleciona a primeira opcao do menu
 	do {
 		setlocale(LC_ALL, "");
-		textcolor(7);
-		textbackground(0);
-		gotoxy(34,11);
+		textcolor(0);
+		textbackground(15);
+		gotoxy(53,11);
 		printf("  PESQUISAR PELO UF");
-		gotoxy(34,12);
+		gotoxy(53,12);
 		printf("  PESQUISAR POR VELOCIDADE");
-		gotoxy(34,13);
+		gotoxy(53,13);
 		printf("  VOLTAR AO MENU");
 
 		
 	
 		// Escreve o item selecionado em destaque
-		textcolor(15);
+		textcolor(0);
 		//textbackground(1);
 		switch (opcao) {
 			case 1:
-				gotoxy(34,11);
+				gotoxy(53,11);
 				printf("->");
 				break;
 			case 2:
-				gotoxy(34,12);
+				gotoxy(53,12);
 				printf("->");
 				break;
 			case 3:
-				gotoxy(34,13);
+				gotoxy(53,13);
 				printf("->");
 				break;
 		
@@ -605,7 +621,7 @@ int mostrarRelatorioTeste (){
 	textcolor(0);
 
 	setlocale(LC_ALL, "C");
-	for (i=50; i<=70; i++) {
+	for (i=50; i<=75; i++) {
 		gotoxy(i,9);
 		printf("%c", 205);
 		gotoxy(i,18);+
@@ -614,13 +630,13 @@ int mostrarRelatorioTeste (){
 	// Desenha as linhas verticais do quadrado
 for (i=9; i<=17; i++) {
 		gotoxy(50,i);printf("%c", 179);
-		gotoxy(70,i);printf("%c", 179);
+		gotoxy(75,i);printf("%c", 179);
 	}
 	// Desenha os quanto cantos do quadrado
 	gotoxy(50,9);printf("%c", 218);
-	gotoxy(70,9);printf("%c", 191);
+	gotoxy(75,9);printf("%c", 191);
 	gotoxy(50,18);printf("%c", 200);
-	gotoxy(70,18);printf("%c", 188);
+	gotoxy(75,18);printf("%c", 188);
 
 
 	// OPERACAO DO MENU
@@ -749,69 +765,67 @@ int  relatorioR2 (struct Aviao aviao,FILE *arq){
 	return opcao;
 }
 	int mostrarRelatorioPista(){
-		char tecla;
+	setlocale(LC_ALL, "");
+	char tecla;
 	int i, opcao;
-	textbackground(0); // Define cor de fundo
+	textbackground(15); // Define cor de fundo
 	clrscr();          // Limpa a tela
 	_setcursortype(0); // Desliga o cursor
-	textcolor(7);     // Define cor de face
+	     // Define cor de face
 
-	gotoxy(19,6);
-	setlocale(LC_ALL, "C");
-		clrscr();
-	printf("           <<<  R-E-L-A-T-A-R-I-O.-T-E-S-T-E-S   >>>");
+	textcolor(1);
+	clrscr();
+	gotoxy(41,6);
+	printf("           <<<   A V I Ã O  >>>");
 	// DESENHAR UM QUADRADO
 	// Desenha as linhas horizontais do quadrado
-	textcolor(7);
-	for (i=34; i<=50; i++) {
+	textcolor(0);
+
+	setlocale(LC_ALL, "C");
+	for (i=50; i<=80; i++) {
 		gotoxy(i,9);
-		printf("%c", 196);
-		gotoxy(i,18);
-		printf("%c", 196);
+		printf("%c", 205);
+		gotoxy(i,18);+
+		printf("%c", 205);
 	}
 	// Desenha as linhas verticais do quadrado
-	for (i=9; i<=17; i++) {
-		gotoxy(33,i);
-		printf("%c", 179);
-		gotoxy(50,i);
-		printf("%c", 179);
+for (i=9; i<=17; i++) {
+		gotoxy(50,i);printf("%c", 179);
+		gotoxy(80,i);printf("%c", 179);
 	}
 	// Desenha os quanto cantos do quadrado
-	gotoxy(33,9);
-	printf("%c", 218);
-	gotoxy(50,9);
-	printf("%c", 191);
-	gotoxy(33,18);
-	printf("%c", 192);
-	gotoxy(50,18);
-	printf("%c", 217);
+	gotoxy(50,9);printf("%c", 218);
+	gotoxy(80,9);printf("%c", 191);
+	gotoxy(50,18);printf("%c", 200);
+	gotoxy(80,18);printf("%c", 188);
+
 
 	// OPERACAO DO MENU
 	opcao = 1; // Seleciona a primeira opcao do menu
 	do {
 		setlocale(LC_ALL, "");
-		textcolor(7);
-		textbackground(0);
-		gotoxy(34,11);
+		textcolor(0);
+		textbackground(15);
+		gotoxy(53,11);
 		printf("  PESQUISAR PELO ID PISTA");
-		gotoxy(34,12);
+		gotoxy(53,12);
 		printf("  PESQUISAR PELA DATA");
-		gotoxy(34,13);
+		gotoxy(53,13);
 		printf("  VOLTAR AO MENU");
 		// Escreve o item selecionado em destaque
-		textcolor(15);
+		textcolor(0);
 		//textbackground(1);
 		switch (opcao) {
 			case 1:
-				gotoxy(34,11);
+				gotoxy(53,11);
 				printf("->");
 				break;
 			case 2:
-				gotoxy(34,12);
+				gotoxy(53,12);
 				printf("->");
 				break;
 			case 3:
-				gotoxy(34,13);
+				gotoxy(53,13);
 				printf("->");
 				break;
 
@@ -834,62 +848,61 @@ int  relatorioR2 (struct Aviao aviao,FILE *arq){
 	int mostrarRelatorioAviao (){
 		
 
+	setlocale(LC_ALL, "");
 	char tecla;
 	int i, opcao;
-	textbackground(0); // Define cor de fundo
+	textbackground(15); // Define cor de fundo
 	clrscr();          // Limpa a tela
 	_setcursortype(0); // Desliga o cursor
-	textcolor(7);     // Define cor de face
+	     // Define cor de face
 
-	gotoxy(19,6);
-	setlocale(LC_ALL, "C");
-		clrscr();
-	printf("           <<<  R-E-LA-T-O-R-I-O--A-V-I-A-O   >>>");
+	textcolor(1);
+	clrscr();
+	gotoxy(41,6);
+	printf("           <<<   A V I Ã O  >>>");
 	// DESENHAR UM QUADRADO
 	// Desenha as linhas horizontais do quadrado
-	textcolor(7);
-	for (i=34; i<=50; i++) {
+	textcolor(0);
+
+	setlocale(LC_ALL, "C");
+	for (i=50; i<=75; i++) {
 		gotoxy(i,9);
-		printf("%c", 196);
-		gotoxy(i,18);
-		printf("%c", 196);
+		printf("%c", 205);
+		gotoxy(i,18);+
+		printf("%c", 205);
 	}
 	// Desenha as linhas verticais do quadrado
-	for (i=9; i<=17; i++) {
-		gotoxy(33,i);
-		printf("%c", 179);
-		gotoxy(50,i);
-		printf("%c", 179);
+for (i=9; i<=17; i++) {
+		gotoxy(50,i);printf("%c", 179);
+		gotoxy(75,i);printf("%c", 179);
 	}
 	// Desenha os quanto cantos do quadrado
-	gotoxy(33,9);
-	printf("%c", 218);
-	gotoxy(50,9);
-	printf("%c", 191);
-	gotoxy(33,18);
-	printf("%c", 192);
-	
+	gotoxy(50,9);printf("%c", 218);
+	gotoxy(75,9);printf("%c", 191);
+	gotoxy(50,18);printf("%c", 200);
+	gotoxy(75,18);printf("%c", 188);
+
 
 	// OPERACAO DO MENU
 	opcao = 1; // Seleciona a primeira opcao do menu
 	do {
 		setlocale(LC_ALL, "");
-		textcolor(7);
-		textbackground(0);
-		gotoxy(34,11);
+		textcolor(0);
+		textbackground(15);
+		gotoxy(53,11);
 		printf("  PESQUISA PELO NOME");
-		gotoxy(34,12);
+		gotoxy(53,12);
 		printf("  VOLTAR AO MENU");
 		// Escreve o item selecionado em destaque
-		textcolor(15);
+		textcolor(0);
 		//textbackground(1);
 		switch (opcao) {
 			case 1:
-				gotoxy(34,11);
+				gotoxy(53,11);
 				printf("->");
 				break;
 			case 2:
-				gotoxy(34,12);
+				gotoxy(53,12);
 				printf("->");
 				break;
 		
@@ -909,14 +922,17 @@ int  relatorioR2 (struct Aviao aviao,FILE *arq){
 		}
 	} while ((tecla != 13) && (tecla != 27)); // 13=ENTER 27=ESC
 
-	textcolor(15);
-	textbackground(0);
+	textcolor(0);
+	textbackground(15);
 	return opcao;
 	system ("pause");
 }
 	
 void mostrarConsultaAviao (struct Aviao aviao,char cod[],FILE *arq ){
-arq=fopen ("structAviao","r");
+arq=fopen ("structAviao","rb");
+
+		textcolor(0);
+		textbackground(15);
 		system("cls");
 		setlocale(LC_ALL, "C");
 	while (fread(&aviao,sizeof(aviao),1,arq)){
@@ -932,8 +948,10 @@ arq=fopen ("structAviao","r");
 fclose (arq);
 }
 void mostrarConsultaPista (struct PistaTeste pistaTeste,int codigoS ,FILE *arqP){
-		arqP = fopen ("structPista","r");
+		arqP = fopen ("structPista","rb");
 	system("cls");
+			textcolor(0);
+		textbackground(15);
 		setlocale(LC_ALL, "C");
 		
 		while (fread(&pistaTeste,sizeof(pistaTeste),1,arqP)){
@@ -1421,9 +1439,12 @@ int cont;
 		exit (1);
 	}
 
+	if (pistaTeste.codSequencial==0){
+	codigoSequencial = 1000 ;
+	}	
 
-	textcolor(7);
-	textbackground(0);
+	textcolor(0);
+	textbackground(15);
 	setlocale(LC_ALL, "C");
 	printf ("\t\t<< I N C L U S A O  P I S T A >>>\n");
 	printf ("|ENDEREÇO :\n");
@@ -1466,7 +1487,8 @@ int cont;
 
 
 int inclusaoAviao(struct Aviao aviao,int cont,FILE *arq) {
-	
+	textcolor(0);
+		textbackground(15);
 	arq=fopen ("structAviao","ab");
 	if (arq== NULL){
 		printf ("Erro na abertura do arquivo ...");
@@ -1641,8 +1663,8 @@ int alteraPista (struct PistaTeste pistaTeste, FILE *arqP ){
 arqP = fopen ("structPista","r+b");
 int codigoUsuario,opcao;
 char novoEndereco[64],novoUf[2];
-	textcolor(7);
-	textbackground(0);
+			textcolor(0);
+		textbackground(15);
 	printf ("Informe o codigo sequencial da pista ");
 	scanf ("%i",&codigoUsuario);
 	while(codigoUsuario <=0 || codigoUsuario >9999){
@@ -2028,6 +2050,10 @@ char codigo[7], excluir;
 		fflush(stdin);
 		fgets(codigo,8,stdin);
 	}
+	while (fread(&aviao,sizeof(aviao),1,arq)){
+			if (strcmp(aviao.codigo,codigo)==0){
+				printf("\n\nexclusão bem sucedida!\n");
+			
 		while (fread(&aviao,sizeof(aviao),1,arq)){
 			if (strcmp(aviao.codigo,codigo)!=0){
 			 			fwrite (&aviao,sizeof (aviao),1,arq1);
@@ -2068,12 +2094,12 @@ char codigo[7], excluir;
 //						excluir = toupper(excluir);
 //					}
 				
-						
-				
-				
-				
+		
 				
 			}
+		}
+	}
+				
 			
  		
 	
@@ -2085,9 +2111,11 @@ char codigo[7], excluir;
 				fwrite (&aviao,sizeof (aviao),1,arq);
 		}
 	
+
+
+	
 	fclose(arq);
 	fclose (arq1);
-	printf("\n\nexclusão bem sucedida!\n");
 	system("pause");
 }
 	
@@ -2122,9 +2150,8 @@ int inclusaoTeste(struct Testes testes,FILE *arqT,FILE *arq,FILE *arqP,struct Pi
 arqT=fopen ("structTeste","ab");
 arqP=fopen ("structPista","r");
 arq=fopen ("structAviao","r+b");
-textcolor(7);
-textbackground(0);
-
+		textcolor(0);
+		textbackground(15);
 
 char codigo[7];
 int i, flag, codigoP, velocM;
@@ -2198,8 +2225,8 @@ char  menu, sn;
 int flag = 0,opcao,codigo;
 	gotoxy(5, 3);
 	system("cls");
-	textcolor(7);
-	textbackground(0);
+		textcolor(0);
+		textbackground(15);
 		
 	printf(" ALTERAÇÃO TESTE \n");	
 	printf("digite o codigo do teste: ");

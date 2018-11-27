@@ -52,9 +52,9 @@ int flag = 0;
 	fflush(stdin);
 	fgets(paisesB,64,stdin);
 	do{
-			
+		rewind(arq);	
 		while (fread(&paises,sizeof(paises),1,arq)){
-			if(stricmp(paises.nomePaises,paisesB == 0)){
+			if(stricmp(paises.nomePaises,paisesB) == 0){
 				printf("pais valido");
 				printf("\n %s", paises.nomePaises);
 				system("pause");

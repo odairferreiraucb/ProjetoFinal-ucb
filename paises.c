@@ -10,19 +10,19 @@ struct Paises{
 struct Paises paises;
 
 
-void validaPaises(struct Paises paises, FILE *arq);
-void achaPaises(struct Paises paises, FILE *arq);
+void validaPaises(struct Paises paises, FILE *arqPais);
+void achaPaises(struct Paises paises, FILE *arqPais);
 
 int main() {
-FILE *arq;
-validaPaises(paises, arq);
-achaPaises(paises, arq);
+FILE *arqPais;
+validaPaises(paises, arqPais);
+achaPaises(paises, arqPais);
 }
 
-void validaPaises(struct Paises paises, FILE *arq){
+void validaPaises(struct Paises paises, FILE *arqPais){
 int resp; 
-	arq=fopen ("paises.txt","a");
-	if (arq== NULL){
+	arqPais=fopen ("paises.txt","a");
+	if (arqPais== NULL){
 		printf ("Erro na abertura..");
 		exit (1);
 	}	
@@ -30,21 +30,21 @@ int resp;
 		printf("digite o nome dos paises: ");
 		fflush(stdin);
 		fgets(paises.nomePaises,64,stdin);
-		fwrite (&paises,sizeof(paises),1,arq);
+		fwrite (&paises,sizeof(paises),1,arqPais);
 		printf("continuar?");
 		scanf("%d", &resp);
 	}while(resp != 0);
 
 	
-	fclose(arq);
+	fclose(arqPais);
 }
 
 
-void achaPaises(struct Paises paises, FILE *arq){
+void achaPaises(struct Paises paises, FILE *arqPais){
 char paisesB[64];
 int flag = 0;
-	arq = fopen ("paises.txt", "r");
-	if (arq== NULL){
+	arqPais = fopen ("paises.txt", "r");
+	if (arqPais== NULL){
 		printf ("Erro na abertura..");
 		exit (1);
 	}
@@ -52,8 +52,8 @@ int flag = 0;
 	fflush(stdin);
 	fgets(paisesB,64,stdin);
 	do{
-		rewind(arq);	
-		while (fread(&paises,sizeof(paises),1,arq)){
+		rewind(arqPais);	
+		while (fread(&paises,sizeof(paises),1,arqPais)){
 			if(stricmp(paises.nomePaises,paisesB) == 0){
 				printf("pais valido");
 				printf("\n %s", paises.nomePaises);
@@ -67,5 +67,5 @@ int flag = 0;
 			fgets(paisesB,64,stdin);
 		}
 	}while(flag == 0);
-fclose(arq);
+fclose(arqPais);
 }

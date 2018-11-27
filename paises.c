@@ -2163,7 +2163,7 @@ int i=0, flag, codigoP, velocM;
 		arqT=fopen ("structTeste","ab");
 		testes.idTeste=1;
 		fwrite (&testes,sizeof (testes),1,arqT);
-			close(arqT);
+			fclose(arqT);
 	}
 	fclose(arqT);
 arqT=fopen ("structTeste","r+b");

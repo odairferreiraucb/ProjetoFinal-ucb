@@ -110,7 +110,6 @@ FILE *arqP;
 FILE *arqT;
 FILE * arqT1;
 
-arqT=fopen ("structTeste","rb");
 setlocale(LC_ALL, "");
 //int tempo = clock(); //começa a contar o tempo
 //while(clock() - tempo < 3000) { //enquanto não se passaram 5segundos
@@ -138,9 +137,7 @@ setlocale(LC_ALL, "");
 	
 
 
-if (testes.idTeste==0){
-	idTeste = 1000;
-	}
+
 
 do {
 	
@@ -516,8 +513,7 @@ textbackground(15);
 			}
 		}while(opcao == 4);
 		
-fclose (arqT);
-fclose (arqP);
+
 		return 0 ;
 	}
 int mostrarRelatorioTeste (){
@@ -1437,13 +1433,14 @@ int cont,i=0;
 	arqP=fopen ("structPista","rb");
 	if (arqP== NULL){
 	
-	
+		arqP=fopen ("structPista","ab");
 				pistaTeste.codSequencial=1;
-		
+		fwrite (&pistaTeste,sizeof (pistaTeste),1,arqP);
+			fclose(arqP);
 	}
 	fclose(arqP);
 
-	arqP=fopen ("structPista","ab");
+	arqP=fopen ("structPista","r+b");
 
 	textcolor(0);
 	textbackground(15);
@@ -1476,11 +1473,10 @@ int cont,i=0;
 		scanf ("%d",&pistaTeste.velocidadeMax);
 	}
 	while (fread(&pistaTeste,sizeof(pistaTeste),1,arqP)){
-		if (pistaTeste.codSequencial >= 0){
+		if (pistaTeste.codSequencial >= 1001){
 			i++;
 		}
-
-
+	
 }
 
  pistaTeste.codSequencial= 1000 +i;
@@ -2159,14 +2155,24 @@ void exclusaoTeste(struct Testes testes,FILE *arqT,FILE * arqT1){
 	system("pause");
 }
 int inclusaoTeste(struct Testes testes,FILE *arqT,FILE *arq,FILE *arqP,struct PistaTeste pistaTeste,struct Aviao aviao,int idTeste){
-arqT=fopen ("structTeste","ab");
+char codigo[7];
+int i=0, flag, codigoP, velocM;
+	arqT=fopen ("structTeste","rb");
+	if (arqT== NULL){
+	
+		arqT=fopen ("structTeste","ab");
+		testes.idTeste=1;
+		fwrite (&testes,sizeof (testes),1,arqT);
+			close(arqT);
+	}
+	fclose(arqT);
+arqT=fopen ("structTeste","r+b");
 arqP=fopen ("structPista","r");
 arq=fopen ("structAviao","r+b");
 		textcolor(0);
 		textbackground(15);
 
-char codigo[7];
-int i, flag, codigoP, velocM;
+
 
 
 	if (arqT== NULL){
@@ -2210,8 +2216,18 @@ int i, flag, codigoP, velocM;
 							printf("velocidade invalida, digite novamente: ");
 							scanf("%d", &velocM);
 						}
-						idTeste = idTeste +1;
-						testes.idTeste = idTeste;
+					
+						while (fread(&testes,sizeof(testes),1,arqT)){
+						if (testes.idTeste >= 1001){
+							i++;
+							}
+	
+						}
+
+ 					testes.idTeste= 1000 +i;
+	
+					testes.idTeste=	testes.idTeste +1;
+					
 						printf ("\n\nSeu id do teste é : %i ",testes.idTeste);
 						
 						testes.velocidadeMax = velocM;

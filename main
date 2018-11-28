@@ -60,10 +60,15 @@ struct Testes {
 	int idExclusao;
 };
 
+struct Paises{
+	char nomePaises[32];
+};
+
 // declarando as structs
 struct Aviao aviao;
 struct PistaTeste pistaTeste;
 struct Testes testes;
+struct Paises paises;
 
 //prototipos das funções
 //principal
@@ -87,8 +92,14 @@ int mostrarMenuAlterar ();
 int mostraMenuConsulta ();
 void mostrarConsultaAviao (struct Aviao aviao,char cod[],FILE *arq);
 void mostrarConsultaPista (struct PistaTeste pistaTeste,int codigoS ,FILE *arqP);
+//paises
+void validaPaises(struct Paises paises, FILE *arqPais);
+void achaPaises(struct Paises paises, FILE *arqPais);
+
+
 
 struct Aviao validaCodigo(struct Aviao aviao,FILE *arq);
+
 int mostrarMenuAlterarPista ();
 // RELATORIOS 
 int mostrarRelatorioTeste ();
@@ -109,7 +120,9 @@ FILE *arq1;
 FILE *arqP;
 FILE *arqT;
 FILE * arqT1;
-
+FILE *arqPais;
+arqP=fopen ("structPista","r");
+arqT=fopen ("structTeste","r");
 setlocale(LC_ALL, "");
 //int tempo = clock(); //começa a contar o tempo
 //while(clock() - tempo < 3000) { //enquanto não se passaram 5segundos
@@ -134,10 +147,10 @@ setlocale(LC_ALL, "");
 //}	
 	
 
-	
 
-
-
+if (testes.idTeste==0){
+	idTeste = 1000;
+	}
 
 do {
 	
@@ -283,24 +296,24 @@ textbackground(15);
 		textbackground(15);
 		resp =	mostrarMenuTeste();
 		if (resp == 1){
-					textcolor(0);
-		textbackground(15);
+			textcolor(0);
+			textbackground(15);
 			do{
 		
-					gotoxy(5, 3);
-					system("cls");
-				 idTeste = inclusaoTeste( testes,arqT,arq,arqP,pistaTeste,aviao,idTeste);
+				gotoxy(5, 3);
+				system("cls");
+				idTeste = inclusaoTeste( testes,arqT,arq,arqP,pistaTeste,aviao,idTeste);
 				 do{							
-				printf ("\n\nDeseja continuar ?\nComtinuar [0]-Parar [1]\n\n");
-				scanf ("%i",&resp);
-			}while (resp != 0 & resp !=1 );
-					system ("pause");
+						printf ("\n\nDeseja continuar ?\nComtinuar [0]-Parar [1]\n\n");
+						scanf ("%i",&resp);
+					}while (resp != 0 & resp !=1 );
+				system ("pause");
 				if (resp == 1) {
 			
 					opcao=4;
 				}
 			}while (resp==0);
-		 }else if (resp == 2){
+		}else if (resp == 2){
 		 		
 		textcolor(0);
 		textbackground(15);
@@ -513,7 +526,8 @@ textbackground(15);
 			}
 		}while(opcao == 4);
 		
-
+fclose (arqT);
+fclose (arqP);
 		return 0 ;
 	}
 int mostrarRelatorioTeste (){
@@ -1429,22 +1443,21 @@ for (i=9; i<=17; i++) {
 }
 
 int  inclusaoPista (struct PistaTeste pistaTeste,int codigoSequencial, int *pcont,FILE *arqP) {
-int cont,i=0;	
-	arqP=fopen ("structPista","rb");
-	if (arqP== NULL){
-	
-		arqP=fopen ("structPista","ab");
-				pistaTeste.codSequencial=1;
-		fwrite (&pistaTeste,sizeof (pistaTeste),1,arqP);
-			fclose(arqP);
-	}
-	fclose(arqP);
+int cont;	
 
-	arqP=fopen ("structPista","r+b");
+	arqP=fopen ("structPista","ab");
+	if (arqP== NULL){
+		printf ("Erro na abertura..");
+		exit (1);
+	}
+
+	if (pistaTeste.codSequencial==0){
+	codigoSequencial = 1000 ;
+	}	
 
 	textcolor(0);
 	textbackground(15);
-	setlocale(LC_ALL, "");
+	setlocale(LC_ALL, "C");
 	printf ("\t\t<< I N C L U S A O  P I S T A >>>\n");
 	printf ("|ENDEREÇO :\n");
 	fflush(stdin);
@@ -1472,17 +1485,9 @@ int cont,i=0;
 		printf("velocidade invalida, digite novamente: ");
 		scanf ("%d",&pistaTeste.velocidadeMax);
 	}
-	while (fread(&pistaTeste,sizeof(pistaTeste),1,arqP)){
-		if (pistaTeste.codSequencial >= 1001){
-			i++;
-		}
-	
-}
 
- pistaTeste.codSequencial= 1000 +i;
-	
-		pistaTeste.codSequencial=	pistaTeste.codSequencial +1;
-			
+	codigoSequencial++;
+	pistaTeste.codSequencial = codigoSequencial;
 	printf ("O seu código sequencial e: ");
 	printf ("%i",pistaTeste.codSequencial);
 
@@ -2035,9 +2040,8 @@ int flag, i;
 			printf("\ncodigo do aviao : %s", aviao.codigo);
 		}
 	} while(flag >= 1);
-
-	fclose(arq);	
 	return aviao;
+	fclose(arq);
 }
 
 
@@ -2155,24 +2159,14 @@ void exclusaoTeste(struct Testes testes,FILE *arqT,FILE * arqT1){
 	system("pause");
 }
 int inclusaoTeste(struct Testes testes,FILE *arqT,FILE *arq,FILE *arqP,struct PistaTeste pistaTeste,struct Aviao aviao,int idTeste){
-char codigo[7];
-int i=0, flag, codigoP, velocM;
-	arqT=fopen ("structTeste","rb");
-	if (arqT== NULL){
-	
-		arqT=fopen ("structTeste","ab");
-		testes.idTeste=1;
-		fwrite (&testes,sizeof (testes),1,arqT);
-			fclose(arqT);
-	}
-	fclose(arqT);
-arqT=fopen ("structTeste","r+b");
+arqT=fopen ("structTeste","ab");
 arqP=fopen ("structPista","r");
 arq=fopen ("structAviao","r+b");
 		textcolor(0);
 		textbackground(15);
 
-
+char codigo[7];
+int i, flag, codigoP, velocM;
 
 
 	if (arqT== NULL){
@@ -2190,53 +2184,44 @@ arq=fopen ("structAviao","r+b");
 	}
 	
 	while (fread(&aviao,sizeof(aviao),1,arq)){
-			if (strcmp(aviao.codigo,codigo)==0){
-				aviao.idTeste=1;
-				fseek(arq,sizeof(aviao)*-1,SEEK_CUR);
-				fwrite (&aviao,sizeof(aviao),1,arq);
-				fseek(arq,0,SEEK_SET);
-				strcpy(testes.idAviao,codigo);
-				system ("cls");
-				printf("digite o codigo sequencial da pista: ");
+		if (strcmp(aviao.codigo,codigo)==0){
+			aviao.idTeste=1;
+			fseek(arq,sizeof(aviao)*-1,SEEK_CUR);
+			fwrite (&aviao,sizeof(aviao),1,arq);
+			fseek(arq,0,SEEK_SET);
+			strcpy(testes.idAviao,codigo);
+			system ("cls");
+			printf("digite o codigo sequencial da pista: ");
+			scanf("%d",&codigoP);
+			while(codigoP <= 0 || codigoP >9999){
+				printf("código inválido, digite novamente:");
 				scanf("%d",&codigoP);
-				
-				while(codigoP <= 0 || codigoP >9999){
-					printf("código inválido, digite novamente:");
-					scanf("%d",&codigoP);
-				}
-				
-				while (fread(&pistaTeste,sizeof(pistaTeste),1,arqP)){
-					if (codigoP == pistaTeste.codSequencial){
+			}
 			
-						testes.idPista=codigoP;
-						fflush(stdin);
-						printf("\n digite a velocidade maxima em km/h: ");
+			while (fread(&pistaTeste,sizeof(pistaTeste),1,arqP)){
+				if (codigoP == pistaTeste.codSequencial){
+		
+					testes.idPista=codigoP;
+					fflush(stdin);
+					printf("\n digite a velocidade maxima em km/h: ");
+					scanf("%d", &velocM);
+					while(velocM <= 0){
+						printf("velocidade invalida, digite novamente: ");
 						scanf("%d", &velocM);
-						while(velocM <= 0){
-							printf("velocidade invalida, digite novamente: ");
-							scanf("%d", &velocM);
-						}
-					
-						while (fread(&testes,sizeof(testes),1,arqT)){ 
-						if (testes.idTeste >= 1001){
-							i++;
-							}
-	
-						}
-
- 					testes.idTeste= 1000 +i;
-	
-					testes.idTeste=	testes.idTeste +1;
-					
-						printf ("\n\nSeu id do teste é : %i ",testes.idTeste);
-						
-						testes.velocidadeMax = velocM;
-						_strdate(testes.data);
-						system("pause");
-						fwrite (&testes,sizeof (testes),1,arqT);
 					}
-				}	
+					idTeste = idTeste +1;
+					testes.idTeste = idTeste;
+					printf ("\n\nSeu id do teste é : %i ",testes.idTeste);
+					
+					testes.velocidadeMax = velocM;
+					_strdate(testes.data);
+					system("pause");
+					break;
+					fwrite (&testes,sizeof (testes),1,arqT);
+				}
 			}	
+		}
+		break;	
 	}
 	fclose(arqT);
 	fclose(arqP);
@@ -2455,4 +2440,63 @@ int velocMin, velocMax;
 		}
 	}
 	
+}
+
+void validaPaises(struct Paises paises, FILE *arqPais){
+char resp;
+int i = 1; 
+	arqPais=fopen ("paises.txt","a");
+	if (arqPais== NULL){
+		printf ("Erro na abertura..");
+		exit (1);
+	}	
+	do{
+		printf("digite o nome dos pais %d: ", i);
+		fflush(stdin);
+		fgets(paises.nomePaises,32,stdin);
+		fwrite (&paises,sizeof(paises),1,arqPais);
+		printf("continuar? [S/N]: ");
+		scanf(" %c", &resp);
+		resp = toupper(resp);
+		while(resp != 'S' && resp != 'N'){
+			printf("caracter invalido, digite novamente: ");
+			scanf(" %c", &resp);
+			resp = toupper(resp);
+		}
+		i++;
+	}while(resp != 0);
+	
+	
+	fclose(arqPais);
+}
+
+
+void achaPaises(struct Paises paises, FILE *arqPais){
+char paisesB[64];
+int flag = 0;
+	arqPais = fopen ("paises.txt", "r");
+	if (arqPais== NULL){
+		printf ("Erro na abertura..");
+		exit (1);
+	}
+	printf("digite o nome do pais que deseja escolher:");
+	fflush(stdin);
+	fgets(paisesB,32,stdin);
+	do{
+		rewind(arqPais);	
+		while (fread(&paises,sizeof(paises),1,arqPais)){
+			if(stricmp(paises.nomePaises,paisesB) == 0){
+				printf("pais valido");
+				printf("\n %s", paises.nomePaises);
+				system("pause");
+				flag++;
+			}
+		}
+		if(flag == 0){
+			printf("pais invalido, digite novamente: ");
+			fflush(stdin);
+			fgets(paisesB,32,stdin);
+		}
+	}while(flag == 0);
+fclose(arqPais);
 }

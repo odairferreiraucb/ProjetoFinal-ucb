@@ -71,7 +71,7 @@ int mostrarMenuPrimcipal();
 //avião 
 int lerInt(int tamanho );
 int mostraMenuAviao ();
-int inclusaoAviao(struct Aviao aviao, int cont,FILE *arq);
+int inclusaoAviao(struct Aviao aviao, int cont,FILE *arq,FILE *arqPaises);
 int alteracaoAviao(struct Aviao aviao,FILE *arq);
 int mostrarAlteracaoAviao();
 void exclusaoAviao(struct Aviao aviao, struct Testes testes,FILE *arq,FILE *arq1,FILE *arqT);
@@ -98,6 +98,11 @@ int mostrarRelatorioAviao ();
 int mostrarRelatorioPista();
 int relatorioR2 (struct Aviao aviao,FILE *arq);
 int relatorioR3 (struct Testes testes,FILE *arqT,struct PistaTeste pistaTeste,FILE *arqP);
+
+
+
+
+int mostrarPais (FILE *arqPaises);
 // "CONT" É PARA A STRUCT DE AVIAO, CONT2 PARA PISTAS
 int main(void) {
 int resp,continuar,cont = 0, cont2 =0,codigoS;
@@ -110,35 +115,48 @@ FILE *arq1;
 FILE *arqP;
 FILE *arqT;
 FILE * arqT1;
-
+FILE *arqPaises;
 setlocale(LC_ALL, "");
-//int tempo = clock(); //começa a contar o tempo
-//while(clock() - tempo < 3000) { //enquanto não se passaram 5segundos
-//	textcolor(14);
-//	textbackground(0);
-//	printf ("      ____________________			 \n");
-//	printf ("      |           | |	 |	         \n");
-//	printf ("      |  _________| |	 |           \n");
-//	printf ("      |  |   	    | 	 |           \n");
-//	printf ("      |  |     	    |    |     \n");
-//	printf ("      |  |    ______|    |     	     \n");
-//	printf ("      |  |   |____  |	 |           \n");
-//	printf ("      |  |_______|  |	 |__________ \n");
-//	printf ("      |             |              | \n");
-//	printf ("      |_____________|______________| \n");
-//	printf ("             A-V-I-Õ-E-S                                   ");
-//
-//	tempo = clock();
-//
-//	while(clock() - tempo < 3000) { //enquanto não se passaram 5segundos
-//	}
-//}	
-	
 
 	
 
 
 
+int tempo = clock(); //começa a contar o tempo
+
+while(clock() - tempo < 1500) { //enquanto não se passaram 5segundos
+	textcolor(14);
+	textbackground(0);
+		gotoxy(41,6);
+	printf ("      ____________________			 \n");
+	
+		gotoxy(41,7);
+	printf ("      |           | |	 |	         \n");
+		gotoxy(41,8);
+	printf ("      |  _________| |	 |           \n");
+		gotoxy(41,9);
+	printf ("      |  |   	    | 	 |           \n");
+		gotoxy(41,10);
+	printf ("      |  |     	    |    |     \n");
+		gotoxy(41,11);
+	printf ("      |  |    ______|    |     	     \n");
+		gotoxy(41,12);
+	printf ("      |  |   |____  |	 |           \n");
+		gotoxy(41,13);
+	printf ("      |  |_______|  |	 |__________ \n");
+		gotoxy(41,14);
+	printf ("      |             |              | \n");
+		gotoxy(41,15);
+	printf ("      |_____________|______________| \n");
+		gotoxy(41,16);
+	printf ("             A-V-I-Õ-E-S                                   ");
+
+	tempo = clock();
+
+	while(clock() - tempo < 1500) { //enquanto não se passaram 5segundos
+	}
+}	
+	
 
 do {
 	
@@ -159,11 +177,12 @@ system ("cls");
 
 
 		if (opcao == 1) {
+			
 			textcolor(0);
 		textbackground(15);
 			do {
 				system("cls");
-				cont = inclusaoAviao(aviao, cont,arq);
+				cont = inclusaoAviao(aviao, cont,arq,arqPaises);
 				
 				getch();
 				printf ("Deseja continuar ?\n Continuar[0]   Parar[1]:");
@@ -513,6 +532,11 @@ system ("cls");
 				}
 
 			}while (resp==0);
+			}else if (opcao==6){
+					system("cls");
+					gotoxy(5, 3);
+				printf ("...ENCERRADO....");
+				break;
 			}
 		}while(opcao == 4);
 		
@@ -1057,6 +1081,8 @@ for (i=9; i<=17; i++) {
 }
 
 int mostrarMenuPrimcipal() {
+	
+		
 	setlocale(LC_ALL, "C");
 	char tecla;
 	int i, opcao;
@@ -1107,7 +1133,9 @@ for (i=9; i<=17; i++) {
 		gotoxy(53,14);
 		printf("  Consulta  ");
 		gotoxy(53,15);
-		printf("  RELATORIO ");
+		printf("  Relatorio ");
+		gotoxy(53,16);
+		printf("  sair ");
 		// Escreve o item selecionado em destaque
 		textcolor(0);
 		//textbackground(1);
@@ -1132,6 +1160,10 @@ for (i=9; i<=17; i++) {
 				gotoxy(53,15);
 				printf("->");
 				break;
+				case 6:
+				gotoxy(53,16);
+				printf("->");
+				break;
 		}
 		tecla = getch();    // Recebe a tecla pressionada
 		if (tecla == -32) { // -32 = tecla especial (setas, etc...)
@@ -1141,8 +1173,8 @@ for (i=9; i<=17; i++) {
 			if (tecla == 80) // Seta para baixo
 				opcao++;
 			if (opcao == 0)
-				opcao = 5;
-			if (opcao == 6)
+				opcao = 6;
+			if (opcao == 7)
 				opcao = 1;
 		}
 		
@@ -1496,15 +1528,18 @@ int cont,i=0;
 }
 
 
-
-int inclusaoAviao(struct Aviao aviao,int cont,FILE *arq) {
-	textcolor(0);
+int inclusaoAviao(struct Aviao aviao,int cont,FILE *arq,FILE *arqPaises) {
+		textcolor(0);
 		textbackground(15);
 	arq=fopen ("structAviao","ab");
+	arqPaises=fopen("paises.txt","r");
+	int iPaises;
+	char paises[1000];
 	if (arq== NULL){
 		printf ("Erro na abertura do arquivo ...");
 		exit (1);
 	}
+	
 	printf("\t\t INCLUSAO DE AVIAO");
 	printf("\n\n");
 	aviao=validaCodigo(aviao,arq);
@@ -1540,13 +1575,54 @@ int inclusaoAviao(struct Aviao aviao,int cont,FILE *arq) {
 		fflush(stdin);
 		fgets(aviao.nomeCliente,64,stdin);
 	}
-
-
+	int i=1,flag;
+	int paisesNumero;
 	printf("\n");
-	printf("|Digite o país de origem do cliente: ");
-	fflush(stdin);
-	fgets(aviao.paisOrigCliente,32,stdin);
+	printf("|Digite o país de origem do cliente:\n ");
+
+		if (arqPaises== NULL){
+		printf ("\nErro na abertura do arquivo ...");
+		exit (1);
+	}else {
+		printf ("PAISES DISPONIVEIS :\n\n");
+		while (fscanf(arqPaises,"%i %[^\n]s",&iPaises,paises)!=EOF){
+			
+		
+		 printf ("%i-%s \n",iPaises,paises);
+		 i++;
+		}
+	}
+do{
+ 
+paisesNumero=lerInt(1);
+
+if (paisesNumero > i || paisesNumero < 1){
+	printf ("ERRO...\n informe novamente:");
+	paisesNumero=lerInt(1);
+}else {
+	flag=1;
+}
+}while (flag==0);
+		
+
 	
+
+
+
+	fclose(arqPaises); 	
+	
+	arqPaises=fopen("paises.txt","r");
+	if (arqPaises== NULL){
+		printf ("\nErro na abertura do arquivo ...");
+		exit (1);
+	}else {
+		while (fscanf(arqPaises,"%i %[^\n]s",&iPaises,paises)!=EOF){
+				if (paisesNumero == iPaises){
+				strcpy(aviao.paisOrigCliente,paises);	
+				}
+			}
+	}
+	fclose(arqPaises);
 	system("cls"); 
 	printf("|Modelo do aviao: %s", aviao.modelo);//
 	printf("|codigo do aviao: %s\n", aviao.codigo);//
@@ -1557,6 +1633,7 @@ int inclusaoAviao(struct Aviao aviao,int cont,FILE *arq) {
 	aviao.idExclusao=0;
 	fwrite (&aviao,sizeof(aviao),1,arq);
 	fclose(arq);
+
 	cont ++;			
 	
 	return cont;

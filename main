@@ -1977,7 +1977,7 @@ struct Aviao validaCodigo(struct Aviao aviao,FILE *arq) {
 		//  fseek(arq,0,SEEK_CUR);
 arq=fopen ("structAviao","r+b");
 char codigo[8];
-int flag, i;
+int flag, i, contL = 0, contN = 0;
 
 	do {
 		flag = 0;
@@ -1996,44 +1996,22 @@ int flag, i;
 				flag++;
 			}
 		}
-		if((codigo[0] >=65 && codigo[0] <=90) || (codigo[0] >=97 && codigo[0] <=122 )) {
-			if((codigo[1] >=65 && codigo[1] <=90) || (codigo[1] >=97 && codigo[1] <=122 )) {
-				if((codigo[2] >=65 && codigo[2] <=90) || (codigo[2] >=97 && codigo[2] <=122 )) {
-					if(codigo[3] >=48 && codigo[3] <=57) {
-						if(codigo[4] >=48 && codigo[4] <=57) {
-							if(codigo[5] >=48 && codigo[5] <=57) {
-								if(codigo[6] >=48 && codigo[6] <=57) {
-
-								} else {
-									printf("codigo invalido, verifique e tente novamente: ");
-									flag++;
-								}
-							} else {
-								printf("codigo invalido, verifique e tente novamente: ");
-								flag++;
-							}
-						} else {
-							printf("codigo invalido, verifique e tente novamente: ");
-							flag++;
-						}
-					} else {
-						printf("codigo invalido, verifique e tente novamente: ");
-						flag++;
-					}
-				} else {
-					printf("codigo invalido, verifique e tente novamente: ");
-					flag++;
-				}
-			} else {
-				printf("codigo invalido, verifique e tente novamente: ");
-				flag++;
+		for(i=0;i<7;i++){
+			if((codigo[i] >=65 && codigo[i] <=90) || (codigo[i] >=97 && codigo[i] <=122 )){
+				contL++;
 			}
-		} else {
+			if(codigo[i] >=48 && codigo[i] <=57){
+				contN++;
+			}
+		}
+		if(contL<3){
 			printf("codigo invalido, verifique e tente novamente: ");
 			flag++;
 		}
-	
-	
+		if(contN<4){
+			printf("codigo invalido, verifique e tente novamente: ");
+			flag++;
+		}
 		
 		if(flag == 0) {
 			printf("codigo registrado com sucesso");

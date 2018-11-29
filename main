@@ -1,25 +1,11 @@
-//https://stackoverflow.com/questions/3028642/regular-expression-for-letters-numbers-and
-//https://regex101.com/
 /*
-CORES - TEXTCOLOR e TEXTBACKGROUND:
-Preto....... BLACK..... 0
-Azul........ BLUE...... 1
-Verde....... GREEN..... 2
-Cian........ CYAN...... 3
-Vermelho.... RED....... 4
-Magenta..... MAGENTA... 5
-Marrom...... BROWN..... 6
-Cinza Claro. LIGHTGRAY. 7
+nome: Lucas Severo e Gustavo Rodrigues
+Sintese:
+Objetivo: Atender uma solicitação de um programa proposto pela Embraer para o registro de dados estruturados de aviões brasileiros em testes
+Entrada: codigo do aviao, nome do cliente, país de origem do cliente, pista de testes e seus dados, testes e seus dados.
+Saída: Relatórios referentes aos testes, aviões e clientes, listas.
 
-CORES - TEXTCOLOR:
-Cinza Escuro... DARKGRAY..... 8
-Azul Claro..... LIGHTBLUE.... 9
-Verde Claro.... LIGHTGREEN... 10
-Cian Claro..... LIGHTCYAN.... 11
-Vermelho Claro. LIGHTRED..... 12
-Magenta Claro.. LIGHTMAGENTA. 13
-Amarelo........ YELLOW....... 14
-Branco......... WHITE........ 15
+
 */
 #include "conio2.c"
 #include <stdio.h>

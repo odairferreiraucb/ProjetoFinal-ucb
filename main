@@ -1087,10 +1087,8 @@ int mostrarMenuPrimcipal() {
 
 	setlocale(LC_ALL, "C");
 	for (i=50; i<=70; i++) {
-		gotoxy(i,9);
-		printf("%c", 205);
-		gotoxy(i,18);+
-		printf("%c", 205);
+		gotoxy(i,9);printf("%c", 205);
+		gotoxy(i,18);printf("%c", 205);
 	}
 	// Desenha as linhas verticais do quadrado
 for (i=9; i<=17; i++) {
@@ -1455,15 +1453,25 @@ int cont,i=0;
 	arqP=fopen ("structPista","rb");
 	if (arqP== NULL){
 	
-		arqP=fopen ("structPista","ab");
+	
 				pistaTeste.codSequencial=1;
-		fwrite (&pistaTeste,sizeof (pistaTeste),1,arqP);
-			fclose(arqP);
+	
+		
+	}
+	
+	fclose(arqP);
+	
+	
+	arqP=fopen ("structPista","rb");
+	
+	while (fread(&pistaTeste,sizeof(pistaTeste),1,arqP)){	
+		if (pistaTeste.codSequencial >= 1001){
+			i++;
+		}
 	}
 	fclose(arqP);
-
-	arqP=fopen ("structPista","r+b");
-
+	
+	arqP=fopen ("structPista","ab");
 	textcolor(0);
 	textbackground(15);
 	setlocale(LC_ALL, "");
@@ -1494,16 +1502,12 @@ int cont,i=0;
 		printf("velocidade invalida, digite novamente: ");
 		scanf ("%d",&pistaTeste.velocidadeMax);
 	}
-	while (fread(&pistaTeste,sizeof(pistaTeste),1,arqP)){
-		if (pistaTeste.codSequencial >= 1001){
-			i++;
-		}
 	
-}
 
- pistaTeste.codSequencial= 1000 +i;
 	
-		pistaTeste.codSequencial=	pistaTeste.codSequencial +1;
+ 	pistaTeste.codSequencial= 1000 +i;
+	
+	pistaTeste.codSequencial =	pistaTeste.codSequencial +1;
 			
 	printf ("O seu código sequencial e: ");
 	printf ("%i",pistaTeste.codSequencial);

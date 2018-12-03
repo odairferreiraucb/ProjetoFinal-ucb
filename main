@@ -84,6 +84,7 @@ int mostrarRelatorioAviao ();
 int mostrarRelatorioPista();
 int relatorioR2 (struct Aviao aviao,FILE *arq);
 int relatorioR3 (struct Testes testes,FILE *arqT,struct PistaTeste pistaTeste,FILE *arqP);
+void relatorioR7 (FILE *arqPaises);
 
 
 
@@ -2526,4 +2527,61 @@ int lerInt(int tamanho){
 	retorno = atoi(string);
 	printf("\n");
 	return retorno;
+}
+
+
+void relatorioR7 (FILE *arqPaises){
+arqPaises=fopen("paises.txt","r");
+FILE *ordenaP;
+ordenaP = fopen("RESULT.txt","w");
+int menu;
+	system("cls");
+	printf("MENU");
+	printf("[1] ordenar por A-Z \n [2] ordenar por Z-A \n [3] ordenar por tamanho do nome \n [4] buscar por texto");
+	printf ("[5] filtrar por tamanho máximo \n [6] filtrar por tamanho mínimo \n [7] filtrar pelo final do nome \n [8] filtrar pelo início do nome");
+	scanf("%d", &menu);
+	while(menu <1 && menu>8){
+		printf("numero invalido, digite novamente: ");
+		scanf("%d", &menu);
+	}
+	switch(menu){
+		case 1:
+			// ordenando 
+			char nm[3][20], aux[20];
+			
+			for (i = 0; i < 3; i++) {
+			   printf("\nNome %i: ", i+1);
+			   scanf("%s", nm[i]);
+			}
+			
+			
+			for (i = 1; i < 3; i++) { /* 3 = qtde de palavras */
+			   for (j = 1; j < 3; j++) {
+			      // verifica se tem que ser depois, se for troca de posição
+			      if (strcmp(nm[j - 1], nm[j]) > 0) {
+			         strcpy(aux, nm[j - 1]);
+			         strcpy(nm[j - 1], nm[j]);
+			         strcpy(nm[j], aux);
+			      }
+			   }
+			}
+			
+		}
+		break;
+		case 2:
+		break;
+		case 3:
+		break;
+		case 4:
+		break;
+		case 5:
+		break;
+		case 6:
+		break;
+		case 7:
+		break;
+		case 8:
+		break;
+	}
+	fclose(arqPaises);
 }

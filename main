@@ -41,7 +41,7 @@ struct Testes {
 	int idPista;
 	char idAviao[7];
 	int idTeste;
-	char data[1000];
+	char data[9];
 	int velocidadeMax;
 	int idExclusao;
 };
@@ -83,8 +83,7 @@ int menuRelatorio ();
 int mostrarRelatorioAviao ();
 int mostrarRelatorioPista();
 int relatorioR2 (struct Aviao aviao,FILE *arq);
-int relatorioR3 (struct Testes testes,FILE *arqT,struct PistaTeste pistaTeste,FILE *arqP);
-void relatorioR7 (FILE *arqPaises);
+int relatorioR3 (struct Testes testes,struct PistaTeste pistaTeste);
 
 
 
@@ -298,7 +297,8 @@ system ("cls");
 					gotoxy(5, 3);
 					system("cls");
 				 idTeste = inclusaoTeste( testes,arqT,arq,arqP,pistaTeste,aviao,idTeste);
-				 do{							
+				 do{	
+				 fflush (stdin);						
 				printf ("\n\nDeseja continuar ?\nComtinuar [0]-Parar [1]\n\n");
 				scanf ("%i",&resp);
 			}while (resp != 0 & resp !=1 );
@@ -394,7 +394,7 @@ system ("cls");
 				do{
 					gotoxy(5, 3);	
 					system("cls");
-			opcao = relatorioR3 (testes,arqT,pistaTeste,arqP);
+			opcao = relatorioR3 (testes,pistaTeste);
 		if (opcao!=3){
 		
 			
@@ -661,9 +661,9 @@ for (i=9; i<=17; i++) {
 		gotoxy(53,11);
 		printf("  Relatorio Avião");
 		gotoxy(53,12);
-		printf("  Relatorio Pista");
-		gotoxy(53,13);
 		printf("  Relatorio Teste");
+		gotoxy(53,13);
+		printf("  Relatorio Pista");
 		gotoxy(53,14);
 		printf("  Voltar ao Menu ");
 	
@@ -707,12 +707,14 @@ for (i=9; i<=17; i++) {
 		return opcao;
 	
 	}
-	int relatorioR3 (struct Testes testes,FILE *arqT,struct PistaTeste pistaTeste,FILE *arqP){
-			int codigoP;
+	int relatorioR3 (struct Testes testes,struct PistaTeste pistaTeste){
+		int codigoP;
 		int opcao;
-		char data[1000];
+		FILE *arqP;
+		FILE *arqT;
+		char data[9];
+		arqP= fopen("structPista", "rb");
 		arqT=fopen ("structTeste","rb");
-		arqT=fopen ("structTeste","ab");
 		opcao=mostrarRelatorioPista();
 	
 		switch (opcao){
@@ -721,8 +723,10 @@ for (i=9; i<=17; i++) {
 					gotoxy(5, 3);
 					printf ("Informe o codigo da pista : ");
 					scanf ("%i",&codigoP);
+					fseek(arqT, 0, SEEK_SET);
 					while (fread(&testes,sizeof(testes),1,arqT) ){
 						if (testes.idPista==codigoP){
+								system ("cls");
 							printf ("|AVIAO: %s\t|PISTA: %i \t|DATA: %s \t|VELOCIDADE: %i",testes.idAviao,testes.idPista,testes.data,testes.velocidadeMax);
 							
 						}
@@ -731,19 +735,21 @@ for (i=9; i<=17; i++) {
 			case 2:
 				system("cls");
 					gotoxy(5, 3);
-			 printf ("Informe a data do teste : ");
-			 	fflush(stdin);
-				fgets(data,1000,stdin);
+					
+			 		printf ("Informe a data do teste(MM/DD/AA) : ");
+			 		fflush(stdin);
+					gets(data);
+				
 					while (fread(&testes,sizeof(testes),1,arqT)){
-					if(data==testes.data ){
-					printf ("|AVIAO: %s\t|PISTA: %i \t|DATA: %s \t|VELOCIDADE: %i",testes.idAviao,testes.idPista,testes.data,testes.velocidadeMax);
-
-				}
+						if(strcmp(testes.data,data)==0){
+							system ("cls");
+							printf ("|AVIAO: %s\t|PISTA: %i \t|DATA: %s \t|VELOCIDADE: %i",testes.idAviao,testes.idPista,testes.data,testes.velocidadeMax);
+						}
 			}
 		
 			 break;		
 	}
-		fclose (arqT);
+		fclose (arqP);
 		fclose (arqT);
 		return opcao;
 	}
@@ -2208,17 +2214,26 @@ void exclusaoTeste(struct Testes testes,FILE *arqT,FILE * arqT1){
 }
 int inclusaoTeste(struct Testes testes,FILE *arqT,FILE *arq,FILE *arqP,struct PistaTeste pistaTeste,struct Aviao aviao,int idTeste){
 char codigo[7];
-int i=0, flag, codigoP, velocM;
+int i=0, flag=0,flag1=0, codigoP, velocM;
 	arqT=fopen ("structTeste","rb");
 	if (arqT== NULL){
 	
-		arqT=fopen ("structTeste","ab");
+	
 		testes.idTeste=1;
-		fwrite (&testes,sizeof (testes),1,arqT);
-			fclose(arqT);
+	
+		
 	}
+	
+
+		while (fread(&testes,sizeof(testes),1,arqT)){
+						if (testes.idTeste >= 1001){
+							i++;
+							}
+	
+						}
 	fclose(arqT);
-arqT=fopen ("structTeste","r+b");
+	
+arqT=fopen ("structTeste","ab");
 arqP=fopen ("structPista","r");
 arq=fopen ("structAviao","r+b");
 		textcolor(0);
@@ -2243,6 +2258,11 @@ arq=fopen ("structAviao","r+b");
 	
 	while (fread(&aviao,sizeof(aviao),1,arq)){
 			if (strcmp(aviao.codigo,codigo)==0){
+				flag=1;
+			}
+		}
+		 if(flag==1){
+		 
 				aviao.idTeste=1;
 				fseek(arq,sizeof(aviao)*-1,SEEK_CUR);
 				fwrite (&aviao,sizeof(aviao),1,arq);
@@ -2259,6 +2279,11 @@ arq=fopen ("structAviao","r+b");
 				
 				while (fread(&pistaTeste,sizeof(pistaTeste),1,arqP)){
 					if (codigoP == pistaTeste.codSequencial){
+						flag1 =1;
+					}
+				}
+				if (flag1 == 1){
+				
 			
 						testes.idPista=codigoP;
 						fflush(stdin);
@@ -2269,27 +2294,23 @@ arq=fopen ("structAviao","r+b");
 							scanf("%d", &velocM);
 						}
 					
-						while (fread(&testes,sizeof(testes),1,arqT)){
-						if (testes.idTeste >= 1001){
-							i++;
-							}
-	
-						}
+					
 
  					testes.idTeste= 1000 +i;
 	
 					testes.idTeste=	testes.idTeste +1;
 					
 						printf ("\n\nSeu id do teste é : %i ",testes.idTeste);
-						
+						setlocale(LC_ALL, "Portuguese");
 						testes.velocidadeMax = velocM;
 						_strdate(testes.data);
+						setlocale(LC_ALL, "C");
 						system("pause");
-						fwrite (&testes,sizeof (testes),1,arqT);
-					}
-				}	
-			}	
-	}
+						fwrite (&testes,sizeof(testes),1,arqT);
+					
+			}
+	
+}
 	fclose(arqT);
 	fclose(arqP);
 	fclose(arq);
@@ -2453,8 +2474,8 @@ int flag = 0,opcao,codigo;
 
 void relatorioR5(struct Testes testes,FILE *arqT,struct PistaTeste pistaTeste,FILE *arqP){
 char ufP = 64 ;	
-arqT=fopen ("structTeste","ab");
-arqP=fopen ("structPista","ab");		
+arqT=fopen ("structTeste","rb");
+arqP=fopen ("structPista","rb");		
 	
 	
 	while (fread(&pistaTeste,sizeof(pistaTeste),1,arqP) && ufP<91 ){
@@ -2527,61 +2548,4 @@ int lerInt(int tamanho){
 	retorno = atoi(string);
 	printf("\n");
 	return retorno;
-}
-
-
-void relatorioR7 (FILE *arqPaises){
-arqPaises=fopen("paises.txt","r");
-FILE *ordenaP;
-ordenaP = fopen("RESULT.txt","w");
-int menu;
-	system("cls");
-	printf("MENU");
-	printf("[1] ordenar por A-Z \n [2] ordenar por Z-A \n [3] ordenar por tamanho do nome \n [4] buscar por texto");
-	printf ("[5] filtrar por tamanho máximo \n [6] filtrar por tamanho mínimo \n [7] filtrar pelo final do nome \n [8] filtrar pelo início do nome");
-	scanf("%d", &menu);
-	while(menu <1 && menu>8){
-		printf("numero invalido, digite novamente: ");
-		scanf("%d", &menu);
-	}
-	switch(menu){
-		case 1:
-			// ordenando 
-			char nm[3][20], aux[20];
-			
-			for (i = 0; i < 3; i++) {
-			   printf("\nNome %i: ", i+1);
-			   scanf("%s", nm[i]);
-			}
-			
-			
-			for (i = 1; i < 3; i++) { /* 3 = qtde de palavras */
-			   for (j = 1; j < 3; j++) {
-			      // verifica se tem que ser depois, se for troca de posição
-			      if (strcmp(nm[j - 1], nm[j]) > 0) {
-			         strcpy(aux, nm[j - 1]);
-			         strcpy(nm[j - 1], nm[j]);
-			         strcpy(nm[j], aux);
-			      }
-			   }
-			}
-			
-		}
-		break;
-		case 2:
-		break;
-		case 3:
-		break;
-		case 4:
-		break;
-		case 5:
-		break;
-		case 6:
-		break;
-		case 7:
-		break;
-		case 8:
-		break;
-	}
-	fclose(arqPaises);
 }
